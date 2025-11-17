@@ -364,7 +364,7 @@ const tests = {
                 <p>${resultText}</p>
                 <div class="game-controls">
                     <button onclick="tests.restartTest('${testId}')">Пройти еще раз</button>
-                    <button onclick="navigation.showPage('tests-page')" class="btn-secondary">Вернуться к тестам</button>
+                    <button onclick="tests.returnToTests()" class="btn-secondary">Вернуться к тестам</button>
                 </div>
             </div>
         `;
@@ -377,7 +377,15 @@ const tests = {
     
     // Перезапуск теста
     restartTest(testId) {
-        this.startTest(testId);
+        // Создаем новую страницу теста
+        this.createTestPage(testId);
+        navigation.showPage(testId + '-page');
+        this.initTest(testId);
+    },
+    
+    // Вернуться к списку тестов
+    returnToTests() {
+        navigation.showPage('tests-page');
     },
     
     // Добавление комментария
