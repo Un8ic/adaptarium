@@ -32,6 +32,50 @@ const profile = {
         this.showAdminControls();
     },
     
+    // Получение прогресса всех пользователей (для страницы аналитики)
+    getAllUsersProgress() {
+        let progressHTML = '<div class="users-progress-list">';
+        
+        Object.keys(auth.users).forEach(username => {
+            const userProgressKey = `userProgress_${username}`;
+            const userProgress = utils.loadFromStorage(userProgressKey);
+            
+            if (userProgress) {
+                const materials = userProgress.materials || {};
+                const games = userProgress.games || {};
+                const tests = userProgress.tests || {};
+                
+                const materialsCount = Object.keys(materials).filter(key => materials[key] === 'completed').length;
+                const gamesCount = Object.keys(games).length;
+                const testsCount = Object.keys(tests).filter(key => tests[key] && tests[key].status === 'completed').length;
+                
+                const totalProgress = Math.round((materialsCount / 6 + gamesCount / 2 + testsCount / 3) / 3 * 100);
+                
+                progressHTML += `
+                    <div class="user-progress-item">
+                        <strong>${auth.users[username].name}</strong> (${username})
+                        <div class="progress-details">
+                            📚 Материалы: ${materialsCount}/6<br>
+                            🎮 Игры: ${gamesCount}/2<br>
+                            📝 Тесты: ${testsCount}/3<br>
+                            📊 Общий прогресс: ${totalProgress}%
+                        </div>
+                    </div>
+                `;
+            } else {
+                progressHTML += `
+                    <div class="user-progress-item">
+                        <strong>${auth.users[username].name}</strong> (${username})
+                        <div class="progress-details">Нет данных о прогрессе</div>
+                    </div>
+                `;
+            }
+        });
+        
+        progressHTML += '</div>';
+        return progressHTML;
+    },
+    
     // Показ админских контролов
     showAdminControls() {
         const aquariumSection = document.querySelector('.aquarium-section');
