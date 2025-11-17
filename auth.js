@@ -74,6 +74,9 @@ const auth = {
             // Сохраняем данные пользователя в localStorage
             utils.saveToStorage('currentUser', this.currentUser);
             
+            // Инициализируем хранилище прогресса для пользователя
+            this.initializeUserProgress();
+            
             // Показываем навигацию и информацию о пользователе
             document.getElementById('main-nav').style.display = 'block';
             document.getElementById('user-info').style.display = 'block';
@@ -95,6 +98,47 @@ const auth = {
             utils.showNotification('Неверный логин или пароль', true);
             return false;
         }
+    },
+    
+    // Инициализация прогресса пользователя
+    initializeUserProgress() {
+        if (!this.currentUser) return;
+        
+        const userProgressKey = `userProgress_${this.currentUser.username}`;
+        let userProgress = utils.loadFromStorage(userProgressKey);
+        
+        if (!userProgress) {
+            // Создаем новую структуру прогресса для пользователя
+            userProgress = {
+                materials: {},
+                games: {},
+                tests: {},
+                profile: {},
+                lastUpdated: new Date().toISOString()
+            };
+            utils.saveToStorage(userProgressKey, userProgress);
+        }
+    },
+    
+    // Получение прогресса текущего пользователя
+    getUserProgress() {
+        if (!this.currentUser) return null;
+        const userProgressKey = `userProgress_${this.currentUser.username}`;
+        return utils.loadFromStorage(userProgressKey) || {
+            materials: {},
+            games: {},
+            tests: {},
+            profile: {},
+            lastUpdated: new Date().toISOString()
+        };
+    },
+    
+    // Сохранение прогресса текущего пользователя
+    saveUserProgress(progress) {
+        if (!this.currentUser) return false;
+        const userProgressKey = `userProgress_${this.currentUser.username}`;
+        progress.lastUpdated = new Date().toISOString();
+        return utils.saveToStorage(userProgressKey, progress);
     },
     
     // Выход из системы
@@ -129,6 +173,9 @@ const auth = {
         const savedUser = utils.loadFromStorage('currentUser');
         if (savedUser) {
             this.currentUser = savedUser;
+            
+            // Инициализируем хранилище прогресса для пользователя
+            this.initializeUserProgress();
             
             // Показываем навигацию и информацию о пользователе
             document.getElementById('main-nav').style.display = 'block';
