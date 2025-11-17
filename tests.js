@@ -427,10 +427,15 @@ const tests = {
         utils.showNotification('Комментарий добавлен');
     },
     
-    // Отображение комментариев
+        // Отображение комментариев
     displayComments(testId) {
         const commentsContainer = document.getElementById(`${testId}-comments`);
         if (!commentsContainer) return;
+        
+        // Сохраняем текущее состояние (фокус и значение поля ввода)
+        const commentInput = document.getElementById(`${testId}-comment`);
+        const currentInputValue = commentInput ? commentInput.value : '';
+        const isFocused = commentInput && document.activeElement === commentInput;
         
         commentsContainer.innerHTML = '';
         
@@ -453,6 +458,14 @@ const tests = {
             `;
             commentsContainer.appendChild(commentDiv);
         });
+        
+        // Восстанавливаем значение поля ввода и фокус
+        if (commentInput && currentInputValue) {
+            commentInput.value = currentInputValue;
+            if (isFocused) {
+                commentInput.focus();
+            }
+        }
     },
     
     // Удаление комментария
