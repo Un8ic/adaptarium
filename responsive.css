@@ -1,0 +1,130 @@
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    header {
+        padding: 0.8rem;
+    }
+    
+    .company-name {
+        font-size: 1.3rem;
+    }
+    
+    .fish {
+        font-size: 1rem;
+        margin-right: 3px;
+    }
+    
+    nav {
+        padding: 0.5rem;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-links li {
+        margin: 3px 5px;
+    }
+    
+    .nav-links a {
+        padding: 5px 10px;
+        font-size: 0.85rem;
+    }
+    
+    main {
+        padding: 0 10px;
+        margin: 15px auto;
+    }
+    
+    .page {
+        padding: 15px;
+    }
+    
+    .materials-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .games-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .game-card {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .employees-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+    }
+    
+    .contact-card {
+        max-width: 140px;
+    }
+    
+    .chat-container {
+        height: 250px;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+    }
+    
+    .game-controls button {
+        width: 100%;
+    }
+    
+    .stat {
+        min-width: 70px;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .profile-container .form-group {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .company-name {
+        font-size: 1.1rem;
+    }
+    
+    .fish {
+        font-size: 0.9rem;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+    
+    .employees-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .contacts {
+        gap: 10px;
+    }
+    
+    .contact-card {
+        max-width: 130px;
+        padding: 10px;
+    }
+    
+    .contact-photo {
+        width: 70px;
+        height: 70px;
+    }
+}

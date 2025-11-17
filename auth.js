@@ -1,0 +1,151 @@
+// Аутентификация пользователей
+const auth = {
+    // Данные пользователей
+    users: {
+        'adminFish': {
+            password: 'adminFish',
+            name: 'Администратор',
+            role: 'admin'
+        },
+        'Ivanova': {
+            password: 'Ivanova',
+            name: 'Иванова Мария',
+            role: 'manager'
+        },
+        'TopProdaj': {
+            password: 'TopProdaj',
+            name: 'Петров Алексей',
+            role: 'manager'
+        },
+        '1234': {
+            password: '1234',
+            name: 'Сидорова Ольга',
+            role: 'manager'
+        },
+        'OtdelProdaj': {
+            password: 'OtdelProdaj',
+            name: 'Козлов Дмитрий',
+            role: 'manager'
+        },
+        'Leto': {
+            password: 'Leto',
+            name: 'Николаева Анна',
+            role: 'manager'
+        },
+        'Petrov': {
+            password: 'Petrov',
+            name: 'Петров Иван',
+            role: 'manager'
+        },
+        'RAB': {
+            password: 'RAB',
+            name: 'Смирнова Елена',
+            role: 'manager'
+        },
+        'PIRS': {
+            password: 'PIRS',
+            name: 'Васильев Максим',
+            role: 'manager'
+        },
+        'NSUEM': {
+            password: 'NSUEM',
+            name: 'Фролов Сергей',
+            role: 'manager'
+        },
+        'BusinessTUT': {
+            password: 'BusinessTUT',
+            name: 'Морозова Татьяна',
+            role: 'manager'
+        }
+    },
+    
+    // Текущий пользователь
+    currentUser: null,
+    
+    // Вход в систему
+    login(username, password) {
+        if (this.users[username] && this.users[username].password === password) {
+            this.currentUser = {
+                username: username,
+                name: this.users[username].name,
+                role: this.users[username].role
+            };
+            
+            // Сохраняем данные пользователя в localStorage
+            utils.saveToStorage('currentUser', this.currentUser);
+            
+            // Показываем навигацию и информацию о пользователе
+            document.getElementById('main-nav').style.display = 'block';
+            document.getElementById('user-info').style.display = 'block';
+            document.getElementById('user-name').textContent = this.currentUser.name;
+            
+            // Создаем навигационные ссылки
+            navigation.createNavLinks(this.currentUser.role);
+            
+            // Переходим на главную страницу
+            navigation.showPage('home-page');
+            
+            // Скрываем страницу входа
+            document.getElementById('login-page').classList.remove('active');
+            
+            utils.showNotification('Добро пожаловать, ' + this.currentUser.name + '!');
+            
+            return true;
+        } else {
+            utils.showNotification('Неверный логин или пароль', true);
+            return false;
+        }
+    },
+    
+    // Выход из системы
+    logout() {
+        // Очищаем поля логина и пароля
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        
+        this.currentUser = null;
+        localStorage.removeItem('currentUser');
+        
+        // Скрываем навигацию и информацию о пользователе
+        document.getElementById('main-nav').style.display = 'none';
+        document.getElementById('user-info').style.display = 'none';
+        
+        // Показываем страницу входа
+        document.getElementById('login-page').classList.add('active');
+        
+        // Скрываем все другие страницы
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            if (page.id !== 'login-page') {
+                page.classList.remove('active');
+            }
+        });
+        
+        utils.showNotification('Вы вышли из системы');
+    },
+    
+    // Проверка авторизации при загрузке
+    checkAuth() {
+        const savedUser = utils.loadFromStorage('currentUser');
+        if (savedUser) {
+            this.currentUser = savedUser;
+            
+            // Показываем навигацию и информацию о пользователе
+            document.getElementById('main-nav').style.display = 'block';
+            document.getElementById('user-info').style.display = 'block';
+            document.getElementById('user-name').textContent = this.currentUser.name;
+            
+            // Создаем навигационные ссылки
+            navigation.createNavLinks(this.currentUser.role);
+            
+            // Переходим на главную страницу
+            navigation.showPage('home-page');
+            
+            // Скрываем страницу входа
+            document.getElementById('login-page').classList.remove('active');
+            
+            return true;
+        }
+        return false;
+    }
+};
