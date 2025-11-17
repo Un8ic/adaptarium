@@ -28,11 +28,11 @@ const profile = {
         this.loadProgress();
         this.updateAquarium();
         
-        // Показываем кнопку сброса прогресса для администратора
+        // Показываем кнопки управления
         this.showAdminControls();
     },
     
-    // Показ админских контролов
+    // Показ контролов управления
     showAdminControls() {
         const aquariumSection = document.querySelector('.aquarium-section');
         if (!aquariumSection) return;
@@ -43,21 +43,47 @@ const profile = {
             oldAdminPanel.remove();
         }
         
-        // Если пользователь - администратор, показываем панель управления
+        // Если пользователь - администратор, показываем только кнопку сброса всех пользователей
         if (auth.currentUser && auth.currentUser.role === 'admin') {
             const adminPanel = document.createElement('div');
             adminPanel.id = 'admin-controls-panel';
             adminPanel.className = 'admin-controls';
+            
+            // Для adminFish показываем только кнопку сброса всех пользователей
+            let adminButtonsHTML = '';
+            if (auth.currentUser.username === 'adminFish') {
+                adminButtonsHTML = `
+                    <button onclick="profile.resetAllUsersProgress()" class="btn-danger">Сбросить прогресс всех пользователей</button>
+                `;
+            } else {
+                // Для других админов показываем все кнопки
+                adminButtonsHTML = `
+                    <button onclick="profile.resetOwnProgress()" class="btn-secondary">Сбросить мой прогресс</button>
+                    <button onclick="profile.resetAllUsersProgress()" class="btn-danger">Сбросить прогресс всех пользователей</button>
+                `;
+            }
+            
             adminPanel.innerHTML = `
                 <h3>Панель администратора</h3>
                 <div class="admin-buttons">
-                    <button onclick="profile.resetOwnProgress()" class="btn-secondary">Сбросить мой прогресс</button>
-                    <button onclick="profile.resetAllUsersProgress()" class="btn-danger">Сбросить прогресс всех пользователей</button>
-                    <button onclick="profile.viewAllProgress()" class="btn-secondary">Просмотр прогресса всех</button>
+                    ${adminButtonsHTML}
                 </div>
                 <div id="admin-message" class="admin-message"></div>
             `;
             aquariumSection.appendChild(adminPanel);
+        } else if (auth.currentUser && auth.currentUser.role === 'manager') {
+            // Для менеджеров показываем только кнопку сброса своего прогресса
+            const managerPanel = document.createElement('div');
+            managerPanel.id = 'admin-controls-panel';
+            managerPanel.className = 'admin-controls';
+            managerPanel.innerHTML = `
+                <h3>Управление прогрессом</h3>
+                <div class="admin-buttons">
+                    <button onclick="profile.resetOwnProgress()" class="btn-secondary">Сбросить мой прогресс</button>
+                </div>
+                <div id="admin-message" class="admin-message"></div>
+            `;
+            aquariumSection.appendChild(managerPanel);
         }
     },
     
@@ -124,14 +150,9 @@ const profile = {
         }
     },
     
-    // Просмотр прогресса всех пользователей
-    viewAllProgress() {
-        if (!auth.currentUser || auth.currentUser.role !== 'admin') {
-            this.showAdminMessage('Недостаточно прав для выполнения этой операции', 'error');
-            return;
-        }
-        
-        let progressInfo = '<h4>Прогресс всех пользователей:</h4><div class="users-progress-list">';
+    // Получение прогресса всех пользователей (для страницы аналитики)
+    getAllUsersProgress() {
+        let progressInfo = '<div class="users-progress-list">';
         
         Object.keys(auth.users).forEach(username => {
             const userProgressKey = `userProgress_${username}`;
@@ -170,8 +191,7 @@ const profile = {
         });
         
         progressInfo += '</div>';
-        
-        this.showAdminMessage(progressInfo, 'info');
+        return progressInfo;
     },
     
     // Показать сообщение в админской панели
@@ -322,152 +342,70 @@ const profile = {
         // Добавляем пузырьки
         this.addBubbles();
     },
-
-    // Создание SVG рыбки - полностью переработанная версия
-    createFishSVG(type, colors) {
-        const fishTemplates = {
-            'clownfish': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <ellipse cx="30" cy="15" rx="25" ry="12" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Полосы -->
-                    <path d="M20,8 L25,8 L25,22 L20,22 Z" fill="${colors.accent}"/>
-                    <path d="M35,8 L40,8 L40,22 L35,22 Z" fill="${colors.accent}"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q0,5 10,10 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <path d="M5,15 Q0,25 10,20 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <!-- Плавники -->
-                    <ellipse cx="40" cy="8" rx="8" ry="4" fill="${colors.fin}" opacity="0.8"/>
-                    <ellipse cx="40" cy="22" rx="8" ry="4" fill="${colors.fin}" opacity="0.8"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'angel': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <path d="M30,15 a25,12 0 1,0 -50,0 a25,12 0 1,0 50,0" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Полосы -->
-                    <path d="M20,5 L20,25" stroke="${colors.accent}" stroke-width="2"/>
-                    <path d="M35,5 L35,25" stroke="${colors.accent}" stroke-width="2"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q-5,5 15,8 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <path d="M5,15 Q-5,25 15,22 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <!-- Плавники -->
-                    <path d="M40,5 Q50,0 55,8 Q45,10 40,5 Z" fill="${colors.fin}"/>
-                    <path d="M40,25 Q50,30 55,22 Q45,20 40,25 Z" fill="${colors.fin}"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'tropical': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <ellipse cx="30" cy="15" rx="25" ry="12" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Узор -->
-                    <circle cx="35" cy="12" r="3" fill="${colors.pattern}" opacity="0.7"/>
-                    <circle cx="25" cy="18" r="2" fill="${colors.pattern}" opacity="0.7"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q0,8 12,10 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <path d="M5,15 Q0,22 12,20 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <!-- Плавники -->
-                    <path d="M35,5 Q45,2 50,8 Q40,12 35,5 Z" fill="${colors.fin}" opacity="0.8"/>
-                    <path d="M35,25 Q45,28 50,22 Q40,18 35,25 Z" fill="${colors.fin}" opacity="0.8"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'goldfish': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <ellipse cx="35" cy="15" rx="20" ry="10" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Хвост -->
-                    <path d="M15,15 Q0,5 10,8 Q15,15 15,15 Z" fill="${colors.fin}" opacity="0.9"/>
-                    <path d="M15,15 Q0,25 10,22 Q15,15 15,15 Z" fill="${colors.fin}" opacity="0.9"/>
-                    <!-- Плавники -->
-                    <ellipse cx="40" cy="8" rx="6" ry="3" fill="${colors.fin}" opacity="0.8"/>
-                    <ellipse cx="40" cy="22" rx="6" ry="3" fill="${colors.fin}" opacity="0.8"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'blue_tang': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <path d="M40,15 a20,10 0 1,0 -35,0 a15,8 0 1,0 35,0" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Черная полоса -->
-                    <path d="M30,5 L30,25" stroke="${colors.pattern}" stroke-width="3"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q-5,8 8,12 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <path d="M5,15 Q-5,22 8,18 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <!-- Плавники -->
-                    <path d="M35,5 Q42,2 48,7 Q40,10 35,5 Z" fill="${colors.fin}"/>
-                    <path d="M35,25 Q42,28 48,23 Q40,20 35,25 Z" fill="${colors.fin}"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `
-        };
-        
-        return fishTemplates[type] || fishTemplates['tropical'];
+    
+    // Создание SVG рыбки
+    createFishSVG(color1, color2, finColor) {
+        return `
+            <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                <!-- Тело рыбки -->
+                <ellipse cx="30" cy="15" rx="25" ry="12" fill="${color1}" stroke="${color2}" stroke-width="1"/>
+                
+                <!-- Хвост -->
+                <path d="M5,15 Q0,5 10,10 Q5,15 5,15 Z" fill="${color2}"/>
+                <path d="M5,15 Q0,25 10,20 Q5,15 5,15 Z" fill="${color2}"/>
+                
+                <!-- Плавники -->
+                <ellipse cx="40" cy="8" rx="8" ry="4" fill="${finColor}" opacity="0.8"/>
+                <ellipse cx="40" cy="22" rx="8" ry="4" fill="${finColor}" opacity="0.8"/>
+                
+                <!-- Глаз -->
+                <circle cx="45" cy="14" r="2" fill="white"/>
+                <circle cx="45" cy="14" r="1" fill="black"/>
+                
+                <!-- Полоски на теле -->
+                <path d="M20,8 L35,8" stroke="${color2}" stroke-width="1" opacity="0.6"/>
+                <path d="M20,22 L35,22" stroke="${color2}" stroke-width="1" opacity="0.6"/>
+            </svg>
+        `;
     },
-
-    // Добавление рыбок на основе прогресса - улучшенная версия
+    
+    // Добавление рыбок на основе прогресса
     addFishBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
         if (!aquarium) return;
         
         const totalProgress = this.progress ? this.progress.total : 0;
         
-        // Конфигурация рыбок с разными типами и цветами
-        const fishConfigs = [
-            {
-                type: 'clownfish',
-                colors: { body: '#FF6B6B', accent: '#FF5252', fin: '#FF8A80', pattern: '#FFFFFF' }
-            },
-            {
-                type: 'angel',
-                colors: { body: '#4ECDC4', accent: '#26A69A', fin: '#80CBC4', pattern: '#FFFFFF' }
-            },
-            {
-                type: 'tropical',
-                colors: { body: '#FFD93D', accent: '#FFC107', fin: '#FFE082', pattern: '#FF6B6B' }
-            },
-            {
-                type: 'goldfish',
-                colors: { body: '#FFA726', accent: '#FF9800', fin: '#FFB74D', pattern: '#FFFFFF' }
-            },
-            {
-                type: 'blue_tang',
-                colors: { body: '#42A5F5', accent: '#2196F3', fin: '#64B5F6', pattern: '#000000' }
-            }
-        ];
-        
         // Количество рыбок зависит от общего прогресса
         let fishCount = 0;
-        if (totalProgress >= 15) fishCount = 1;
-        if (totalProgress >= 30) fishCount = 2;
-        if (totalProgress >= 50) fishCount = 3;
-        if (totalProgress >= 75) fishCount = 4;
-        if (totalProgress >= 90) fishCount = 5;
+        
+        if (totalProgress >= 20) fishCount = 1;  // 1 рыбка при 20%
+        if (totalProgress >= 40) fishCount = 2;  // 2 рыбки при 40%
+        if (totalProgress >= 60) fishCount = 3;  // 3 рыбки при 60%
+        if (totalProgress >= 80) fishCount = 4;  // 4 рыбки при 80%
+        if (totalProgress >= 95) fishCount = 5;  // 5 рыбок при 95%+
+        
+        const fishColors = [
+            { body: '#FF6B6B', accent: '#FF5252', fin: '#FF8A80' }, // Красная
+            { body: '#4ECDC4', accent: '#26A69A', fin: '#80CBC4' }, // Бирюзовая
+            { body: '#FFD93D', accent: '#FFC107', fin: '#FFE082' }, // Желтая
+            { body: '#6B5B95', accent: '#5D4A8A', fin: '#8E7CC3' }, // Фиолетовая
+            { body: '#88D498', accent: '#6BCF7F', fin: '#A8E6CF' }  // Зеленая
+        ];
         
         for (let i = 0; i < fishCount; i++) {
-            const fishConfig = fishConfigs[i];
             const fish = document.createElement('div');
             fish.className = `fish-aquarium fish-${i + 1}`;
-            fish.innerHTML = this.createFishSVG(fishConfig.type, fishConfig.colors);
-            fish.style.width = '60px';
-            fish.style.height = '30px';
+            fish.innerHTML = this.createFishSVG(
+                fishColors[i].body,
+                fishColors[i].accent,
+                fishColors[i].fin
+            );
             aquarium.appendChild(fish);
         }
     },
-
-    // Добавление аксессуаров на основе прогресса - улучшенная версия
+    
+    // Добавление аксессуаров на основе прогресса
     addAccessoriesBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
         if (!aquarium || !this.progress) return;
@@ -476,28 +414,14 @@ const profile = {
         const trainingProgress = this.progress.training;
         const testsProgress = this.progress.tests;
         
-        // Создаем дно аквариума
-        const bottom = document.createElement('div');
-        bottom.className = 'aquarium-bottom';
-        aquarium.appendChild(bottom);
-        
-        // Кораллы появляются с прогрессом материалов
+        // Домик появляется и растет с прогрессом материалов
         if (materialsProgress >= 20) {
-            const coral1 = document.createElement('div');
-            coral1.className = 'aquarium-accessory coral coral-1';
-            aquarium.appendChild(coral1);
-        }
-        
-        if (materialsProgress >= 50) {
-            const coral2 = document.createElement('div');
-            coral2.className = 'aquarium-accessory coral coral-2';
-            aquarium.appendChild(coral2);
-        }
-        
-        if (materialsProgress >= 80) {
-            const coral3 = document.createElement('div');
-            coral3.className = 'aquarium-accessory coral coral-3';
-            aquarium.appendChild(coral3);
+            const house = document.createElement('div');
+            house.className = 'aquarium-accessory fish-house';
+            if (materialsProgress >= 60) {
+                house.classList.add('fish-house-large');
+            }
+            aquarium.appendChild(house);
         }
         
         // Водоросли появляются с прогрессом обучения
@@ -519,20 +443,14 @@ const profile = {
             aquarium.appendChild(seaweed3);
         }
         
-        // Камни и ракушки появляются с прогрессом тестов
+        // Камни появляются с прогрессом тестов
         if (testsProgress >= 20) {
             const stone1 = document.createElement('div');
             stone1.className = 'aquarium-accessory stone stone-small';
             aquarium.appendChild(stone1);
         }
         
-        if (testsProgress >= 40) {
-            const shell = document.createElement('div');
-            shell.className = 'aquarium-accessory shell';
-            aquarium.appendChild(shell);
-        }
-        
-        if (testsProgress >= 60) {
+        if (testsProgress >= 50) {
             const stone2 = document.createElement('div');
             stone2.className = 'aquarium-accessory stone stone-medium';
             aquarium.appendChild(stone2);
@@ -548,26 +466,29 @@ const profile = {
         if (testsProgress >= 90) {
             const treasure = document.createElement('div');
             treasure.className = 'aquarium-accessory treasure-chest';
+            if (testsProgress >= 95) {
+                treasure.classList.add('treasure-chest-open');
+            }
             aquarium.appendChild(treasure);
         }
     },
-
-    // Добавление пузырьков - улучшенная версия
+    
+    // Добавление пузырьков
     addBubbles() {
         const bubblesContainer = document.querySelector('.bubbles');
         if (!bubblesContainer) return;
         
         bubblesContainer.innerHTML = '';
         
-        // Количество пузырьков зависит от прогресса
-        const bubbleCount = this.progress && this.progress.total > 0 ? 25 : 15;
+        // Создаем несколько пузырьков
+        const bubbleCount = this.progress && this.progress.total > 0 ? 20 : 10;
         
         for (let i = 0; i < bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
             
             // Случайные параметры для пузырьков
-            const size = Math.random() * 20 + 5;
+            const size = Math.random() * 15 + 5;
             const left = Math.random() * 100;
             const delay = Math.random() * 8;
             const duration = Math.random() * 4 + 6;
