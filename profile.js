@@ -37,6 +37,11 @@ const profile = {
         let progressHTML = '<div class="users-progress-list">';
         
         Object.keys(auth.users).forEach(username => {
+            // Пропускаем администратора adminFish
+            if (username === 'adminFish') {
+                return;
+            }
+            
             const userProgressKey = `userProgress_${username}`;
             const userProgress = utils.loadFromStorage(userProgressKey);
             
@@ -92,15 +97,26 @@ const profile = {
             const adminPanel = document.createElement('div');
             adminPanel.id = 'admin-controls-panel';
             adminPanel.className = 'admin-controls';
-            adminPanel.innerHTML = `
-                <h3>Панель администратора</h3>
-                <div class="admin-buttons">
-                    <button onclick="profile.resetOwnProgress()" class="btn-secondary">Сбросить мой прогресс</button>
-                    <button onclick="profile.resetAllUsersProgress()" class="btn-danger">Сбросить прогресс всех пользователей</button>
-                    <button onclick="profile.viewAllProgress()" class="btn-secondary">Просмотр прогресса всех</button>
-                </div>
-                <div id="admin-message" class="admin-message"></div>
-            `;
+            
+            // Для adminFish показываем только кнопку сброса прогресса всех пользователей
+            if (auth.currentUser.username === 'adminFish') {
+                adminPanel.innerHTML = `
+                    <h3>Панель администратора</h3>
+                    <div class="admin-buttons">
+                        <button onclick="profile.resetAllUsersProgress()" class="btn-danger">Сбросить прогресс всех пользователей</button>
+                    </div>
+                    <div id="admin-message" class="admin-message"></div>
+                `;
+            } else {
+                // Для других пользователей показываем кнопку сброса собственного прогресса
+                adminPanel.innerHTML = `
+                    <h3>Панель управления</h3>
+                    <div class="admin-buttons">
+                        <button onclick="profile.resetOwnProgress()" class="btn-secondary">Сбросить мой прогресс</button>
+                    </div>
+                    <div id="admin-message" class="admin-message"></div>
+                `;
+            }
             aquariumSection.appendChild(adminPanel);
         }
     },
@@ -178,6 +194,11 @@ const profile = {
         let progressInfo = '<h4>Прогресс всех пользователей:</h4><div class="users-progress-list">';
         
         Object.keys(auth.users).forEach(username => {
+            // Пропускаем администратора adminFish
+            if (username === 'adminFish') {
+                return;
+            }
+            
             const userProgressKey = `userProgress_${username}`;
             const userProgress = utils.loadFromStorage(userProgressKey);
             
