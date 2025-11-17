@@ -828,14 +828,16 @@ footer {
     margin-bottom: 5px;
 }
 
+/* Стили для реалистичного аквариума */
 .aquarium-container {
     position: relative;
-    height: 300px;
-    background: linear-gradient(180deg, #4a90e2 0%, #7bb3ff 100%);
+    height: 400px;
+    background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
     border-radius: 15px;
     overflow: hidden;
-    border: 8px solid #8B4513;
+    border: 10px solid #8B4513;
     margin-bottom: 20px;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
 }
 
 .aquarium {
@@ -844,79 +846,275 @@ footer {
     position: relative;
 }
 
-/* Анимация рыбок ТОЛЬКО для аквариума в личном кабинете */
+/* Реалистичные рыбки SVG */
 .fish-aquarium {
     position: absolute;
-    font-size: 2rem;
-    animation: swim 15s infinite linear;
+    width: 60px;
+    height: 30px;
+    animation: swim-random 20s infinite linear;
     z-index: 2;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
 }
 
-.fish-1 { top: 20%; animation-delay: 0s; animation-duration: 20s; }
-.fish-2 { top: 40%; animation-delay: 2s; animation-duration: 18s; }
-.fish-3 { top: 60%; animation-delay: 4s; animation-duration: 22s; }
-.fish-4 { top: 30%; animation-delay: 6s; animation-duration: 16s; }
-.fish-5 { top: 70%; animation-delay: 8s; animation-duration: 19s; }
+.fish-1 { 
+    top: 20%; 
+    animation-delay: 0s; 
+    animation-duration: 25s;
+    animation-name: swim-random-1;
+}
+.fish-2 { 
+    top: 40%; 
+    animation-delay: 3s; 
+    animation-duration: 22s;
+    animation-name: swim-random-2;
+}
+.fish-3 { 
+    top: 60%; 
+    animation-delay: 6s; 
+    animation-duration: 28s;
+    animation-name: swim-random-3;
+}
+.fish-4 { 
+    top: 30%; 
+    animation-delay: 9s; 
+    animation-duration: 20s;
+    animation-name: swim-random-4;
+}
+.fish-5 { 
+    top: 70%; 
+    animation-delay: 12s; 
+    animation-duration: 26s;
+    animation-name: swim-random-5;
+}
 
-@keyframes swim {
-    0% {
-        transform: translateX(-50px) scaleX(1);
-        left: -50px;
-    }
-    49% {
-        transform: translateX(calc(100vw - 100px)) scaleX(1);
-        left: calc(100% - 50px);
-    }
-    50% {
-        transform: translateX(calc(100vw - 100px)) scaleX(-1);
-        left: calc(100% - 50px);
-    }
-    99% {
-        transform: translateX(-50px) scaleX(-1);
-        left: -50px;
-    }
-    100% {
-        transform: translateX(-50px) scaleX(1);
-        left: -50px;
-    }
+/* Сложные траектории плавания */
+@keyframes swim-random-1 {
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); left: -100px; }
+    20% { transform: translateX(30vw) translateY(-20px) scaleX(1); }
+    40% { transform: translateX(50vw) translateY(30px) scaleX(1); }
+    60% { transform: translateX(70vw) translateY(-10px) scaleX(1); }
+    80% { transform: translateX(90vw) translateY(20px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
+}
+
+@keyframes swim-random-2 {
+    0% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(-1); left: calc(100vw + 100px); }
+    20% { transform: translateX(70vw) translateY(25px) scaleX(-1); }
+    40% { transform: translateX(40vw) translateY(-15px) scaleX(-1); }
+    60% { transform: translateX(20vw) translateY(20px) scaleX(-1); }
+    80% { transform: translateX(-10vw) translateY(-25px) scaleX(-1); }
+    100% { transform: translateX(-100px) translateY(0) scaleX(-1); }
+}
+
+@keyframes swim-random-3 {
+    0% { transform: translateX(-100px) translateY(40px) scaleX(1); left: -100px; }
+    25% { transform: translateX(25vw) translateY(10px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(50px) scaleX(1); }
+    75% { transform: translateX(75vw) translateY(20px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(40px) scaleX(1); }
+}
+
+@keyframes swim-random-4 {
+    0% { transform: translateX(calc(100vw + 100px)) translateY(60px) scaleX(-1); left: calc(100vw + 100px); }
+    30% { transform: translateX(60vw) translateY(30px) scaleX(-1); }
+    60% { transform: translateX(30vw) translateY(70px) scaleX(-1); }
+    90% { transform: translateX(0vw) translateY(50px) scaleX(-1); }
+    100% { transform: translateX(-100px) translateY(60px) scaleX(-1); }
+}
+
+@keyframes swim-random-5 {
+    0% { transform: translateX(50vw) translateY(-100px) scaleX(1); top: -100px; }
+    33% { transform: translateX(70vw) translateY(30vh) scaleX(1); }
+    66% { transform: translateX(30vw) translateY(60vh) scaleX(1); }
+    100% { transform: translateX(50vw) translateY(calc(100% + 100px)) scaleX(1); }
 }
 
 /* Аксессуары аквариума */
 .aquarium-accessory {
     position: absolute;
     z-index: 1;
+    transition: all 0.5s ease;
 }
 
-.plant-1 {
+/* Домик для рыбок */
+.fish-house {
     bottom: 0;
+    left: 15%;
+    width: 80px;
+    height: 60px;
+    background: #8B4513;
+    border-radius: 10px 10px 0 0;
+    transform-origin: bottom;
+}
+
+.fish-house::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    width: 60px;
+    height: 30px;
+    background: #8B4513;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.fish-house::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 40px;
+    height: 30px;
+    background: #1e5799;
+    border-radius: 5px;
+}
+
+/* Большой домик */
+.fish-house-large {
+    width: 120px;
+    height: 80px;
     left: 10%;
-    font-size: 3rem;
 }
 
-.plant-2 {
-    bottom: 0;
-    right: 15%;
-    font-size: 2.5rem;
+.fish-house-large::before {
+    width: 80px;
+    height: 40px;
+    left: 20px;
 }
 
-.stone-1 {
+.fish-house-large::after {
+    width: 60px;
+    height: 40px;
+    left: 30px;
+    bottom: 15px;
+}
+
+/* Водоросли */
+.seaweed {
     bottom: 0;
+    width: 8px;
+    background: linear-gradient(to top, #2e8b57, #3cb371, #90ee90);
+    border-radius: 4px 4px 0 0;
+    transform-origin: bottom;
+}
+
+.seaweed-small {
     left: 25%;
-    font-size: 2rem;
+    height: 80px;
 }
 
-.stone-2 {
+.seaweed-medium {
+    left: 35%;
+    height: 120px;
+}
+
+.seaweed-large {
+    left: 45%;
+    height: 160px;
+}
+
+.seaweed::before {
+    content: '';
+    position: absolute;
     bottom: 0;
-    right: 30%;
-    font-size: 1.5rem;
+    left: -10px;
+    width: 28px;
+    height: 60px;
+    background: linear-gradient(to top, #2e8b57, #3cb371);
+    clip-path: path('M0,60 C10,40 18,20 14,0 C18,20 26,40 28,60 Z');
+    opacity: 0.8;
 }
 
-.treasure {
+.seaweed::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    right: -12px;
+    width: 32px;
+    height: 70px;
+    background: linear-gradient(to top, #2e8b57, #90ee90);
+    clip-path: path('M0,70 C8,50 20,30 16,0 C22,30 30,50 32,70 Z');
+    opacity: 0.6;
+}
+
+/* Камни */
+.stone {
     bottom: 0;
-    left: 40%;
-    font-size: 2rem;
+    background: #696969;
+    border-radius: 50% 50% 0 0;
 }
 
+.stone-small {
+    left: 60%;
+    width: 40px;
+    height: 20px;
+}
+
+.stone-medium {
+    left: 70%;
+    width: 60px;
+    height: 30px;
+}
+
+.stone-large {
+    left: 80%;
+    width: 80px;
+    height: 40px;
+}
+
+.stone::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 20px;
+    height: 10px;
+    background: #808080;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* Сундук с сокровищами */
+.treasure-chest {
+    bottom: 0;
+    left: 55%;
+    width: 60px;
+    height: 30px;
+    background: #8B4513;
+    border-radius: 5px;
+    transform-origin: bottom;
+}
+
+.treasure-chest::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 5px;
+    width: 50px;
+    height: 10px;
+    background: #a0522d;
+    border-radius: 3px 3px 0 0;
+}
+
+.treasure-chest::after {
+    content: '💎';
+    position: absolute;
+    top: -5px;
+    left: 20px;
+    font-size: 12px;
+    filter: brightness(1.2);
+}
+
+.treasure-chest-open {
+    height: 40px;
+}
+
+.treasure-chest-open::before {
+    transform: rotate(-15deg);
+    transform-origin: left;
+}
+
+/* Пузырьки */
 .bubbles {
     position: absolute;
     width: 100%;
@@ -925,27 +1123,38 @@ footer {
 
 .bubble {
     position: absolute;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     animation: float 8s infinite ease-in;
     bottom: -10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 @keyframes float {
     0% {
-        transform: translateY(0) scale(0.5);
+        transform: translateY(0) scale(0.3);
         opacity: 0;
     }
     10% {
-        opacity: 1;
+        opacity: 0.8;
     }
     90% {
-        opacity: 1;
+        opacity: 0.8;
     }
     100% {
-        transform: translateY(-320px) scale(1.2);
+        transform: translateY(-420px) scale(1.2);
         opacity: 0;
     }
+}
+
+/* Анимация плавания рыбок */
+@keyframes swim-fin {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(30deg); }
+}
+
+.fish-fin {
+    animation: swim-fin 0.5s infinite ease-in-out;
 }
 
 /* Легенда аквариума */
@@ -974,6 +1183,84 @@ footer {
     font-size: 1.2rem;
 }
 
+/* Стили для панели администратора */
+.admin-controls {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.admin-controls h3 {
+    color: var(--dark-color);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.admin-buttons button {
+    min-width: 200px;
+}
+
+.admin-message {
+    display: none;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.admin-message-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.admin-message-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.admin-message-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.users-progress-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.user-progress-item {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 3px solid var(--secondary-color);
+}
+
+.user-progress-item strong {
+    color: var(--dark-color);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.progress-details {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+}
+
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
     .profile-info {
@@ -986,11 +1273,12 @@ footer {
     }
     
     .aquarium-container {
-        height: 200px;
+        height: 300px;
     }
     
     .fish-aquarium {
-        font-size: 1.5rem;
+        width: 40px;
+        height: 20px;
     }
     
     .legend-items {
@@ -1085,6 +1373,46 @@ footer {
     .profile-container .form-group {
         width: 100%;
     }
+    
+    /* Адаптивность для аквариума */
+    .fish-house {
+        width: 60px;
+        height: 45px;
+        left: 10%;
+    }
+    
+    .fish-house-large {
+        width: 90px;
+        height: 60px;
+    }
+    
+    .seaweed-small { height: 60px; }
+    .seaweed-medium { height: 90px; }
+    .seaweed-large { height: 120px; }
+    
+    .stone-small { width: 30px; height: 15px; }
+    .stone-medium { width: 45px; height: 22px; }
+    .stone-large { width: 60px; height: 30px; }
+    
+    .treasure-chest {
+        width: 45px;
+        height: 22px;
+        left: 50%;
+    }
+    
+    /* Адаптивность для админ-панели */
+    .admin-buttons {
+        flex-direction: column;
+    }
+    
+    .admin-buttons button {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .users-progress-list {
+        max-height: 200px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1125,100 +1453,21 @@ footer {
         width: 70px;
         height: 70px;
     }
-
-    /* Добавьте эти стили в конец файла style.css */
-
-/* Стили для панели администратора */
-.admin-controls {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    margin-top: 20px;
-    border-left: 4px solid var(--primary-color);
-}
-
-.admin-controls h3 {
-    color: var(--dark-color);
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.admin-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-}
-
-.admin-buttons button {
-    min-width: 200px;
-}
-
-.admin-message {
-    display: none;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 10px;
-    font-size: 0.9rem;
-}
-
-.admin-message-success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.admin-message-error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.admin-message-info {
-    background: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-}
-
-.users-progress-list {
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.user-progress-item {
-    background: white;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border-left: 3px solid var(--secondary-color);
-}
-
-.user-progress-item strong {
-    color: var(--dark-color);
-    display: block;
-    margin-bottom: 8px;
-}
-
-.progress-details {
-    font-size: 0.85rem;
-    color: #666;
-    line-height: 1.4;
-}
-
-    /* Адаптивность для админ-панели */
-    @media (max-width: 768px) {
-        .admin-buttons {
-            flex-direction: column;
-        }
-        
-        .admin-buttons button {
-            min-width: auto;
-            width: 100%;
-        }
-        
-        .users-progress-list {
-            max-height: 200px;
-        }
+    
+    .aquarium-container {
+        height: 250px;
+    }
+    
+    .progress-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .progress-stat {
+        padding: 10px;
+    }
+    
+    .progress-stat .stat-value {
+        font-size: 1.2rem;
     }
 }
