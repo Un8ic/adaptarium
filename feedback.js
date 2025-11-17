@@ -159,6 +159,7 @@ const feedback = {
                 // Сохраняем текущее значение поля ввода
                 const commentInput = document.getElementById(`${testId}-comment`);
                 const currentInputValue = commentInput ? commentInput.value : '';
+                const isFocused = commentInput && document.activeElement === commentInput;
                 
                 // Обновляем только комментарии
                 tests.displayComments(testId);
@@ -166,6 +167,9 @@ const feedback = {
                 // Восстанавливаем значение поля ввода
                 if (commentInput && currentInputValue) {
                     commentInput.value = currentInputValue;
+                    if (isFocused) {
+                        commentInput.focus();
+                    }
                 }
             }
         });
