@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Запускаем автоматическое обновление чата и комментариев
+    feedback.startAutoRefresh();
+    
     // Обработчик для выхода при закрытии страницы
     window.addEventListener('beforeunload', function() {
         if (auth.currentUser) {
