@@ -931,11 +931,11 @@ footer {
 /* Стили для обновленного аквариума */
 .aquarium-container {
     position: relative;
-    height: 400px;
+    height: 500px;
     background: linear-gradient(180deg, #1a5276 0%, #2874a6 30%, #3498db 70%, #85c1e9 100%);
     border-radius: 15px;
     overflow: hidden;
-    border: 10px solid #1a5276;
+    border: 15px solid #8B4513;
     margin-bottom: 20px;
     box-shadow: 
         inset 0 0 80px rgba(0, 0, 0, 0.4),
@@ -953,7 +953,7 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px;
+    height: 80px;
     background: linear-gradient(to top, #e6c9a8, #d7b899);
     z-index: 1;
 }
@@ -972,355 +972,136 @@ footer {
 .aquarium-creature {
     position: absolute;
     z-index: 10;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.4));
     transition: transform 0.3s ease;
 }
 
-/* Анимации для обитателей - плавание хвостами вперед */
-@keyframes swim-forward {
-    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
-    25% { transform: translateX(25vw) translateY(-15px) scaleX(1); }
-    50% { transform: translateX(50vw) translateY(10px) scaleX(1); }
-    75% { transform: translateX(75vw) translateY(-10px) scaleX(1); }
-    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
+/* Анимации для обитателей */
+@keyframes swim-gentle {
+    0% { transform: translateX(-150px) translateY(0) scaleX(1); }
+    25% { transform: translateX(25vw) translateY(-20px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(15px) scaleX(1); }
+    75% { transform: translateX(75vw) translateY(-15px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 150px)) translateY(0) scaleX(1); }
 }
 
-@keyframes swim-jellyfish {
-    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
-    20% { transform: translateX(20vw) translateY(-20px) scaleX(1); }
-    40% { transform: translateX(40vw) translateY(15px) scaleX(1); }
-    60% { transform: translateX(60vw) translateY(-15px) scaleX(1); }
-    80% { transform: translateX(80vw) translateY(10px) scaleX(1); }
-    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
+@keyframes swim-slow {
+    0% { transform: translateX(-200px) translateY(0) scaleX(1); }
+    30% { transform: translateX(30vw) translateY(-25px) scaleX(1); }
+    60% { transform: translateX(60vw) translateY(20px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 200px)) translateY(0) scaleX(1); }
 }
 
 @keyframes swim-mermaid {
-    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
-    30% { transform: translateX(30vw) translateY(-25px) scaleX(1); }
-    50% { transform: translateX(50vw) translateY(20px) scaleX(1); }
-    70% { transform: translateX(70vw) translateY(-20px) scaleX(1); }
-    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
+    0% { transform: translateX(-250px) translateY(0) scaleX(1); }
+    25% { transform: translateX(25vw) translateY(-30px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(25px) scaleX(1); }
+    75% { transform: translateX(75vw) translateY(-25px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 250px)) translateY(0) scaleX(1); }
 }
 
 @keyframes crab-walk {
-    0% { transform: translateX(-50px) translateY(0) scaleX(1); }
-    25% { transform: translateX(100px) translateY(-5px) scaleX(1); }
-    50% { transform: translateX(250px) translateY(0) scaleX(1); }
-    75% { transform: translateX(400px) translateY(-5px) scaleX(1); }
-    100% { transform: translateX(550px) translateY(0) scaleX(1); }
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
+    25% { transform: translateX(150px) translateY(-8px) scaleX(1); }
+    50% { transform: translateX(400px) translateY(0) scaleX(1); }
+    75% { transform: translateX(650px) translateY(-8px) scaleX(1); }
+    100% { transform: translateX(900px) translateY(0) scaleX(1); }
 }
 
 @keyframes octopus-crawl {
-    0% { transform: translateX(550px) translateY(0) scaleX(-1); }
-    25% { transform: translateX(400px) translateY(-8px) scaleX(-1); }
-    50% { transform: translateX(250px) translateY(0) scaleX(-1); }
-    75% { transform: translateX(100px) translateY(-8px) scaleX(-1); }
-    100% { transform: translateX(-50px) translateY(0) scaleX(-1); }
+    0% { transform: translateX(900px) translateY(0) scaleX(-1); }
+    25% { transform: translateX(650px) translateY(-12px) scaleX(-1); }
+    50% { transform: translateX(400px) translateY(0) scaleX(-1); }
+    75% { transform: translateX(150px) translateY(-12px) scaleX(-1); }
+    100% { transform: translateX(-100px) translateY(0) scaleX(-1); }
 }
+
+/* Размеры животных увеличены в 5 раз */
+.fish { font-size: 120px !important; } /* было ~24px */
+.mermaid { font-size: 160px !important; } /* было ~32px */
+.crab { font-size: 100px !important; } /* было ~20px */
+.octopus { font-size: 110px !important; } /* было ~22px */
 
 /* Позиционирование и анимация для каждого существа */
 .fish-1 { 
-    top: 20%; 
-    animation: swim-forward 25s infinite linear;
+    top: 15%; 
+    animation: swim-gentle 30s infinite linear;
     animation-delay: 0s;
 }
 .fish-2 { 
-    top: 40%; 
-    animation: swim-jellyfish 30s infinite linear;
+    top: 35%; 
+    animation: swim-slow 35s infinite linear;
     animation-delay: 5s;
 }
 .fish-3 { 
-    top: 60%; 
-    animation: swim-forward 28s infinite linear;
+    top: 55%; 
+    animation: swim-gentle 32s infinite linear;
     animation-delay: 10s;
 }
-.jellyfish-1 { 
-    top: 30%; 
-    animation: swim-jellyfish 35s infinite linear;
-    animation-delay: 8s;
-    opacity: 0.8;
-}
-.jellyfish-2 { 
-    top: 50%; 
-    animation: swim-jellyfish 32s infinite linear;
+.fish-4 { 
+    top: 25%; 
+    animation: swim-slow 38s infinite linear;
     animation-delay: 15s;
-    opacity: 0.8;
 }
-.mermaid { 
-    top: 35%; 
-    animation: swim-mermaid 40s infinite linear;
-    animation-delay: 0s;
-    display: none; /* Появляется только при максимальном прогрессе */
+.fish-5 { 
+    top: 45%; 
+    animation: swim-gentle 34s infinite linear;
+    animation-delay: 20s;
 }
-.crab { 
-    bottom: 65px; 
-    animation: crab-walk 20s infinite linear;
+.fish-6 { 
+    top: 65%; 
+    animation: swim-slow 36s infinite linear;
+    animation-delay: 25s;
+}
+
+.mermaid-1 { 
+    top: 20%; 
+    animation: swim-mermaid 45s infinite linear;
     animation-delay: 0s;
     display: none;
 }
-.octopus { 
-    bottom: 65px; 
-    animation: octopus-crawl 25s infinite linear;
+.mermaid-2 { 
+    top: 50%; 
+    animation: swim-mermaid 50s infinite linear;
+    animation-delay: 10s;
+    display: none;
+}
+
+.crab-1 { 
+    bottom: 85px; 
+    animation: crab-walk 25s infinite linear;
+    animation-delay: 0s;
+    display: none;
+}
+.crab-2 { 
+    bottom: 85px; 
+    animation: crab-walk 28s infinite linear;
+    animation-delay: 7s;
+    display: none;
+}
+.crab-3 { 
+    bottom: 85px; 
+    animation: crab-walk 30s infinite linear;
+    animation-delay: 14s;
+    display: none;
+}
+
+.octopus-1 { 
+    bottom: 85px; 
+    animation: octopus-crawl 30s infinite linear;
     animation-delay: 5s;
     display: none;
 }
-
-/* Домики для рыбок разных уровней */
-.fish-house {
-    position: absolute;
-    bottom: 60px;
-    z-index: 2;
-    transition: all 0.5s ease;
-}
-
-/* Маленький домик (низкий уровень) */
-.fish-house-small {
-    left: 15%;
-    width: 60px;
-    height: 45px;
-    background: linear-gradient(45deg, #8B4513, #a0522d);
-    border-radius: 10px;
-    transform: skew(-5deg);
-}
-
-.fish-house-small::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: 10px;
-    width: 40px;
-    height: 20px;
-    background: linear-gradient(45deg, #a0522d, #8B4513);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-/* Средний домик (средний уровень) */
-.fish-house-medium {
-    left: 15%;
-    width: 90px;
-    height: 60px;
-    background: linear-gradient(45deg, #8B4513, #a0522d);
-    border-radius: 12px;
-    transform: skew(-5deg);
+.octopus-2 { 
+    bottom: 85px; 
+    animation: octopus-crawl 32s infinite linear;
+    animation-delay: 12s;
     display: none;
 }
-
-.fish-house-medium::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: 15px;
-    width: 60px;
-    height: 25px;
-    background: linear-gradient(45deg, #a0522d, #8B4513);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.fish-house-medium::after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    left: 20px;
-    width: 20px;
-    height: 20px;
-    background: #87CEEB;
-    border-radius: 3px;
-    border: 2px solid #8B4513;
-}
-
-/* Дворец (высокий уровень) */
-.fish-house-large {
-    left: 10%;
-    width: 120px;
-    height: 80px;
-    background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37);
-    border-radius: 15px;
-    transform: skew(-5deg);
-    display: none;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-}
-
-.fish-house-large::before {
-    content: '';
-    position: absolute;
-    top: -25px;
-    left: 20px;
-    width: 80px;
-    height: 30px;
-    background: linear-gradient(45deg, #ffd700, #d4af37);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.fish-house-large::after {
-    content: '🏰';
-    position: absolute;
-    top: 10px;
-    left: 45px;
-    font-size: 24px;
-    filter: brightness(1.2);
-}
-
-/* Аксессуары для аквариума */
-.aquarium-accessory {
-    position: absolute;
-    z-index: 2;
-}
-
-/* Большое колесо обозрения */
-.ferris-wheel {
-    bottom: 60px;
-    right: 10%;
-    width: 80px;
-    height: 80px;
-    border: 3px solid #8B4513;
-    border-radius: 50%;
-    display: none;
-}
-
-.ferris-wheel::before {
-    content: '🎡';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 40px;
-}
-
-/* Средние аксессуары - вазы и якорь */
-.vase-medium {
-    bottom: 60px;
-    width: 25px;
-    height: 35px;
-    background: radial-gradient(ellipse at center, #fffaf0, #deb887);
-    border-radius: 5px 5px 0 0;
-    display: none;
-}
-
-.vase-1 {
-    left: 40%;
-}
-
-.vase-2 {
-    left: 45%;
-}
-
-.anchor-medium {
-    bottom: 60px;
-    left: 50%;
-    width: 30px;
-    height: 40px;
-    display: none;
-}
-
-.anchor-medium::before {
-    content: '⚓';
-    position: absolute;
-    font-size: 30px;
-    filter: brightness(0.7);
-}
-
-/* Маленькие аксессуары - ракушки и жемчуг */
-.shell-small {
-    bottom: 65px;
-    width: 15px;
-    height: 12px;
-    background: radial-gradient(ellipse at center, #fffaf0, #deb887);
-    border-radius: 50%;
-    display: none;
-}
-
-.shell-1 {
-    left: 35%;
-}
-
-.shell-2 {
-    left: 38%;
-}
-
-.pearl-small {
-    bottom: 70px;
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle at 30% 30%, white, #f0f0f0);
-    border-radius: 50%;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-    display: none;
-}
-
-.pearl-1 {
-    left: 42%;
-}
-
-.pearl-2 {
-    left: 44%;
-}
-
-/* Кораллы и камни */
-.coral {
-    bottom: 60px;
-    z-index: 3;
-}
-
-.coral-small {
-    width: 30px;
-    height: 50px;
-    background: radial-gradient(ellipse at bottom, #ff6b6b, #ee5a52);
-    clip-path: polygon(50% 0%, 80% 20%, 60% 40%, 90% 60%, 50% 100%, 10% 60%, 40% 40%, 20% 20%);
-}
-
-.coral-medium {
-    width: 45px;
-    height: 80px;
-    background: radial-gradient(ellipse at bottom, #4ecdc4, #26a69a);
-    clip-path: polygon(30% 0%, 70% 0%, 90% 30%, 80% 60%, 50% 100%, 20% 60%, 10% 30%);
-    display: none;
-}
-
-.coral-large {
-    width: 60px;
-    height: 110px;
-    background: radial-gradient(ellipse at bottom, #ffd93d, #ffc107);
-    clip-path: polygon(50% 0%, 100% 30%, 80% 70%, 50% 100%, 20% 70%, 0% 30%);
-    display: none;
-}
-
-.coral-1 {
-    left: 20%;
-}
-
-.coral-2 {
-    left: 25%;
-}
-
-.coral-3 {
-    left: 30%;
-}
-
-/* Камни */
-.stone {
-    bottom: 60px;
-    background: #696969;
-    border-radius: 10px;
-    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.3);
-}
-
-.stone-small {
-    left: 70%;
-    width: 40px;
-    height: 20px;
-}
-
-.stone-medium {
-    left: 75%;
-    width: 50px;
-    height: 25px;
-    display: none;
-}
-
-.stone-large {
-    left: 80%;
-    width: 60px;
-    height: 30px;
+.octopus-3 { 
+    bottom: 85px; 
+    animation: octopus-crawl 34s infinite linear;
+    animation-delay: 19s;
     display: none;
 }
 
@@ -1337,23 +1118,23 @@ footer {
     background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.4));
     border-radius: 50%;
     animation: float 8s infinite ease-in;
-    bottom: 70px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    bottom: 90px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 @keyframes float {
     0% {
-        transform: translateY(0) scale(0.3);
+        transform: translateY(0) scale(0.5);
         opacity: 0;
     }
     10% {
-        opacity: 0.8;
+        opacity: 0.9;
     }
     90% {
-        opacity: 0.6;
+        opacity: 0.7;
     }
     100% {
-        transform: translateY(-420px) scale(1.2);
+        transform: translateY(-500px) scale(1.5);
         opacity: 0;
     }
 }
@@ -1385,7 +1166,7 @@ footer {
 }
 
 .fish-legend {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 /* Стили для панели администратора */
