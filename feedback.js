@@ -138,14 +138,36 @@ const feedback = {
             }
         }, 2000);
         
-        // Обновляем комментарии к тестам каждые 2 секунды
+        // Обновляем комментарии к тестам каждые 2 секунды (только отображение, без перезагрузки полей ввода)
         setInterval(() => {
             if (document.getElementById('tests-page').classList.contains('active')) {
-                tests.loadTests();
+                this.updateTestCommentsOnly();
             }
             if (document.getElementById('analytics-page').classList.contains('active')) {
                 tests.loadAllComments();
             }
         }, 2000);
+    },
+    
+    // Обновление только комментариев к тестам (без перезагрузки полей ввода)
+    updateTestCommentsOnly() {
+        const testIds = ['products-test', 'sales-test', 'objections-test'];
+        
+        testIds.forEach(testId => {
+            const commentsContainer = document.getElementById(`${testId}-comments`);
+            if (commentsContainer) {
+                // Сохраняем текущее значение поля ввода
+                const commentInput = document.getElementById(`${testId}-comment`);
+                const currentInputValue = commentInput ? commentInput.value : '';
+                
+                // Обновляем только комментарии
+                tests.displayComments(testId);
+                
+                // Восстанавливаем значение поля ввода
+                if (commentInput && currentInputValue) {
+                    commentInput.value = currentInputValue;
+                }
+            }
+        });
     }
 };
