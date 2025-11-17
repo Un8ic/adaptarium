@@ -427,7 +427,7 @@ const tests = {
         utils.showNotification('Комментарий добавлен');
     },
     
-        // Отображение комментариев
+    // Отображение комментариев
     displayComments(testId) {
         const commentsContainer = document.getElementById(`${testId}-comments`);
         if (!commentsContainer) return;
