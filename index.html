@@ -316,32 +316,96 @@
         <!-- Личная страница -->
         <div id="profile-page" class="page">
             <h1>Личный кабинет</h1>
-            <div class="profile-container">
-                <img id="profile-photo" src="https://randomuser.me/api/portraits/men/1.jpg" alt="Фото профиля" class="profile-photo">
-                <input type="file" id="photo-upload" accept="image/*">
-                <button onclick="profile.updatePhoto()">Обновить фото</button>
+            
+            <div class="profile-header">
+                <div class="profile-info">
+                    <img id="profile-photo" src="https://randomuser.me/api/portraits/men/1.jpg" alt="Фото профиля" class="profile-photo-large">
+                    <div class="profile-details">
+                        <h2 id="profile-display-name">Имя пользователя</h2>
+                        <p id="profile-display-position">Должность</p>
+                        <button id="edit-profile-btn" class="btn-full">Редактировать профиль</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Режим редактирования (изначально скрыт) -->
+            <div id="edit-profile-section" class="edit-section" style="display: none;">
+                <h3>Редактирование профиля</h3>
+                <div class="profile-container">
+                    <input type="file" id="photo-upload" accept="image/*">
+                    <button onclick="profile.updatePhoto()">Обновить фото</button>
+                    
+                    <div class="form-group">
+                        <label for="profile-name">Имя:</label>
+                        <input type="text" id="profile-name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-position">Должность:</label>
+                        <input type="text" id="profile-position">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-password">Новый пароль:</label>
+                        <input type="password" id="new-password" placeholder="Введите новый пароль">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Подтвердите пароль:</label>
+                        <input type="password" id="confirm-password" placeholder="Подтвердите новый пароль">
+                    </div>
+                    
+                    <div class="edit-buttons">
+                        <button onclick="profile.updateProfile()" class="btn-full">Сохранить изменения</button>
+                        <button onclick="profile.cancelEdit()" class="btn-secondary">Отмена</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Аквариум с прогрессом -->
+            <div class="aquarium-section">
+                <h3>Мой прогресс обучения</h3>
                 
-                <div class="form-group">
-                    <label for="profile-name">Имя:</label>
-                    <input type="text" id="profile-name">
+                <div class="progress-stats">
+                    <div class="progress-stat">
+                        <div class="stat-value" id="materials-progress">0%</div>
+                        <div>Материалы</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="stat-value" id="training-progress">0%</div>
+                        <div>Обучение</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="stat-value" id="tests-progress">0%</div>
+                        <div>Тесты</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="stat-value" id="total-progress">0%</div>
+                        <div>Общий прогресс</div>
+                    </div>
+                </div>
+
+                <div class="aquarium-container">
+                    <div class="aquarium" id="aquarium">
+                        <!-- Рыбки и аксессуары будут добавляться динамически -->
+                        <div class="bubbles"></div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="profile-position">Должность:</label>
-                    <input type="text" id="profile-position">
+                <div class="aquarium-legend">
+                    <p><strong>Ваш аквариум:</strong> Чем больше вы учитесь, тем больше рыбок и аксессуаров появляется в аквариуме!</p>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="fish-legend">🐠</span> - Изучены материалы
+                        </div>
+                        <div class="legend-item">
+                            <span class="fish-legend">🐟</span> - Пройдено обучение
+                        </div>
+                        <div class="legend-item">
+                            <span class="fish-legend">🐡</span> - Сданы тесты
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="new-password">Новый пароль:</label>
-                    <input type="password" id="new-password" placeholder="Введите новый пароль">
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirm-password">Подтвердите пароль:</label>
-                    <input type="password" id="confirm-password" placeholder="Подтвердите новый пароль">
-                </div>
-                
-                <button onclick="profile.updateProfile()">Сохранить изменения</button>
             </div>
         </div>
         
