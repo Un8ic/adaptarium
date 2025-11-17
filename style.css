@@ -88,38 +88,38 @@
 /* Позиционирование и анимация для каждой рыбки */
 .fish-1 { 
     top: 20%; 
-    font-size: 2.5rem;
+    font-size: 3rem;
     animation: swim-forward-1 25s infinite linear;
     animation-delay: 0s;
 }
 .fish-2 { 
     top: 45%; 
-    font-size: 2.2rem;
+    font-size: 2.8rem;
     animation: swim-forward-2 30s infinite linear;
     animation-delay: 5s;
 }
 .fish-3 { 
     top: 65%; 
-    font-size: 2.8rem;
+    font-size: 3.2rem;
     animation: swim-forward-3 28s infinite linear;
     animation-delay: 10s;
 }
 .fish-4 { 
     top: 30%; 
-    font-size: 2.3rem;
+    font-size: 3rem;
     animation: swim-reverse-1 32s infinite linear;
     animation-delay: 15s;
 }
 .fish-5 { 
     top: 55%; 
-    font-size: 2.4rem;
+    font-size: 2.9rem;
     animation: swim-reverse-2 27s infinite linear;
     animation-delay: 8s;
 }
 
 /* Русалки */
 .mermaid {
-    font-size: 3.5rem;
+    font-size: 4rem;
     z-index: 11;
     filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
 }
@@ -147,7 +147,7 @@
 /* Обитатели дна */
 .bottom-creature {
     bottom: 85px;
-    font-size: 2rem;
+    font-size: 2.5rem;
     z-index: 3;
     animation: crawl 15s infinite ease-in-out;
 }
@@ -169,12 +169,12 @@
     75% { transform: translateX(50px) scaleX(-1); }
 }
 
-/* Домики - УВЕЛИЧЕНЫ по сравнению с другими элементами */
+/* Домики */
 .house-sticker {
     bottom: 80px;
-    font-size: 4rem;
+    font-size: 3rem;
     z-index: 4;
-    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 .house-tent {
@@ -189,22 +189,22 @@
     left: 50%;
 }
 
-/* Аксессуары - СРЕДНЕГО размера */
+/* Аксессуары */
 .accessory-sticker {
     z-index: 5;
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .accessory-large {
-    font-size: 3.5rem;
+    font-size: 4rem;
 }
 
 .accessory-medium {
-    font-size: 2.8rem;
+    font-size: 3rem;
 }
 
 .accessory-small {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
 }
 
 .ferris-wheel {
@@ -250,10 +250,10 @@
     50% { transform: rotate(5deg); }
 }
 
-/* Кораллы и камни - МЕНЬШЕ домиков и аксессуаров */
+/* Кораллы и камни */
 .coral-sticker {
     bottom: 80px;
-    font-size: 2.5rem;
+    font-size: 3rem;
     z-index: 3;
     filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
 }
@@ -283,7 +283,7 @@
 
 .stone-sticker {
     bottom: 80px;
-    font-size: 2.2rem;
+    font-size: 2.8rem;
     z-index: 2;
     filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
 }
@@ -338,6 +338,36 @@
     }
 }
 
+/* Легенда аквариума */
+.aquarium-legend {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border-left: 4px solid var(--primary-color);
+}
+
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.fish-legend {
+    font-size: 1.5rem;
+}
+
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
     .aquarium-container {
@@ -350,28 +380,28 @@
     }
     
     .fish-sticker {
-        font-size: 1.8rem !important;
+        font-size: 2rem !important;
     }
     
     .mermaid {
-        font-size: 2.5rem;
-    }
-    
-    .bottom-creature {
-        font-size: 1.6rem;
-    }
-    
-    .house-sticker {
         font-size: 3rem;
     }
     
-    .coral-sticker, .stone-sticker {
-        font-size: 1.8rem;
+    .bottom-creature {
+        font-size: 2rem;
     }
     
-    .accessory-large { font-size: 2.5rem; }
-    .accessory-medium { font-size: 2.2rem; }
-    .accessory-small { font-size: 1.8rem; }
+    .house-sticker, .coral-sticker, .stone-sticker {
+        font-size: 2rem;
+    }
+    
+    .accessory-large { font-size: 3rem; }
+    .accessory-medium { font-size: 2.5rem; }
+    .accessory-small { font-size: 2rem; }
+    
+    .legend-items {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -386,14 +416,6 @@
     .fish-sticker {
         font-size: 1.5rem !important;
     }
-    
-    .house-sticker {
-        font-size: 2.5rem;
-    }
-    
-    .accessory-large { font-size: 2rem; }
-    .accessory-medium { font-size: 1.8rem; }
-    .accessory-small { font-size: 1.5rem; }
 }
 
 /* Стили для страницы аналитики */
