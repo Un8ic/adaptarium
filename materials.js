@@ -15,7 +15,7 @@ const materials = {
         ];
         
         materialsContainer.innerHTML = materialsData.map(material => {
-            const status = utils.loadFromStorage(`material-${material.id}-status`) || 'not-started';
+            const status = this.getMaterialStatus(material.id);
             const statusText = status === 'completed' ? 'Завершено' : 'Не начато';
             const statusClass = status === 'completed' ? 'completed' : 'not-started';
             
@@ -30,6 +30,23 @@ const materials = {
         }).join('');
     },
     
+    // Получение статуса материала для текущего пользователя
+    getMaterialStatus(materialId) {
+        if (!auth.currentUser) return 'not-started';
+        
+        const userProgress = auth.getUserProgress();
+        return userProgress.materials[materialId] || 'not-started';
+    },
+    
+    // Сохранение статуса материала для текущего пользователя
+    setMaterialStatus(materialId, status) {
+        if (!auth.currentUser) return false;
+        
+        const userProgress = auth.getUserProgress();
+        userProgress.materials[materialId] = status;
+        return auth.saveUserProgress(userProgress);
+    },
+    
     // Открытие страницы материала
     openMaterialPage(materialId) {
         navigation.history.push('materials-page');
@@ -38,9 +55,13 @@ const materials = {
     
     // Завершение изучения материала
     completeMaterial(materialId) {
+        // Сохраняем статус для текущего пользователя
+        this.setMaterialStatus(materialId, 'completed');
+        
+        // Обновляем отображение
         document.getElementById(materialId + '-status').textContent = 'Завершено';
         document.getElementById(materialId + '-status').className = 'completed';
-        utils.saveToStorage(`material-${materialId}-status`, 'completed');
+        
         utils.showNotification('Материал успешно изучен!');
         navigation.goBack();
     }
