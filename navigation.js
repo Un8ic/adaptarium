@@ -169,31 +169,14 @@ const navigation = {
         const analyticsList = document.getElementById('analytics-list');
         if (!analyticsList) return;
         
-        analyticsList.innerHTML = '';
-        
-        // Создаем карточки аналитики для всех менеджеров
-        Object.keys(auth.users).forEach(username => {
-            if (auth.users[username].role === 'manager') {
-                const user = auth.users[username];
-                const progress = utils.randomInt(0, 100);
-                const testsCompleted = utils.randomInt(0, 10);
-                const avgScore = (Math.random() * 4 + 1).toFixed(1);
-                
-                const card = document.createElement('div');
-                card.className = 'analytics-card';
-                card.innerHTML = `
-                    <h3>${user.name}</h3>
-                    <p>Прогресс обучения: ${progress}%</p>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: ${progress}%"></div>
-                    </div>
-                    <p>Пройдено тестов: ${testsCompleted}</p>
-                    <p>Средний балл: ${avgScore}</p>
-                    <p>Последняя активность: ${new Date(Date.now() - Math.random() * 86400000).toLocaleDateString()}</p>
-                `;
-                analyticsList.appendChild(card);
-            }
-        });
+        // Вместо старой аналитики показываем прогресс всех пользователей
+        analyticsList.innerHTML = `
+            <div class="analytics-header">
+                <h2>Прогресс обучения всех пользователей</h2>
+                <p>Обзор прогресса по материалам, играм и тестам для всех сотрудников</p>
+            </div>
+            ${profile.getAllUsersProgress()}
+        `;
         
         // Загружаем все комментарии
         tests.loadAllComments();
