@@ -7,7 +7,56 @@ const auth = {
             name: 'Администратор',
             role: 'admin'
         },
-        // ... остальные пользователи без изменений
+        'Ivanova': {
+            password: 'Ivanova',
+            name: 'Иванова Мария',
+            role: 'manager'
+        },
+        'TopProdaj': {
+            password: 'TopProdaj',
+            name: 'Петров Алексей',
+            role: 'manager'
+        },
+        '1234': {
+            password: '1234',
+            name: 'Сидорова Ольга',
+            role: 'manager'
+        },
+        'OtdelProdaj': {
+            password: 'OtdelProdaj',
+            name: 'Козлов Дмитрий',
+            role: 'manager'
+        },
+        'Leto': {
+            password: 'Leto',
+            name: 'Николаева Анна',
+            role: 'manager'
+        },
+        'Petrov': {
+            password: 'Petrov',
+            name: 'Петров Иван',
+            role: 'manager'
+        },
+        'RAB': {
+            password: 'RAB',
+            name: 'Смирнова Елена',
+            role: 'manager'
+        },
+        'PIRS': {
+            password: 'PIRS',
+            name: 'Васильев Максим',
+            role: 'manager'
+        },
+        'NSUEM': {
+            password: 'NSUEM',
+            name: 'Фролов Сергей',
+            role: 'manager'
+        },
+        'BusinessTUT': {
+            password: 'BusinessTUT',
+            name: 'Морозова Татьяна',
+            role: 'manager'
+        }
     },
     
     // Текущий пользователь
