@@ -100,6 +100,7 @@ const auth = {
         }
     },
     
+
     // Инициализация прогресса пользователя
     initializeUserProgress() {
         if (!this.currentUser) return;
@@ -117,11 +118,25 @@ const auth = {
                 lastUpdated: new Date().toISOString()
             };
             
-            // Для adminFish специально устанавливаем пустой прогресс
+            // Для adminFish специально устанавливаем 100% прогресс
             if (this.currentUser.username === 'adminFish') {
-                userProgress.materials = {};
-                userProgress.games = {};
-                userProgress.tests = {};
+                userProgress.materials = {
+                    'company-intro': 'completed',
+                    'products-services': 'completed', 
+                    'sales-techniques': 'completed',
+                    'objection-handling': 'completed',
+                    'negotiation': 'completed',
+                    'customer-centric': 'completed'
+                };
+                userProgress.games = {
+                    'quest': 'Уровень 5 (100 очков)',
+                    'quiz': 'Результат: 100% (5/5)'
+                };
+                userProgress.tests = {
+                    'products-test': { status: 'completed', score: 100 },
+                    'sales-test': { status: 'completed', score: 100 },
+                    'objections-test': { status: 'completed', score: 100 }
+                };
             }
             
             utils.saveToStorage(userProgressKey, userProgress);
