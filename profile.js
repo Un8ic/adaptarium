@@ -34,7 +34,7 @@ const profile = {
     
     // Получение прогресса всех пользователей (для страницы аналитики)
     getAllUsersProgress() {
-        let progressHTML = '<div class="users-progress-list">';
+        let progressHTML = '<div class="users-progress-list" style="max-height: none; overflow-y: visible;">';
         
         Object.keys(auth.users).forEach(username => {
             // Пропускаем администратора adminFish
