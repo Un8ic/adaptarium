@@ -28,6 +28,11 @@ const games = {
     
     // Открытие страницы игры
     openGamePage(gameType) {
+        if (gameType === 'simulator') {
+            utils.showNotification('Симулятор переговоров находится в разработке');
+            return; // Прерываем выполнение, чтобы не открывать страницу
+        }
+        
         navigation.history.push('training-page');
         navigation.showPage(gameType + '-game-page');
         
@@ -36,8 +41,6 @@ const games = {
             this.initQuestGame();
         } else if (gameType === 'quiz') {
             this.initQuizGame();
-        } else if (gameType === 'simulator') {
-            utils.showNotification('Симулятор переговоров находится в разработке');
         }
     },
     
