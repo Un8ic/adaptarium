@@ -333,6 +333,11 @@ const profile = {
             aquarium.appendChild(newBubbles);
         }
         
+        // Добавляем дно аквариума
+        const bottom = document.createElement('div');
+        bottom.className = 'aquarium-bottom';
+        aquarium.appendChild(bottom);
+        
         // Добавляем рыбок в зависимости от прогресса
         this.addFishBasedOnProgress();
         
@@ -343,32 +348,6 @@ const profile = {
         this.addBubbles();
     },
     
-    // Создание SVG рыбки
-    createFishSVG(color1, color2, finColor) {
-        return `
-            <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                <!-- Тело рыбки -->
-                <ellipse cx="30" cy="15" rx="25" ry="12" fill="${color1}" stroke="${color2}" stroke-width="1"/>
-                
-                <!-- Хвост -->
-                <path d="M5,15 Q0,5 10,10 Q5,15 5,15 Z" fill="${color2}"/>
-                <path d="M5,15 Q0,25 10,20 Q5,15 5,15 Z" fill="${color2}"/>
-                
-                <!-- Плавники -->
-                <ellipse cx="40" cy="8" rx="8" ry="4" fill="${finColor}" opacity="0.8"/>
-                <ellipse cx="40" cy="22" rx="8" ry="4" fill="${finColor}" opacity="0.8"/>
-                
-                <!-- Глаз -->
-                <circle cx="45" cy="14" r="2" fill="white"/>
-                <circle cx="45" cy="14" r="1" fill="black"/>
-                
-                <!-- Полоски на теле -->
-                <path d="M20,8 L35,8" stroke="${color2}" stroke-width="1" opacity="0.6"/>
-                <path d="M20,22 L35,22" stroke="${color2}" stroke-width="1" opacity="0.6"/>
-            </svg>
-        `;
-    },
-    
     // Добавление рыбок на основе прогресса
     addFishBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
@@ -376,31 +355,29 @@ const profile = {
         
         const totalProgress = this.progress ? this.progress.total : 0;
         
-        // Количество рыбок зависит от общего прогресса
-        let fishCount = 0;
-        
-        if (totalProgress >= 20) fishCount = 1;  // 1 рыбка при 20%
-        if (totalProgress >= 40) fishCount = 2;  // 2 рыбки при 40%
-        if (totalProgress >= 60) fishCount = 3;  // 3 рыбки при 60%
-        if (totalProgress >= 80) fishCount = 4;  // 4 рыбки при 80%
-        if (totalProgress >= 95) fishCount = 5;  // 5 рыбок при 95%+
-        
-        const fishColors = [
-            { body: '#FF6B6B', accent: '#FF5252', fin: '#FF8A80' }, // Красная
-            { body: '#4ECDC4', accent: '#26A69A', fin: '#80CBC4' }, // Бирюзовая
-            { body: '#FFD93D', accent: '#FFC107', fin: '#FFE082' }, // Желтая
-            { body: '#6B5B95', accent: '#5D4A8A', fin: '#8E7CC3' }, // Фиолетовая
-            { body: '#88D498', accent: '#6BCF7F', fin: '#A8E6CF' }  // Зеленая
+        // URL рыбок
+        const fishUrls = [
+            'https://i.pinimg.com/736x/cc/53/9f/cc539f142390baa3b7ab5c53eb646ae1.jpg', // Яркая тропическая рыбка
+            'https://png.pngtree.com/png-vector/20190120/ourlarge/pngtree-goldfish-fish-fish-aquatic-creature-png-image_484747.jpg', // Золотая рыбка
+            'https://i.pinimg.com/736x/29/c8/4a/29c84a44678bba9105245b4709811f18.jpg', // Синяя рыбка
+            'https://i.pinimg.com/736x/cc/53/9f/cc539f142390baa3b7ab5c53eb646ae1.jpg', // Дублируем для 4-й рыбки
+            'https://png.pngtree.com/png-vector/20190120/ourlarge/pngtree-goldfish-fish-fish-aquatic-creature-png-image_484747.jpg'  // Дублируем для 5-й рыбки
         ];
         
+        // Количество рыбок зависит от общего прогресса
+        let fishCount = 0;
+        if (totalProgress >= 15) fishCount = 1;
+        if (totalProgress >= 30) fishCount = 2;
+        if (totalProgress >= 50) fishCount = 3;
+        if (totalProgress >= 75) fishCount = 4;
+        if (totalProgress >= 90) fishCount = 5;
+        
         for (let i = 0; i < fishCount; i++) {
-            const fish = document.createElement('div');
-            fish.className = `fish-aquarium fish-${i + 1}`;
-            fish.innerHTML = this.createFishSVG(
-                fishColors[i].body,
-                fishColors[i].accent,
-                fishColors[i].fin
-            );
+            const fish = document.createElement('img');
+            fish.className = `fish-aquarium fish-${i + 1} aquarium-image`;
+            fish.src = fishUrls[i];
+            fish.alt = `Рыбка ${i + 1}`;
+            fish.style.filter = 'drop-shadow(2px 2px 4px rgba(0,0,0,0.4))'; // Убираем белый фон
             aquarium.appendChild(fish);
         }
     },
@@ -414,62 +391,88 @@ const profile = {
         const trainingProgress = this.progress.training;
         const testsProgress = this.progress.tests;
         
-        // Домик появляется и растет с прогрессом материалов
+        // Кораллы появляются с прогрессом материалов
         if (materialsProgress >= 20) {
-            const house = document.createElement('div');
-            house.className = 'aquarium-accessory fish-house';
-            if (materialsProgress >= 60) {
-                house.classList.add('fish-house-large');
-            }
-            aquarium.appendChild(house);
+            const coral1 = document.createElement('img');
+            coral1.className = 'aquarium-image coral-small';
+            coral1.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4MCH0nV6TQM66xqeTGjKBwoIHzI9nOKlJeg12dhDvyo4EEY-s9XJiJWyXmynyfr6Fjhg&usqp=CAU';
+            coral1.alt = 'Маленький коралл';
+            coral1.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+            aquarium.appendChild(coral1);
         }
         
-        // Водоросли появляются с прогрессом обучения
-        if (trainingProgress >= 25) {
-            const seaweed1 = document.createElement('div');
-            seaweed1.className = 'aquarium-accessory seaweed seaweed-small';
-            aquarium.appendChild(seaweed1);
+        if (materialsProgress >= 50) {
+            const coral2 = document.createElement('img');
+            coral2.className = 'aquarium-image coral-medium';
+            coral2.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_fqbuzRSolCfZWShog2IbbC9_QOGxtxjelw&s';
+            coral2.alt = 'Средний коралл';
+            coral2.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+            aquarium.appendChild(coral2);
         }
         
-        if (trainingProgress >= 50) {
-            const seaweed2 = document.createElement('div');
-            seaweed2.className = 'aquarium-accessory seaweed seaweed-medium';
-            aquarium.appendChild(seaweed2);
-        }
-        
-        if (trainingProgress >= 75) {
-            const seaweed3 = document.createElement('div');
-            seaweed3.className = 'aquarium-accessory seaweed seaweed-large';
-            aquarium.appendChild(seaweed3);
+        if (materialsProgress >= 80) {
+            const coral3 = document.createElement('img');
+            coral3.className = 'aquarium-image coral-large';
+            coral3.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRat7legecn2cX_dTLmr5vzGhIV6Tud-9HHZA&s';
+            coral3.alt = 'Большой коралл';
+            coral3.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+            aquarium.appendChild(coral3);
         }
         
         // Камни появляются с прогрессом тестов
         if (testsProgress >= 20) {
-            const stone1 = document.createElement('div');
-            stone1.className = 'aquarium-accessory stone stone-small';
+            const stone1 = document.createElement('img');
+            stone1.className = 'aquarium-image stone-small';
+            stone1.src = 'https://img.freepik.com/premium-vector/seaweed-with-stone-vector_74440-1451.jpg';
+            stone1.alt = 'Маленький камень';
+            stone1.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
             aquarium.appendChild(stone1);
         }
         
         if (testsProgress >= 50) {
-            const stone2 = document.createElement('div');
-            stone2.className = 'aquarium-accessory stone stone-medium';
+            const stone2 = document.createElement('img');
+            stone2.className = 'aquarium-image stone-medium';
+            stone2.src = 'https://thumbs.dreamstime.com/b/%D0%BA%D0%B0%D0%BC%D0%BD%D0%B8-%D1%81-%D0%B3%D1%83%D0%B1%D0%BA%D0%B0%D0%BC%D0%B8-%D0%B8-%D1%87%D0%B0%D1%81%D1%82%D1%8C%D1%8E-%D0%B2%D0%B5%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%86-%D0%BC%D0%BE%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%B4%D0%BD%D0%B0-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BA%D1%80%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B0%D0%BA%D0%B2%D0%B0%D1%80%D0%B8%D1%83%D0%BC%D0%B0-190805691.jpg';
+            stone2.alt = 'Средний камень';
+            stone2.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
             aquarium.appendChild(stone2);
         }
         
         if (testsProgress >= 80) {
-            const stone3 = document.createElement('div');
-            stone3.className = 'aquarium-accessory stone stone-large';
+            const stone3 = document.createElement('img');
+            stone3.className = 'aquarium-image stone-large';
+            stone3.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIJb7YLJtDJq8pL0Cl-_cmOTv-mOmIsKXvkNUXd-NNOs3oxD8zRAuJdALLjSM2lJmYe2Y&usqp=CAU';
+            stone3.alt = 'Большой камень';
+            stone3.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
             aquarium.appendChild(stone3);
         }
         
-        // Сундук с сокровищами появляется при высоком прогрессе
-        if (testsProgress >= 90) {
-            const treasure = document.createElement('div');
-            treasure.className = 'aquarium-accessory treasure-chest';
-            if (testsProgress >= 95) {
-                treasure.classList.add('treasure-chest-open');
-            }
-            aquarium.appendChild(treasure);
+        // Сундуки с сокровищами появляются с прогрессом обучения
+        if (trainingProgress >= 25) {
+            const treasure1 = document.createElement('img');
+            treasure1.className = 'aquarium-image treasure-small';
+            treasure1.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2vH0phw7FoMOr0N6kK9SZO8gUVBUBb8LxtIy-H7bzUxAnG8AKfgw37e3xH4Q0T_YrkmA&usqp=CAU';
+            treasure1.alt = 'Маленький сундук';
+            treasure1.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+            aquarium.appendChild(treasure1);
+        }
+        
+        if (trainingProgress >= 50) {
+            const treasure2 = document.createElement('img');
+            treasure2.className = 'aquarium-image treasure-medium';
+            treasure2.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSSTcRQ_mWnINvwXHYwXBaOp2snYXQ24IIeQ&s';
+            treasure2.alt = 'Средний сундук';
+            treasure2.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+            aquarium.appendChild(treasure2);
+        }
+        
+        if (trainingProgress >= 75) {
+            const treasure3 = document.createElement('img');
+            treasure3.className = 'aquarium-image treasure-large';
+            treasure3.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfj9dldCipuAPoSBFsGOSf-VpTH5SCS8Sh6Q&s';
+            treasure3.alt = 'Большой сундук';
+            treasure3.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3)) brightness(1.1)';
+            aquarium.appendChild(treasure3);
         }
     },
     
@@ -480,15 +483,15 @@ const profile = {
         
         bubblesContainer.innerHTML = '';
         
-        // Создаем несколько пузырьков
-        const bubbleCount = this.progress && this.progress.total > 0 ? 20 : 10;
+        // Количество пузырьков зависит от прогресса
+        const bubbleCount = this.progress && this.progress.total > 0 ? 25 : 15;
         
         for (let i = 0; i < bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
             
             // Случайные параметры для пузырьков
-            const size = Math.random() * 15 + 5;
+            const size = Math.random() * 20 + 5;
             const left = Math.random() * 100;
             const delay = Math.random() * 8;
             const duration = Math.random() * 4 + 6;
