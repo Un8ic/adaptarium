@@ -702,6 +702,20 @@ footer {
     margin-bottom: 20px;
 }
 
+.test-progress {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.progress-text {
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
 .material-complete, .test-submit {
     margin-top: 20px;
     text-align: center;
