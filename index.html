@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АДАПТАРИУМ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <span class="fish">🐠</span>
+            <span class="fish">🐟</span>
+            <span class="fish">🐡</span>
+            <div class="company-name">АДАПТАРИУМ</div>
+            <span class="fish">🦈</span>
+            <span class="fish">🐠</span>
+            <span class="fish">🐟</span>
+        </div>
+        <div id="user-info" style="display: none;">
+            <span id="user-name"></span>
+            <button id="logout-btn" class="btn-small">Выйти</button>
+        </div>
+    </header>
+    
+    <nav id="main-nav" style="display: none;">
+        <ul class="nav-links" id="nav-links">
+            <!-- Навигационные ссылки будут добавлены динамически -->
+        </ul>
+    </nav>
+    
+    <main>
+        <!-- Страница входа -->
+        <div id="login-page" class="page active">
+            <h1>Вход в систему АДАПТАРИУМ</h1>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="username">Логин:</label>
+                    <input type="text" id="username" placeholder="Введите логин">
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" placeholder="Введите пароль">
+                </div>
+                <button id="login-btn" class="btn-full">Войти</button>
+                
+                <div class="test-accounts">
+                    <p><strong>Тестовые аккаунты:</strong></p>
+                    <p>Начальник: adminFish / adminFish</p>
+                    <p>Менеджер: Ivanova / Ivanova</p>
+                </div>
+            </div>
+            
+            <div class="qr-code">
+                <h3>Доступ через QR-код</h3>
+                <p>Отсканируйте QR-код для быстрого доступа к сайту</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://un8ic.github.io/adaptarium.ru" alt="QR-код для доступа к АДАПТАРИУМ">
+                <p class="qr-url">Сайт: https://un8ic.github.io/adaptarium.ru</p>
+            </div>
+        </div>
+        
+        <!-- Главная страница -->
+        <div id="home-page" class="page">
+            <h1>Добро пожаловать в АДАПТАРИУМ</h1>
+            <p>Цифровой сервис для адаптации персонала "АДАПТАРИУМ" - это инновационное решение для сокращения текучести кадров и ускорения выхода новых сотрудников на плановые показатели.</p>
+            
+            <h2>О нашем продукте</h2>
+            <p>Цифровой сервис решает ключевую проблему адаптации и выгорания персонала в высоконагруженных отделах организаций, таких как отдел продаж.</p>
+            
+            <p>Сервис доступен с любого устройства (компьютер, планшет, смартфон) для новых сотрудников отделов продаж, которые смогут учиться в удобное для них время и в любом месте.</p>
+            
+            <h2>Наша команда</h2>
+            <div class="contacts">
+                <div class="contact-card">
+                    <img src="https://psv4.userapi.com/s/v1/d2/BsQIRUBHgqDIqGPNcAkiSTEtIbIqrfmkCb4sv_9aELW8PYurnO75S9kQ0ABhlZhwQj2KT5kB5e4Ckq7WIkzJF6aucWFNO6WKt-emghC9OeDL1jzII97SQERkJqt7ljVg8-BP4iJ6v8dR/MarakshinaAlina.jpg" alt="Маракшина Алина" class="contact-photo">
+                    <h3>Маракшина Алина</h3>
+                </div>
+                <div class="contact-card">
+                    <img src="https://psv4.userapi.com/s/v1/d2/d8s5BdzeRXjf5yP2oEN_zVXnbw7yYzlKCValQsIGQ7snKRvDpqGh1ELh8gxJYPU9WYjaTpafNgGbDBDVOcIidF2nbezazByY2BNCjpVvlXrWrFokXJadP1_RUZvya97P02XnL72XPyEP/FedotovaYulia.jpg" alt="Федотова Юлия" class="contact-photo">
+                    <h3>Федотова Юлия</h3>
+                </div>
+                <div class="contact-card">
+                    <img src="https://psv4.userapi.com/s/v1/d2/eBnI7vGnoBDKa0gIbD6Ken-Gem7JWqXxtfGeG7s5Vae0W6MGzvsZyMyem_uqmp_NW_ARoKgw2foeu6fd0BRKMPwfgYbl4XwkaaDiPL9CVWqUpHnYkyilYAM2POGX4IrcNhIy6fZRXa4H/VarnakovaIrina.jpg" alt="Варнакова Ирина" class="contact-photo">
+                    <h3>Варнакова Ирина</h3>
+                </div>
+                <div class="contact-card">
+                    <img src="https://psv4.userapi.com/s/v1/d2/KaFdM2B2Jbt8dgFtIxsemJgrDL2zWQ6PpEF1lpYtfRUIaJki3moc33Dx3zr73rLI2KZfoThRKqwXdwjRdT4sA1Kgpoy90fCUCYCcYVnTR8-IijH2m85N7CYyzqIKrFgHCNsNehPlNftn/ZubkovaAnastasia.jpg" alt="Зубкова Анастасия" class="contact-photo">
+                    <h3>Зубкова Анастасия</h3>
+                </div>
+            </div>
+            
+            <div class="telegram-bot">
+                <h3>Наш Telegram-бот</h3>
+                <p>Для быстрого доступа к материалам и уведомлениям</p>
+                <a href="https://t.me/Adaptarium_bot" target="_blank" class="telegram-link">@Adaptarium_bot</a>
+            </div>
+        </div>
+        
+        <!-- Страница материалов для обучения -->
+        <div id="materials-page" class="page">
+            <h1>Материалы для обучения</h1>
+            <p>Изучите материалы для эффективной работы в отделе продаж</p>
+            
+            <div class="materials-grid" id="materials-container">
+                <!-- Материалы будут загружены динамически -->
+            </div>
+        </div>
+        
+        <!-- Отдельные страницы материалов -->
+        <div id="company-intro-page" class="page">
+            <button class="back-button" onclick="navigation.goBack()">← Назад к материалам</button>
+            <h2>Введение в компанию</h2>
+            <p>Наша компания была основана в 2010 году с целью предоставления инновационных решений для бизнеса.</p>
+            
+            <h3>Наша миссия</h3>
+            <p>Мы стремимся преобразовать подход компаний к управлению продажами через внедрение передовых технологий и методологий.</p>
+            
+            <h3>Ценности компании</h3>
+            <ul>
+                <li><strong>Инновации</strong> - постоянно ищем новые пути улучшения наших продуктов и услуг</li>
+                <li><strong>Качество</strong> - обеспечиваем высочайшие стандарты во всем, что мы делаем</li>
+                <li><strong>Клиентоориентированность</strong> - ставим потребности клиентов в центр нашей деятельности</li>
+                <li><strong>Командная работа</strong> - верим, что вместе мы достигаем большего</li>
+            </ul>
+            
+            <div class="material-complete">
+                <button onclick="materials.completeMaterial('company-intro')">Завершить изучение</button>
+            </div>
+        </div>
+        
+        <div id="products-services-page" class="page">
+            <button class="back-button" onclick="navigation.goBack()">← Назад к материалам</button>
+            <h2>Продукты и услуги</h2>
+            <p>Наша компания предлагает широкий спектр продуктов и услуг, направленных на оптимизацию бизнес-процессов и увеличение эффективности продаж.</p>
+            
+            <h3>Основные продукты</h3>
+            <ul>
+                <li><strong>CRM-система "Продавец Про"</strong> - комплексное решение для управления взаимоотношениями с клиентами</li>
+                <li><strong>Аналитика продаж "Инсайт"</strong> - платформа для глубокого анализа данных о продажах</li>
+                <li><strong>Мобильное приложение "Продажи OnTheGo"</strong> - решение для мобильных менеджеров по продажам</li>
+            </ul>
+            
+            <div class="material-complete">
+                <button onclick="materials.completeMaterial('products-services')">Завершить изучение</button>
+            </div>
+        </div>
+        
+        <!-- Страница обучения -->
+        <div id="training-page" class="page">
+            <h1>Обучение</h1>
+            
+            <div class="training-section">
+                <h2>VR-обучение</h2>
+                <p>Иммерсивное обучение в виртуальной реальности для отработки навыков продаж в реалистичных условиях.</p>
+                <button id="vr-training-btn">Открыть VR-обучение</button>
+            </div>
+            
+            <div class="training-section">
+                <h2>2D-обучение (игровой формат)</h2>
+                <p>Выберите тип игры для обучения. Все игры содержат одинаковые учебные материалы, но представлены в разных форматах.</p>
+                <div class="games-container" id="games-container">
+                    <!-- Игры будут загружены динамически -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Отдельные страницы игр -->
+        <div id="quest-game-page" class="page">
+            <button class="back-button" onclick="navigation.goBack()">← Назад к играм</button>
+            <h2>Квест "Продавец-легенда"</h2>
+            <p>Помогите клиентам решить их проблемы и станьте легендой продаж!</p>
+            
+            <div class="game-stats">
+                <div class="stat">
+                    <div class="stat-value" id="quest-score">0</div>
+                    <div>Очки</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="quest-level">1</div>
+                    <div>Уровень</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="quest-clients">0</div>
+                    <div>Клиенты</div>
+                </div>
+            </div>
+            
+            <div class="game-area">
+                <img src="https://habrastorage.org/webt/bn/tz/cq/bntzcqiakwwe4imgpnfxzzuc98w.jpeg" alt="Клиент" class="game-image">
+                <h3 id="quest-scenario">К вам подходит первый клиент. Он выглядит заинтересованным, но не решается сделать покупку.</h3>
+                <div class="game-options">
+                    <button onclick="games.questAnswer(1)">Предложить скидку</button>
+                    <button onclick="games.questAnswer(2)">Рассказать о преимуществах продукта</button>
+                    <button onclick="games.questAnswer(3)">Спросить о его потребностях</button>
+                </div>
+                <div id="quest-result" class="game-result"></div>
+            </div>
+            
+            <div class="game-controls">
+                <button onclick="games.nextQuestScenario()">Следующий клиент</button>
+                <button onclick="games.saveQuestProgress()" class="btn-secondary">Сохранить прогресс</button>
+            </div>
+        </div>
+        
+        <div id="quiz-game-page" class="page">
+            <button class="back-button" onclick="navigation.goBack()">← Назад к играм</button>
+            <h2>Викторина "Эксперт продаж"</h2>
+            <p>Проверьте свои знания в области продаж. Ответьте на все вопросы правильно!</p>
+            
+            <div class="game-stats">
+                <div class="stat">
+                    <div class="stat-value" id="quiz-score">0</div>
+                    <div>Очки</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="quiz-progress">1/5</div>
+                    <div>Вопросы</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="quiz-correct">0</div>
+                    <div>Правильно</div>
+                </div>
+            </div>
+            
+            <div class="game-area" id="quiz-game-area">
+                <!-- Контент викторины будет загружаться динамически -->
+            </div>
+            
+            <div class="game-controls">
+                <button onclick="games.saveQuizProgress()" class="btn-secondary">Сохранить прогресс</button>
+            </div>
+        </div>
+        
+        <!-- Страница тестов -->
+        <div id="tests-page" class="page">
+            <h1>Тесты</h1>
+            <p>Проверьте свои знания после изучения материалов</p>
+            
+            <div class="tests-container" id="tests-container">
+                <!-- Тесты будут загружены динамически -->
+            </div>
+        </div>
+        
+        <!-- Отдельные страницы тестов -->
+        <div id="products-test-page" class="page">
+            <button class="back-button" onclick="navigation.goBack()">← Назад к тестам</button>
+            <h2>Тест по продуктам компании</h2>
+            <p>Ответьте на вопросы о наших продуктах и услугах.</p>
+            
+            <div id="test-questions">
+                <div class="question">
+                    <h3>1. Какой наш основной продукт для управления взаимоотношениями с клиентами?</h3>
+                    <div class="options">
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">CRM-система "Продавец Про"</div>
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Мобильное приложение "Продажи OnTheGo"</div>
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Аналитика продаж "Инсайт"</div>
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Платформа для email-рассылок</div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>2. Какая услуга НЕ входит в наш пакет дополнительных услуг?</h3>
+                    <div class="options">
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Консультации по внедрению CRM-систем</div>
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Обучение сотрудников</div>
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Техническая поддержка 24/7</div>
+                        <div class="option" onclick="tests.selectTestOption(this, 'products-test')">Бухгалтерское сопровождение</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-submit">
+                <button onclick="tests.submitTest('products-test')">Завершить тест</button>
+            </div>
+        </div>
+        
+        <!-- Страница отзывов и чата -->
+        <div id="feedback-page" class="page">
+            <h1>Отзывы и общение</h1>
+            
+            <div class="feedback-section">
+                <h2>Отзывы о сотрудниках</h2>
+                <div class="form-group">
+                    <textarea id="new-feedback" placeholder="Напишите отзыв о коллеге..."></textarea>
+                    <button onclick="feedback.addFeedback()">Добавить отзыв</button>
+                </div>
+                <div id="feedbacks-list">
+                    <!-- Отзывы будут добавляться динамически -->
+                </div>
+            </div>
+            
+            <div class="chat-section">
+                <h2>Общий чат отдела</h2>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Сообщения будут добавляться динамически -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chat-input" placeholder="Введите сообщение...">
+                        <button onclick="feedback.sendMessage()">Отправить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница сотрудников -->
+        <div id="employees-page" class="page">
+            <h1>Наша команда</h1>
+            <div class="employees-grid" id="employees-container">
+                <!-- Сотрудники будут загружены динамически -->
+            </div>
+        </div>
+        
+        <!-- Личная страница -->
+        <div id="profile-page" class="page">
+            <h1>Личный кабинет</h1>
+            <div class="profile-container">
+                <img id="profile-photo" src="https://randomuser.me/api/portraits/men/1.jpg" alt="Фото профиля" class="profile-photo">
+                <input type="file" id="photo-upload" accept="image/*">
+                <button onclick="profile.updatePhoto()">Обновить фото</button>
+                
+                <div class="form-group">
+                    <label for="profile-name">Имя:</label>
+                    <input type="text" id="profile-name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-position">Должность:</label>
+                    <input type="text" id="profile-position">
+                </div>
+                
+                <div class="form-group">
+                    <label for="new-password">Новый пароль:</label>
+                    <input type="password" id="new-password" placeholder="Введите новый пароль">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Подтвердите пароль:</label>
+                    <input type="password" id="confirm-password" placeholder="Подтвердите новый пароль">
+                </div>
+                
+                <button onclick="profile.updateProfile()">Сохранить изменения</button>
+            </div>
+        </div>
+        
+        <!-- Страница подчиненных (для начальника) -->
+        <div id="subordinates-page" class="page">
+            <h1>Мои подчиненные</h1>
+            <div class="employees-grid" id="subordinates-list">
+                <!-- Список подчиненных будет заполнен динамически -->
+            </div>
+        </div>
+        
+        <!-- Страница аналитики (для начальника) -->
+        <div id="analytics-page" class="page">
+            <h1>Аналитика по прохождениям тестов</h1>
+            <div class="analytics-container" id="analytics-list">
+                <!-- Аналитика будет заполнена динамически -->
+            </div>
+            
+            <h2>Комментарии к тестам</h2>
+            <div id="all-comments">
+                <!-- Все комментарии будут отображены здесь -->
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>АДАПТАРИУМ &copy; 2025. Все права защищены.</p>
+    </footer>
+    
+    <div class="notification" id="notification"></div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/materials.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/tests.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
