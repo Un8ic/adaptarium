@@ -378,242 +378,284 @@ const profile = {
             aquarium.appendChild(newBubbles);
         }
         
-        // Добавляем рыбок в зависимости от прогресса
-        this.addFishBasedOnProgress();
-        
-        // Добавляем аксессуары в зависимости от прогресса
-        this.addAccessoriesBasedOnProgress();
-        
-        // Добавляем пузырьки
-        this.addBubbles();
-    },
-
-    // Создание SVG рыбки - полностью переработанная версия
-    createFishSVG(type, colors) {
-        const fishTemplates = {
-            'clownfish': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <ellipse cx="30" cy="15" rx="25" ry="12" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Полосы -->
-                    <path d="M20,8 L25,8 L25,22 L20,22 Z" fill="${colors.accent}"/>
-                    <path d="M35,8 L40,8 L40,22 L35,22 Z" fill="${colors.accent}"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q0,5 10,10 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <path d="M5,15 Q0,25 10,20 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <!-- Плавники -->
-                    <ellipse cx="40" cy="8" rx="8" ry="4" fill="${colors.fin}" opacity="0.8"/>
-                    <ellipse cx="40" cy="22" rx="8" ry="4" fill="${colors.fin}" opacity="0.8"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'angel': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <path d="M30,15 a25,12 0 1,0 -50,0 a25,12 0 1,0 50,0" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Полосы -->
-                    <path d="M20,5 L20,25" stroke="${colors.accent}" stroke-width="2"/>
-                    <path d="M35,5 L35,25" stroke="${colors.accent}" stroke-width="2"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q-5,5 15,8 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <path d="M5,15 Q-5,25 15,22 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <!-- Плавники -->
-                    <path d="M40,5 Q50,0 55,8 Q45,10 40,5 Z" fill="${colors.fin}"/>
-                    <path d="M40,25 Q50,30 55,22 Q45,20 40,25 Z" fill="${colors.fin}"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'tropical': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <ellipse cx="30" cy="15" rx="25" ry="12" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Узор -->
-                    <circle cx="35" cy="12" r="3" fill="${colors.pattern}" opacity="0.7"/>
-                    <circle cx="25" cy="18" r="2" fill="${colors.pattern}" opacity="0.7"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q0,8 12,10 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <path d="M5,15 Q0,22 12,20 Q5,15 5,15 Z" fill="${colors.accent}"/>
-                    <!-- Плавники -->
-                    <path d="M35,5 Q45,2 50,8 Q40,12 35,5 Z" fill="${colors.fin}" opacity="0.8"/>
-                    <path d="M35,25 Q45,28 50,22 Q40,18 35,25 Z" fill="${colors.fin}" opacity="0.8"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'goldfish': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <ellipse cx="35" cy="15" rx="20" ry="10" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Хвост -->
-                    <path d="M15,15 Q0,5 10,8 Q15,15 15,15 Z" fill="${colors.fin}" opacity="0.9"/>
-                    <path d="M15,15 Q0,25 10,22 Q15,15 15,15 Z" fill="${colors.fin}" opacity="0.9"/>
-                    <!-- Плавники -->
-                    <ellipse cx="40" cy="8" rx="6" ry="3" fill="${colors.fin}" opacity="0.8"/>
-                    <ellipse cx="40" cy="22" rx="6" ry="3" fill="${colors.fin}" opacity="0.8"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `,
-            'blue_tang': `
-                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Тело -->
-                    <path d="M40,15 a20,10 0 1,0 -35,0 a15,8 0 1,0 35,0" fill="${colors.body}" stroke="${colors.accent}" stroke-width="1"/>
-                    <!-- Черная полоса -->
-                    <path d="M30,5 L30,25" stroke="${colors.pattern}" stroke-width="3"/>
-                    <!-- Хвост -->
-                    <path d="M5,15 Q-5,8 8,12 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <path d="M5,15 Q-5,22 8,18 Q5,15 5,15 Z" fill="${colors.fin}"/>
-                    <!-- Плавники -->
-                    <path d="M35,5 Q42,2 48,7 Q40,10 35,5 Z" fill="${colors.fin}"/>
-                    <path d="M35,25 Q42,28 48,23 Q40,20 35,25 Z" fill="${colors.fin}"/>
-                    <!-- Глаз -->
-                    <circle cx="45" cy="14" r="2" fill="white"/>
-                    <circle cx="45" cy="14" r="1" fill="black"/>
-                </svg>
-            `
-        };
-        
-        return fishTemplates[type] || fishTemplates['tropical'];
-    },
-
-    // Добавление рыбок на основе прогресса - улучшенная версия
-    addFishBasedOnProgress() {
-        const aquarium = document.getElementById('aquarium');
-        if (!aquarium) return;
-        
-        const totalProgress = this.progress ? this.progress.total : 0;
-        
-        // Конфигурация рыбок с разными типами и цветами
-        const fishConfigs = [
-            {
-                type: 'clownfish',
-                colors: { body: '#FF6B6B', accent: '#FF5252', fin: '#FF8A80', pattern: '#FFFFFF' }
-            },
-            {
-                type: 'angel',
-                colors: { body: '#4ECDC4', accent: '#26A69A', fin: '#80CBC4', pattern: '#FFFFFF' }
-            },
-            {
-                type: 'tropical',
-                colors: { body: '#FFD93D', accent: '#FFC107', fin: '#FFE082', pattern: '#FF6B6B' }
-            },
-            {
-                type: 'goldfish',
-                colors: { body: '#FFA726', accent: '#FF9800', fin: '#FFB74D', pattern: '#FFFFFF' }
-            },
-            {
-                type: 'blue_tang',
-                colors: { body: '#42A5F5', accent: '#2196F3', fin: '#64B5F6', pattern: '#000000' }
-            }
-        ];
-        
-        // Количество рыбок зависит от общего прогресса
-        let fishCount = 0;
-        if (totalProgress >= 15) fishCount = 1;
-        if (totalProgress >= 30) fishCount = 2;
-        if (totalProgress >= 50) fishCount = 3;
-        if (totalProgress >= 75) fishCount = 4;
-        if (totalProgress >= 90) fishCount = 5;
-        
-        for (let i = 0; i < fishCount; i++) {
-            const fishConfig = fishConfigs[i];
-            const fish = document.createElement('div');
-            fish.className = `fish-aquarium fish-${i + 1}`;
-            fish.innerHTML = this.createFishSVG(fishConfig.type, fishConfig.colors);
-            fish.style.width = '60px';
-            fish.style.height = '30px';
-            aquarium.appendChild(fish);
-        }
-    },
-
-    // Добавление аксессуаров на основе прогресса - улучшенная версия
-    addAccessoriesBasedOnProgress() {
-        const aquarium = document.getElementById('aquarium');
-        if (!aquarium || !this.progress) return;
-        
-        const materialsProgress = this.progress.materials;
-        const trainingProgress = this.progress.training;
-        const testsProgress = this.progress.tests;
-        
         // Создаем дно аквариума
         const bottom = document.createElement('div');
         bottom.className = 'aquarium-bottom';
         aquarium.appendChild(bottom);
         
-        // Кораллы появляются с прогрессом материалов
-        if (materialsProgress >= 20) {
-            const coral1 = document.createElement('div');
-            coral1.className = 'aquarium-accessory coral coral-1';
-            aquarium.appendChild(coral1);
+        // Добавляем обитателей в зависимости от общего прогресса
+        this.addCreaturesBasedOnProgress();
+        
+        // Добавляем домики в зависимости от прогресса тестов
+        this.addHousesBasedOnTests();
+        
+        // Добавляем аксессуары в зависимости от прогресса обучения
+        this.addAccessoriesBasedOnTraining();
+        
+        // Добавляем кораллы и камни в зависимости от прогресса материалов
+        this.addCoralsAndStonesBasedOnMaterials();
+        
+        // Добавляем пузырьки
+        this.addBubbles();
+    },
+
+    // Добавление обитателей на основе общего прогресса
+    addCreaturesBasedOnProgress() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium) return;
+        
+        const totalProgress = this.progress ? this.progress.total : 0;
+        
+        // Рыбки появляются с прогрессом от 15%
+        if (totalProgress >= 15) {
+            const fish1 = document.createElement('div');
+            fish1.className = 'aquarium-creature fish-1';
+            fish1.innerHTML = '🐠';
+            fish1.style.fontSize = '24px';
+            aquarium.appendChild(fish1);
         }
         
-        if (materialsProgress >= 50) {
-            const coral2 = document.createElement('div');
-            coral2.className = 'aquarium-accessory coral coral-2';
-            aquarium.appendChild(coral2);
+        if (totalProgress >= 30) {
+            const fish2 = document.createElement('div');
+            fish2.className = 'aquarium-creature fish-2';
+            fish2.innerHTML = '🐟';
+            fish2.style.fontSize = '24px';
+            aquarium.appendChild(fish2);
         }
         
-        if (materialsProgress >= 80) {
-            const coral3 = document.createElement('div');
-            coral3.className = 'aquarium-accessory coral coral-3';
-            aquarium.appendChild(coral3);
+        if (totalProgress >= 50) {
+            const fish3 = document.createElement('div');
+            fish3.className = 'aquarium-creature fish-3';
+            fish3.innerHTML = '🐡';
+            fish3.style.fontSize = '24px';
+            aquarium.appendChild(fish3);
         }
         
-        // Водоросли появляются с прогрессом обучения
-        if (trainingProgress >= 25) {
-            const seaweed1 = document.createElement('div');
-            seaweed1.className = 'aquarium-accessory seaweed seaweed-small';
-            aquarium.appendChild(seaweed1);
+        // Медузы появляются с прогрессом от 40%
+        if (totalProgress >= 40) {
+            const jellyfish1 = document.createElement('div');
+            jellyfish1.className = 'aquarium-creature jellyfish-1';
+            jellyfish1.innerHTML = '🎐';
+            jellyfish1.style.fontSize = '28px';
+            aquarium.appendChild(jellyfish1);
         }
         
-        if (trainingProgress >= 50) {
-            const seaweed2 = document.createElement('div');
-            seaweed2.className = 'aquarium-accessory seaweed seaweed-medium';
-            aquarium.appendChild(seaweed2);
+        if (totalProgress >= 60) {
+            const jellyfish2 = document.createElement('div');
+            jellyfish2.className = 'aquarium-creature jellyfish-2';
+            jellyfish2.innerHTML = '🌊';
+            jellyfish2.style.fontSize = '28px';
+            aquarium.appendChild(jellyfish2);
         }
         
-        if (trainingProgress >= 75) {
-            const seaweed3 = document.createElement('div');
-            seaweed3.className = 'aquarium-accessory seaweed seaweed-large';
-            aquarium.appendChild(seaweed3);
+        // Крабы и осьминоги появляются с прогрессом от 70%
+        if (totalProgress >= 70) {
+            const crab = document.createElement('div');
+            crab.className = 'aquarium-creature crab';
+            crab.innerHTML = '🦀';
+            crab.style.fontSize = '20px';
+            crab.style.display = 'block';
+            aquarium.appendChild(crab);
         }
         
-        // Камни и ракушки появляются с прогрессом тестов
-        if (testsProgress >= 20) {
-            const stone1 = document.createElement('div');
-            stone1.className = 'aquarium-accessory stone stone-small';
-            aquarium.appendChild(stone1);
+        if (totalProgress >= 80) {
+            const octopus = document.createElement('div');
+            octopus.className = 'aquarium-creature octopus';
+            octopus.innerHTML = '🐙';
+            octopus.style.fontSize = '22px';
+            octopus.style.display = 'block';
+            aquarium.appendChild(octopus);
         }
         
-        if (testsProgress >= 40) {
-            const shell = document.createElement('div');
-            shell.className = 'aquarium-accessory shell';
-            aquarium.appendChild(shell);
+        // Русалка появляется только при максимальном прогрессе (90%+)
+        if (totalProgress >= 90) {
+            const mermaid = document.createElement('div');
+            mermaid.className = 'aquarium-creature mermaid';
+            mermaid.innerHTML = '🧜‍♀️';
+            mermaid.style.fontSize = '32px';
+            mermaid.style.display = 'block';
+            aquarium.appendChild(mermaid);
         }
+    },
+
+    // Добавление домиков на основе прогресса тестов
+    addHousesBasedOnTests() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium || !this.progress) return;
         
-        if (testsProgress >= 60) {
-            const stone2 = document.createElement('div');
-            stone2.className = 'aquarium-accessory stone stone-medium';
-            aquarium.appendChild(stone2);
-        }
+        const testsProgress = this.progress.tests;
+        
+        // Убираем все существующие домики
+        const existingHouses = aquarium.querySelectorAll('.fish-house');
+        existingHouses.forEach(house => house.remove());
+        
+        // Добавляем соответствующий домик в зависимости от прогресса тестов
+        const house = document.createElement('div');
+        house.className = 'fish-house';
         
         if (testsProgress >= 80) {
-            const stone3 = document.createElement('div');
-            stone3.className = 'aquarium-accessory stone stone-large';
-            aquarium.appendChild(stone3);
+            house.className += ' fish-house-large';
+            house.style.display = 'block';
+        } else if (testsProgress >= 50) {
+            house.className += ' fish-house-medium';
+            house.style.display = 'block';
+        } else if (testsProgress >= 20) {
+            house.className += ' fish-house-small';
+            house.style.display = 'block';
         }
         
-        // Сундук с сокровищами появляется при высоком прогрессе
-        if (testsProgress >= 90) {
-            const treasure = document.createElement('div');
-            treasure.className = 'aquarium-accessory treasure-chest';
-            aquarium.appendChild(treasure);
+        aquarium.appendChild(house);
+    },
+
+    // Добавление аксессуаров на основе прогресса обучения
+    addAccessoriesBasedOnTraining() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium || !this.progress) return;
+        
+        const trainingProgress = this.progress.training;
+        
+        // Большое колесо обозрения появляется при высоком прогрессе
+        if (trainingProgress >= 80) {
+            const ferrisWheel = document.createElement('div');
+            ferrisWheel.className = 'aquarium-accessory ferris-wheel';
+            ferrisWheel.style.display = 'block';
+            aquarium.appendChild(ferrisWheel);
+        }
+        
+        // Средние аксессуары (вазы и якорь) появляются при среднем прогрессе
+        if (trainingProgress >= 50) {
+            const vase1 = document.createElement('div');
+            vase1.className = 'aquarium-accessory vase-medium vase-1';
+            vase1.style.display = 'block';
+            aquarium.appendChild(vase1);
+            
+            const vase2 = document.createElement('div');
+            vase2.className = 'aquarium-accessory vase-medium vase-2';
+            vase2.style.display = 'block';
+            aquarium.appendChild(vase2);
+            
+            const anchor = document.createElement('div');
+            anchor.className = 'aquarium-accessory anchor-medium';
+            anchor.style.display = 'block';
+            aquarium.appendChild(anchor);
+        }
+        
+        // Маленькие аксессуары (ракушки и жемчуг) появляются при низком прогрессе
+        if (trainingProgress >= 25) {
+            const shell1 = document.createElement('div');
+            shell1.className = 'aquarium-accessory shell-small shell-1';
+            shell1.style.display = 'block';
+            aquarium.appendChild(shell1);
+            
+            const shell2 = document.createElement('div');
+            shell2.className = 'aquarium-accessory shell-small shell-2';
+            shell2.style.display = 'block';
+            aquarium.appendChild(shell2);
+            
+            const pearl1 = document.createElement('div');
+            pearl1.className = 'aquarium-accessory pearl-small pearl-1';
+            pearl1.style.display = 'block';
+            aquarium.appendChild(pearl1);
+            
+            const pearl2 = document.createElement('div');
+            pearl2.className = 'aquarium-accessory pearl-small pearl-2';
+            pearl2.style.display = 'block';
+            aquarium.appendChild(pearl2);
+        }
+    },
+
+    // Добавление кораллов и камней на основе прогресса материалов
+    addCoralsAndStonesBasedOnMaterials() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium || !this.progress) return;
+        
+        const materialsProgress = this.progress.materials;
+        
+        // Убираем все существующие кораллы и камни
+        const existingCorals = aquarium.querySelectorAll('.coral, .stone');
+        existingCorals.forEach(item => item.remove());
+        
+        // Добавляем кораллы и камни в зависимости от прогресса материалов
+        if (materialsProgress >= 80) {
+            // Высокий уровень: большие кораллы и три камня
+            const coral1 = document.createElement('div');
+            coral1.className = 'aquarium-accessory coral coral-1 coral-large';
+            coral1.style.display = 'block';
+            aquarium.appendChild(coral1);
+            
+            const coral2 = document.createElement('div');
+            coral2.className = 'aquarium-accessory coral coral-2 coral-large';
+            coral2.style.display = 'block';
+            aquarium.appendChild(coral2);
+            
+            const coral3 = document.createElement('div');
+            coral3.className = 'aquarium-accessory coral coral-3 coral-large';
+            coral3.style.display = 'block';
+            aquarium.appendChild(coral3);
+            
+            const stone1 = document.createElement('div');
+            stone1.className = 'aquarium-accessory stone stone-small';
+            stone1.style.display = 'block';
+            aquarium.appendChild(stone1);
+            
+            const stone2 = document.createElement('div');
+            stone2.className = 'aquarium-accessory stone stone-medium';
+            stone2.style.display = 'block';
+            aquarium.appendChild(stone2);
+            
+            const stone3 = document.createElement('div');
+            stone3.className = 'aquarium-accessory stone stone-large';
+            stone3.style.display = 'block';
+            aquarium.appendChild(stone3);
+            
+        } else if (materialsProgress >= 50) {
+            // Средний уровень: средние кораллы и два камня
+            const coral1 = document.createElement('div');
+            coral1.className = 'aquarium-accessory coral coral-1 coral-medium';
+            coral1.style.display = 'block';
+            aquarium.appendChild(coral1);
+            
+            const coral2 = document.createElement('div');
+            coral2.className = 'aquarium-accessory coral coral-2 coral-medium';
+            coral2.style.display = 'block';
+            aquarium.appendChild(coral2);
+            
+            const coral3 = document.createElement('div');
+            coral3.className = 'aquarium-accessory coral coral-3 coral-medium';
+            coral3.style.display = 'block';
+            aquarium.appendChild(coral3);
+            
+            const stone1 = document.createElement('div');
+            stone1.className = 'aquarium-accessory stone stone-small';
+            stone1.style.display = 'block';
+            aquarium.appendChild(stone1);
+            
+            const stone2 = document.createElement('div');
+            stone2.className = 'aquarium-accessory stone stone-medium';
+            stone2.style.display = 'block';
+            aquarium.appendChild(stone2);
+            
+        } else if (materialsProgress >= 20) {
+            // Низкий уровень: маленькие кораллы и один камень
+            const coral1 = document.createElement('div');
+            coral1.className = 'aquarium-accessory coral coral-1 coral-small';
+            coral1.style.display = 'block';
+            aquarium.appendChild(coral1);
+            
+            const coral2 = document.createElement('div');
+            coral2.className = 'aquarium-accessory coral coral-2 coral-small';
+            coral2.style.display = 'block';
+            aquarium.appendChild(coral2);
+            
+            const coral3 = document.createElement('div');
+            coral3.className = 'aquarium-accessory coral coral-3 coral-small';
+            coral3.style.display = 'block';
+            aquarium.appendChild(coral3);
+            
+            const stone1 = document.createElement('div');
+            stone1.className = 'aquarium-accessory stone stone-small';
+            stone1.style.display = 'block';
+            aquarium.appendChild(stone1);
         }
     },
 
