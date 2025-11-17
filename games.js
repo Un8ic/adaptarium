@@ -33,6 +33,13 @@ const games = {
             return; // Прерываем выполнение, чтобы не открывать страницу
         }
         
+        // Проверяем, существует ли страница игры
+        const gamePage = document.getElementById(gameType + '-game-page');
+        if (!gamePage) {
+            utils.showNotification('Игра временно недоступна', true);
+            return;
+        }
+        
         navigation.history.push('training-page');
         navigation.showPage(gameType + '-game-page');
         
