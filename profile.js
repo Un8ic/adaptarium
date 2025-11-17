@@ -338,31 +338,26 @@ const profile = {
         bottom.className = 'aquarium-bottom';
         aquarium.appendChild(bottom);
         
-        // Добавляем рыбок в зависимости от прогресса
+        // Добавляем элементы в зависимости от прогресса
         this.addFishBasedOnProgress();
-        
-        // Добавляем аксессуары в зависимости от прогресса
-        this.addAccessoriesBasedOnProgress();
+        this.addBottomCreatures();
+        this.addHousesBasedOnTests();
+        this.addAccessoriesBasedOnTraining();
+        this.addCoralsAndStonesBasedOnMaterials();
         
         // Добавляем пузырьки
         this.addBubbles();
     },
     
-    // Добавление рыбок на основе прогресса
+    // Добавление рыбок и русалок на основе общего прогресса
     addFishBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
         if (!aquarium) return;
         
         const totalProgress = this.progress ? this.progress.total : 0;
         
-        // URL рыбок
-        const fishUrls = [
-            'https://i.pinimg.com/736x/cc/53/9f/cc539f142390baa3b7ab5c53eb646ae1.jpg', // Яркая тропическая рыбка
-            'https://png.pngtree.com/png-vector/20190120/ourlarge/pngtree-goldfish-fish-fish-aquatic-creature-png-image_484747.jpg', // Золотая рыбка
-            'https://i.pinimg.com/736x/29/c8/4a/29c84a44678bba9105245b4709811f18.jpg', // Синяя рыбка
-            'https://i.pinimg.com/736x/cc/53/9f/cc539f142390baa3b7ab5c53eb646ae1.jpg', // Дублируем для 4-й рыбки
-            'https://png.pngtree.com/png-vector/20190120/ourlarge/pngtree-goldfish-fish-fish-aquatic-creature-png-image_484747.jpg'  // Дублируем для 5-й рыбки
-        ];
+        // Рыбки в зависимости от общего прогресса
+        const fishEmojis = ['🐟', '🐠', '🐡', '🪼'];
         
         // Количество рыбок зависит от общего прогресса
         let fishCount = 0;
@@ -370,109 +365,181 @@ const profile = {
         if (totalProgress >= 30) fishCount = 2;
         if (totalProgress >= 50) fishCount = 3;
         if (totalProgress >= 75) fishCount = 4;
-        if (totalProgress >= 90) fishCount = 5;
         
         for (let i = 0; i < fishCount; i++) {
-            const fish = document.createElement('img');
-            fish.className = `fish-aquarium fish-${i + 1} aquarium-image`;
-            fish.src = fishUrls[i];
-            fish.alt = `Рыбка ${i + 1}`;
-            fish.style.filter = 'drop-shadow(2px 2px 4px rgba(0,0,0,0.4))'; // Убираем белый фон
+            const fish = document.createElement('div');
+            fish.className = `aquarium-sticker fish-sticker fish-${i + 1}`;
+            fish.textContent = fishEmojis[i] || fishEmojis[fishEmojis.length - 1];
+            fish.style.transform = 'rotateY(0deg)'; // Все рыбки смотрят вперед
             aquarium.appendChild(fish);
+        }
+        
+        // Русалки при наивысшем уровне
+        if (totalProgress >= 90) {
+            const mermaid1 = document.createElement('div');
+            mermaid1.className = 'aquarium-sticker mermaid mermaid-1';
+            mermaid1.textContent = '🧜‍♀️';
+            aquarium.appendChild(mermaid1);
+            
+            const mermaid2 = document.createElement('div');
+            mermaid2.className = 'aquarium-sticker mermaid mermaid-2';
+            mermaid2.textContent = '🧜‍♂️';
+            aquarium.appendChild(mermaid2);
         }
     },
     
-    // Добавление аксессуаров на основе прогресса
-    addAccessoriesBasedOnProgress() {
+    // Добавление обитателей дна
+    addBottomCreatures() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium) return;
+        
+        const totalProgress = this.progress ? this.progress.total : 0;
+        
+        // Краб и осьминог появляются при среднем прогрессе
+        if (totalProgress >= 40) {
+            const crab = document.createElement('div');
+            crab.className = 'aquarium-sticker bottom-creature crab';
+            crab.textContent = '🦀';
+            aquarium.appendChild(crab);
+        }
+        
+        if (totalProgress >= 60) {
+            const octopus = document.createElement('div');
+            octopus.className = 'aquarium-sticker bottom-creature octopus';
+            octopus.textContent = '🐙';
+            aquarium.appendChild(octopus);
+        }
+    },
+    
+    // Добавление домиков на основе тестов
+    addHousesBasedOnTests() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium || !this.progress) return;
+        
+        const testsProgress = this.progress.tests;
+        
+        if (testsProgress >= 25) {
+            const tent = document.createElement('div');
+            tent.className = 'aquarium-sticker house-sticker house-tent';
+            tent.textContent = '⛺';
+            aquarium.appendChild(tent);
+        }
+        
+        if (testsProgress >= 50) {
+            const home = document.createElement('div');
+            home.className = 'aquarium-sticker house-sticker house-home';
+            home.textContent = '🏠';
+            aquarium.appendChild(home);
+        }
+        
+        if (testsProgress >= 80) {
+            const palace = document.createElement('div');
+            palace.className = 'aquarium-sticker house-sticker house-palace';
+            palace.textContent = '🏛️';
+            aquarium.appendChild(palace);
+        }
+    },
+    
+    // Добавление аксессуаров на основе обучения
+    addAccessoriesBasedOnTraining() {
+        const aquarium = document.getElementById('aquarium');
+        if (!aquarium || !this.progress) return;
+        
+        const trainingProgress = this.progress.training;
+        
+        // Большой аксессуар
+        if (trainingProgress >= 80) {
+            const ferrisWheel = document.createElement('div');
+            ferrisWheel.className = 'aquarium-sticker accessory-sticker accessory-large ferris-wheel';
+            ferrisWheel.textContent = '🎡';
+            aquarium.appendChild(ferrisWheel);
+        }
+        
+        // Средние аксессуары
+        if (trainingProgress >= 50) {
+            const vase1 = document.createElement('div');
+            vase1.className = 'aquarium-sticker accessory-sticker accessory-medium vase-1';
+            vase1.textContent = '🏺';
+            aquarium.appendChild(vase1);
+            
+            const anchor = document.createElement('div');
+            anchor.className = 'aquarium-sticker accessory-sticker accessory-medium anchor';
+            anchor.textContent = '⚓';
+            aquarium.appendChild(anchor);
+        }
+        
+        // Маленькие аксессуары
+        if (trainingProgress >= 25) {
+            const moai = document.createElement('div');
+            moai.className = 'aquarium-sticker accessory-sticker accessory-small moai';
+            moai.textContent = '🗿';
+            aquarium.appendChild(moai);
+        }
+    },
+    
+    // Добавление кораллов и камней на основе материалов
+    addCoralsAndStonesBasedOnMaterials() {
         const aquarium = document.getElementById('aquarium');
         if (!aquarium || !this.progress) return;
         
         const materialsProgress = this.progress.materials;
-        const trainingProgress = this.progress.training;
-        const testsProgress = this.progress.tests;
         
-        // Кораллы появляются с прогрессом материалов
+        // Приоритет кораллам
         if (materialsProgress >= 20) {
-            const coral1 = document.createElement('img');
-            coral1.className = 'aquarium-image coral-small';
-            coral1.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4MCH0nV6TQM66xqeTGjKBwoIHzI9nOKlJeg12dhDvyo4EEY-s9XJiJWyXmynyfr6Fjhg&usqp=CAU';
-            coral1.alt = 'Маленький коралл';
-            coral1.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+            const coral1 = document.createElement('div');
+            coral1.className = 'aquarium-sticker coral-sticker coral-1';
+            coral1.textContent = '🪸';
             aquarium.appendChild(coral1);
         }
         
-        if (materialsProgress >= 50) {
-            const coral2 = document.createElement('img');
-            coral2.className = 'aquarium-image coral-medium';
-            coral2.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_fqbuzRSolCfZWShog2IbbC9_QOGxtxjelw&s';
-            coral2.alt = 'Средний коралл';
-            coral2.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+        if (materialsProgress >= 35) {
+            const coral2 = document.createElement('div');
+            coral2.className = 'aquarium-sticker coral-sticker coral-2';
+            coral2.textContent = '🪸';
             aquarium.appendChild(coral2);
         }
         
-        if (materialsProgress >= 80) {
-            const coral3 = document.createElement('img');
-            coral3.className = 'aquarium-image coral-large';
-            coral3.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRat7legecn2cX_dTLmr5vzGhIV6Tud-9HHZA&s';
-            coral3.alt = 'Большой коралл';
-            coral3.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+        if (materialsProgress >= 50) {
+            const coral3 = document.createElement('div');
+            coral3.className = 'aquarium-sticker coral-sticker coral-3';
+            coral3.textContent = '🪸';
             aquarium.appendChild(coral3);
         }
         
-        // Камни появляются с прогрессом тестов
-        if (testsProgress >= 20) {
-            const stone1 = document.createElement('img');
-            stone1.className = 'aquarium-image stone-small';
-            stone1.src = 'https://img.freepik.com/premium-vector/seaweed-with-stone-vector_74440-1451.jpg';
-            stone1.alt = 'Маленький камень';
-            stone1.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+        if (materialsProgress >= 65) {
+            const coral4 = document.createElement('div');
+            coral4.className = 'aquarium-sticker coral-sticker coral-4';
+            coral4.textContent = '🪸';
+            aquarium.appendChild(coral4);
+        }
+        
+        // Камни добавляются после кораллов
+        if (materialsProgress >= 30) {
+            const stone1 = document.createElement('div');
+            stone1.className = 'aquarium-sticker stone-sticker stone-1';
+            stone1.textContent = '🪨';
             aquarium.appendChild(stone1);
         }
         
-        if (testsProgress >= 50) {
-            const stone2 = document.createElement('img');
-            stone2.className = 'aquarium-image stone-medium';
-            stone2.src = 'https://thumbs.dreamstime.com/b/%D0%BA%D0%B0%D0%BC%D0%BD%D0%B8-%D1%81-%D0%B3%D1%83%D0%B1%D0%BA%D0%B0%D0%BC%D0%B8-%D0%B8-%D1%87%D0%B0%D1%81%D1%82%D1%8C%D1%8E-%D0%B2%D0%B5%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%86-%D0%BC%D0%BE%D1%80%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%B4%D0%BD%D0%B0-%D0%B4%D0%BB%D1%8F-%D1%83%D0%BA%D1%80%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B0%D0%BA%D0%B2%D0%B0%D1%80%D0%B8%D1%83%D0%BC%D0%B0-190805691.jpg';
-            stone2.alt = 'Средний камень';
-            stone2.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+        if (materialsProgress >= 45) {
+            const stone2 = document.createElement('div');
+            stone2.className = 'aquarium-sticker stone-sticker stone-2';
+            stone2.textContent = '🪨';
             aquarium.appendChild(stone2);
         }
         
-        if (testsProgress >= 80) {
-            const stone3 = document.createElement('img');
-            stone3.className = 'aquarium-image stone-large';
-            stone3.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIJb7YLJtDJq8pL0Cl-_cmOTv-mOmIsKXvkNUXd-NNOs3oxD8zRAuJdALLjSM2lJmYe2Y&usqp=CAU';
-            stone3.alt = 'Большой камень';
-            stone3.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
+        if (materialsProgress >= 60) {
+            const stone3 = document.createElement('div');
+            stone3.className = 'aquarium-sticker stone-sticker stone-3';
+            stone3.textContent = '🪨';
             aquarium.appendChild(stone3);
         }
         
-        // Сундуки с сокровищами появляются с прогрессом обучения
-        if (trainingProgress >= 25) {
-            const treasure1 = document.createElement('img');
-            treasure1.className = 'aquarium-image treasure-small';
-            treasure1.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2vH0phw7FoMOr0N6kK9SZO8gUVBUBb8LxtIy-H7bzUxAnG8AKfgw37e3xH4Q0T_YrkmA&usqp=CAU';
-            treasure1.alt = 'Маленький сундук';
-            treasure1.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
-            aquarium.appendChild(treasure1);
-        }
-        
-        if (trainingProgress >= 50) {
-            const treasure2 = document.createElement('img');
-            treasure2.className = 'aquarium-image treasure-medium';
-            treasure2.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSSTcRQ_mWnINvwXHYwXBaOp2snYXQ24IIeQ&s';
-            treasure2.alt = 'Средний сундук';
-            treasure2.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3))';
-            aquarium.appendChild(treasure2);
-        }
-        
-        if (trainingProgress >= 75) {
-            const treasure3 = document.createElement('img');
-            treasure3.className = 'aquarium-image treasure-large';
-            treasure3.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfj9dldCipuAPoSBFsGOSf-VpTH5SCS8Sh6Q&s';
-            treasure3.alt = 'Большой сундук';
-            treasure3.style.filter = 'drop-shadow(2px 2px 3px rgba(0,0,0,0.3)) brightness(1.1)';
-            aquarium.appendChild(treasure3);
+        if (materialsProgress >= 75) {
+            const stone4 = document.createElement('div');
+            stone4.className = 'aquarium-sticker stone-sticker stone-4';
+            stone4.textContent = '🪨';
+            aquarium.appendChild(stone4);
         }
     },
     
