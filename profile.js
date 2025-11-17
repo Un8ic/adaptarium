@@ -51,48 +51,56 @@ const profile = {
         if (!auth.currentUser) return;
         
         // Прогресс материалов
-        const materials = ['company-intro', 'products-services', 'sales-techniques', 
+        const materialsList = ['company-intro', 'products-services', 'sales-techniques', 
                           'objection-handling', 'negotiation', 'customer-centric'];
         let completedMaterials = 0;
         
-        materials.forEach(material => {
-            if (materials.getMaterialStatus(material) === 'completed') {
+        materialsList.forEach(material => {
+            if (materials && materials.getMaterialStatus && materials.getMaterialStatus(material) === 'completed') {
                 completedMaterials++;
             }
         });
         
-        const materialsProgress = Math.round((completedMaterials / materials.length) * 100);
-        document.getElementById('materials-progress').textContent = materialsProgress + '%';
+        const materialsProgress = Math.round((completedMaterials / materialsList.length) * 100);
+        if (document.getElementById('materials-progress')) {
+            document.getElementById('materials-progress').textContent = materialsProgress + '%';
+        }
         
         // Прогресс обучения (игр)
         const gamesList = ['quest', 'quiz'];
         let completedGames = 0;
         
         gamesList.forEach(game => {
-            if (games.getGameProgress(game)) {
+            if (games && games.getGameProgress && games.getGameProgress(game)) {
                 completedGames++;
             }
         });
         
         const trainingProgress = Math.round((completedGames / gamesList.length) * 100);
-        document.getElementById('training-progress').textContent = trainingProgress + '%';
+        if (document.getElementById('training-progress')) {
+            document.getElementById('training-progress').textContent = trainingProgress + '%';
+        }
         
         // Прогресс тестов
         const testsList = ['products-test', 'sales-test', 'objections-test'];
         let completedTests = 0;
         
         testsList.forEach(test => {
-            if (tests.getTestStatus(test) === 'completed') {
+            if (tests && tests.getTestStatus && tests.getTestStatus(test) === 'completed') {
                 completedTests++;
             }
         });
         
         const testsProgress = Math.round((completedTests / testsList.length) * 100);
-        document.getElementById('tests-progress').textContent = testsProgress + '%';
+        if (document.getElementById('tests-progress')) {
+            document.getElementById('tests-progress').textContent = testsProgress + '%';
+        }
         
         // Общий прогресс
         const totalProgress = Math.round((materialsProgress + trainingProgress + testsProgress) / 3);
-        document.getElementById('total-progress').textContent = totalProgress + '%';
+        if (document.getElementById('total-progress')) {
+            document.getElementById('total-progress').textContent = totalProgress + '%';
+        }
         
         // Сохраняем прогресс для использования в аквариуме
         this.progress = {
@@ -132,7 +140,9 @@ const profile = {
     // Добавление рыбок на основе прогресса
     addFishBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
-        const totalProgress = this.progress.total;
+        if (!aquarium) return;
+        
+        const totalProgress = this.progress ? this.progress.total : 0;
         
         // Количество рыбок зависит от общего прогресса
         let fishCount = 0;
@@ -147,7 +157,7 @@ const profile = {
         
         for (let i = 0; i < fishCount; i++) {
             const fish = document.createElement('div');
-            fish.className = `fish-aquarium fish-${i + 1}`; // ИЗМЕНЕНО: fish-aquarium вместо fish
+            fish.className = `fish-aquarium fish-${i + 1}`; // ИСПРАВЛЕНО: fish-aquarium вместо fish
             fish.textContent = fishTypes[i];
             fish.style.animationDelay = `${i * 2}s`;
             aquarium.appendChild(fish);
