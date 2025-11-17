@@ -2,8 +2,8 @@
 const profile = {
     // Загрузка данных профиля
     loadProfileData() {
-        const profileData = utils.loadFromStorage('userProfile') || {};
-        const savedPhoto = utils.loadFromStorage('userPhoto');
+        const profileData = this.getUserProfileData();
+        const savedPhoto = utils.getUserData('userPhoto');
         
         // Устанавливаем имя пользователя из текущей сессии
         if (auth.currentUser) {
@@ -29,15 +29,34 @@ const profile = {
         this.updateAquarium();
     },
     
+    // Получение данных профиля пользователя
+    getUserProfileData() {
+        if (!auth.currentUser) return {};
+        
+        const userProgress = auth.getUserProgress();
+        return userProgress.profile || {};
+    },
+    
+    // Сохранение данных профиля пользователя
+    saveUserProfileData(profileData) {
+        if (!auth.currentUser) return false;
+        
+        const userProgress = auth.getUserProgress();
+        userProgress.profile = profileData;
+        return auth.saveUserProgress(userProgress);
+    },
+    
     // Загрузка прогресса обучения
     loadProgress() {
+        if (!auth.currentUser) return;
+        
         // Прогресс материалов
         const materials = ['company-intro', 'products-services', 'sales-techniques', 
                           'objection-handling', 'negotiation', 'customer-centric'];
         let completedMaterials = 0;
         
         materials.forEach(material => {
-            if (utils.loadFromStorage(`material-${material}-status`) === 'completed') {
+            if (materials.getMaterialStatus(material) === 'completed') {
                 completedMaterials++;
             }
         });
@@ -46,29 +65,29 @@ const profile = {
         document.getElementById('materials-progress').textContent = materialsProgress + '%';
         
         // Прогресс обучения (игр)
-        const games = ['quest', 'quiz'];
+        const gamesList = ['quest', 'quiz'];
         let completedGames = 0;
         
-        games.forEach(game => {
-            if (utils.loadFromStorage(`game-${game}-progress`)) {
+        gamesList.forEach(game => {
+            if (games.getGameProgress(game)) {
                 completedGames++;
             }
         });
         
-        const trainingProgress = Math.round((completedGames / games.length) * 100);
+        const trainingProgress = Math.round((completedGames / gamesList.length) * 100);
         document.getElementById('training-progress').textContent = trainingProgress + '%';
         
         // Прогресс тестов
-        const tests = ['products-test', 'sales-test', 'objections-test'];
+        const testsList = ['products-test', 'sales-test', 'objections-test'];
         let completedTests = 0;
         
-        tests.forEach(test => {
-            if (utils.loadFromStorage(`test-${test}-status`) === 'completed') {
+        testsList.forEach(test => {
+            if (tests.getTestStatus(test) === 'completed') {
                 completedTests++;
             }
         });
         
-        const testsProgress = Math.round((completedTests / tests.length) * 100);
+        const testsProgress = Math.round((completedTests / testsList.length) * 100);
         document.getElementById('tests-progress').textContent = testsProgress + '%';
         
         // Общий прогресс
@@ -237,8 +256,8 @@ const profile = {
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById('profile-photo').src = e.target.result;
-                // Сохраняем фото в localStorage
-                utils.saveToStorage('userPhoto', e.target.result);
+                // Сохраняем фото для текущего пользователя
+                utils.saveUserData('userPhoto', e.target.result);
                 utils.showNotification('Фото обновлено');
             };
             reader.readAsDataURL(file);
@@ -257,13 +276,13 @@ const profile = {
             return;
         }
         
-        // Сохраняем данные профиля
+        // Сохраняем данные профиля для текущего пользователя
         const profileData = {
             name: document.getElementById('profile-name').value,
             position: document.getElementById('profile-position').value
         };
         
-        utils.saveToStorage('userProfile', profileData);
+        this.saveUserProfileData(profileData);
         
         // Обновляем отображаемые данные
         document.getElementById('profile-display-name').textContent = profileData.name;
@@ -282,13 +301,3 @@ const profile = {
         this.disableEditMode();
     }
 };
-
-// Инициализация обработчиков для личного кабинета
-document.addEventListener('DOMContentLoaded', function() {
-    const editProfileBtn = document.getElementById('edit-profile-btn');
-    if (editProfileBtn) {
-        editProfileBtn.addEventListener('click', function() {
-            profile.enableEditMode();
-        });
-    }
-});
