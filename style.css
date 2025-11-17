@@ -931,7 +931,7 @@ footer {
 /* Стили для обновленного аквариума */
 .aquarium-container {
     position: relative;
-    height: 500px;
+    height: 400px;
     background: linear-gradient(180deg, #1a5276 0%, #2874a6 30%, #3498db 70%, #85c1e9 100%);
     border-radius: 15px;
     overflow: hidden;
@@ -953,7 +953,7 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 80px;
+    height: 60px;
     background: linear-gradient(to top, #e6c9a8, #d7b899);
     z-index: 1;
 }
@@ -972,138 +972,79 @@ footer {
 .aquarium-creature {
     position: absolute;
     z-index: 10;
-    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
     transition: transform 0.3s ease;
 }
 
 /* Анимации для обитателей */
 @keyframes swim-gentle {
-    0% { transform: translateX(-150px) translateY(0) scaleX(1); }
-    25% { transform: translateX(25vw) translateY(-20px) scaleX(1); }
-    50% { transform: translateX(50vw) translateY(15px) scaleX(1); }
-    75% { transform: translateX(75vw) translateY(-15px) scaleX(1); }
-    100% { transform: translateX(calc(100vw + 150px)) translateY(0) scaleX(1); }
-}
-
-@keyframes swim-slow {
-    0% { transform: translateX(-200px) translateY(0) scaleX(1); }
-    30% { transform: translateX(30vw) translateY(-25px) scaleX(1); }
-    60% { transform: translateX(60vw) translateY(20px) scaleX(1); }
-    100% { transform: translateX(calc(100vw + 200px)) translateY(0) scaleX(1); }
-}
-
-@keyframes swim-mermaid {
-    0% { transform: translateX(-250px) translateY(0) scaleX(1); }
-    25% { transform: translateX(25vw) translateY(-30px) scaleX(1); }
-    50% { transform: translateX(50vw) translateY(25px) scaleX(1); }
-    75% { transform: translateX(75vw) translateY(-25px) scaleX(1); }
-    100% { transform: translateX(calc(100vw + 250px)) translateY(0) scaleX(1); }
-}
-
-@keyframes crab-walk {
     0% { transform: translateX(-100px) translateY(0) scaleX(1); }
-    25% { transform: translateX(150px) translateY(-8px) scaleX(1); }
-    50% { transform: translateX(400px) translateY(0) scaleX(1); }
-    75% { transform: translateX(650px) translateY(-8px) scaleX(1); }
-    100% { transform: translateX(900px) translateY(0) scaleX(1); }
+    25% { transform: translateX(25vw) translateY(-15px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(10px) scaleX(1); }
+    75% { transform: translateX(75vw) translateY(-10px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
 }
 
-@keyframes octopus-crawl {
-    0% { transform: translateX(900px) translateY(0) scaleX(-1); }
-    25% { transform: translateX(650px) translateY(-12px) scaleX(-1); }
-    50% { transform: translateX(400px) translateY(0) scaleX(-1); }
-    75% { transform: translateX(150px) translateY(-12px) scaleX(-1); }
+@keyframes swim-gentle-reverse {
+    0% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(-1); }
+    25% { transform: translateX(75vw) translateY(-15px) scaleX(-1); }
+    50% { transform: translateX(50vw) translateY(10px) scaleX(-1); }
+    75% { transform: translateX(25vw) translateY(-10px) scaleX(-1); }
     100% { transform: translateX(-100px) translateY(0) scaleX(-1); }
 }
 
-/* Размеры животных увеличены в 5 раз */
-.fish { font-size: 120px !important; } /* было ~24px */
-.mermaid { font-size: 160px !important; } /* было ~32px */
-.crab { font-size: 100px !important; } /* было ~20px */
-.octopus { font-size: 110px !important; } /* было ~22px */
+@keyframes swim-zigzag {
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
+    20% { transform: translateX(20vw) translateY(-25px) scaleX(1); }
+    40% { transform: translateX(40vw) translateY(20px) scaleX(1); }
+    60% { transform: translateX(60vw) translateY(-20px) scaleX(1); }
+    80% { transform: translateX(80vw) translateY(15px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
+}
+
+@keyframes swim-mermaid {
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
+    30% { transform: translateX(30vw) translateY(-25px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(20px) scaleX(1); }
+    70% { transform: translateX(70vw) translateY(-20px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
+}
+
+@keyframes crab-walk {
+    0% { transform: translateX(-50px) translateY(0) scaleX(1); }
+    25% { transform: translateX(100px) translateY(-5px) scaleX(1); }
+    50% { transform: translateX(250px) translateY(0) scaleX(1); }
+    75% { transform: translateX(400px) translateY(-5px) scaleX(1); }
+    100% { transform: translateX(550px) translateY(0) scaleX(1); }
+}
+
+@keyframes octopus-crawl {
+    0% { transform: translateX(550px) translateY(0) scaleX(-1); }
+    25% { transform: translateX(400px) translateY(-8px) scaleX(-1); }
+    50% { transform: translateX(250px) translateY(0) scaleX(-1); }
+    75% { transform: translateX(100px) translateY(-8px) scaleX(-1); }
+    100% { transform: translateX(-50px) translateY(0) scaleX(-1); }
+}
 
 /* Позиционирование и анимация для каждого существа */
-.fish-1 { 
-    top: 15%; 
-    animation: swim-gentle 30s infinite linear;
-    animation-delay: 0s;
-}
-.fish-2 { 
-    top: 35%; 
-    animation: swim-slow 35s infinite linear;
-    animation-delay: 5s;
-}
-.fish-3 { 
-    top: 55%; 
-    animation: swim-gentle 32s infinite linear;
-    animation-delay: 10s;
-}
-.fish-4 { 
-    top: 25%; 
-    animation: swim-slow 38s infinite linear;
-    animation-delay: 15s;
-}
-.fish-5 { 
-    top: 45%; 
-    animation: swim-gentle 34s infinite linear;
-    animation-delay: 20s;
-}
-.fish-6 { 
-    top: 65%; 
-    animation: swim-slow 36s infinite linear;
-    animation-delay: 25s;
-}
+.fish-1 { top: 15%; animation: swim-gentle 20s infinite linear; }
+.fish-2 { top: 25%; animation: swim-zigzag 25s infinite linear; animation-delay: 3s; }
+.fish-3 { top: 35%; animation: swim-gentle-reverse 22s infinite linear; animation-delay: 6s; }
+.fish-4 { top: 45%; animation: swim-zigzag 28s infinite linear; animation-delay: 9s; }
+.fish-5 { top: 55%; animation: swim-gentle 24s infinite linear; animation-delay: 12s; }
+.fish-6 { top: 65%; animation: swim-gentle-reverse 26s infinite linear; animation-delay: 15s; }
 
-.mermaid-1 { 
-    top: 20%; 
-    animation: swim-mermaid 45s infinite linear;
-    animation-delay: 0s;
-    display: none;
-}
-.mermaid-2 { 
-    top: 50%; 
-    animation: swim-mermaid 50s infinite linear;
-    animation-delay: 10s;
-    display: none;
-}
+.mermaid-1 { top: 20%; animation: swim-mermaid 35s infinite linear; animation-delay: 0s; }
+.mermaid-2 { top: 40%; animation: swim-mermaid 38s infinite linear; animation-delay: 8s; }
+.mermaid-3 { top: 60%; animation: swim-mermaid 40s infinite linear; animation-delay: 16s; }
 
-.crab-1 { 
-    bottom: 85px; 
-    animation: crab-walk 25s infinite linear;
-    animation-delay: 0s;
-    display: none;
-}
-.crab-2 { 
-    bottom: 85px; 
-    animation: crab-walk 28s infinite linear;
-    animation-delay: 7s;
-    display: none;
-}
-.crab-3 { 
-    bottom: 85px; 
-    animation: crab-walk 30s infinite linear;
-    animation-delay: 14s;
-    display: none;
-}
+.crab-1 { bottom: 65px; animation: crab-walk 18s infinite linear; animation-delay: 0s; }
+.crab-2 { bottom: 65px; animation: crab-walk 20s infinite linear; animation-delay: 6s; }
+.crab-3 { bottom: 65px; animation: crab-walk 22s infinite linear; animation-delay: 12s; }
 
-.octopus-1 { 
-    bottom: 85px; 
-    animation: octopus-crawl 30s infinite linear;
-    animation-delay: 5s;
-    display: none;
-}
-.octopus-2 { 
-    bottom: 85px; 
-    animation: octopus-crawl 32s infinite linear;
-    animation-delay: 12s;
-    display: none;
-}
-.octopus-3 { 
-    bottom: 85px; 
-    animation: octopus-crawl 34s infinite linear;
-    animation-delay: 19s;
-    display: none;
-}
+.octopus-1 { bottom: 65px; animation: octopus-crawl 25s infinite linear; animation-delay: 0s; }
+.octopus-2 { bottom: 65px; animation: octopus-crawl 28s infinite linear; animation-delay: 9s; }
+.octopus-3 { bottom: 65px; animation: octopus-crawl 30s infinite linear; animation-delay: 18s; }
 
 /* Пузырьки */
 .bubbles {
@@ -1118,23 +1059,23 @@ footer {
     background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.4));
     border-radius: 50%;
     animation: float 8s infinite ease-in;
-    bottom: 90px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    bottom: 70px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 @keyframes float {
     0% {
-        transform: translateY(0) scale(0.5);
+        transform: translateY(0) scale(0.3);
         opacity: 0;
     }
     10% {
-        opacity: 0.9;
+        opacity: 0.8;
     }
     90% {
-        opacity: 0.7;
+        opacity: 0.6;
     }
     100% {
-        transform: translateY(-500px) scale(1.5);
+        transform: translateY(-420px) scale(1.2);
         opacity: 0;
     }
 }
@@ -1166,7 +1107,7 @@ footer {
 }
 
 .fish-legend {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 /* Стили для панели администратора */
