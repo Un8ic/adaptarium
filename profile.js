@@ -27,6 +27,168 @@ const profile = {
         // Загружаем прогресс и обновляем аквариум
         this.loadProgress();
         this.updateAquarium();
+        
+        // Показываем кнопку сброса прогресса для администратора
+        this.showAdminControls();
+    },
+    
+    // Показ админских контролов
+    showAdminControls() {
+        const aquariumSection = document.querySelector('.aquarium-section');
+        if (!aquariumSection) return;
+        
+        // Удаляем старые админские кнопки если есть
+        const oldAdminPanel = document.getElementById('admin-controls-panel');
+        if (oldAdminPanel) {
+            oldAdminPanel.remove();
+        }
+        
+        // Если пользователь - администратор, показываем панель управления
+        if (auth.currentUser && auth.currentUser.role === 'admin') {
+            const adminPanel = document.createElement('div');
+            adminPanel.id = 'admin-controls-panel';
+            adminPanel.className = 'admin-controls';
+            adminPanel.innerHTML = `
+                <h3>Панель администратора</h3>
+                <div class="admin-buttons">
+                    <button onclick="profile.resetOwnProgress()" class="btn-secondary">Сбросить мой прогресс</button>
+                    <button onclick="profile.resetAllUsersProgress()" class="btn-danger">Сбросить прогресс всех пользователей</button>
+                    <button onclick="profile.viewAllProgress()" class="btn-secondary">Просмотр прогресса всех</button>
+                </div>
+                <div id="admin-message" class="admin-message"></div>
+            `;
+            aquariumSection.appendChild(adminPanel);
+        }
+    },
+    
+    // Сброс собственного прогресса
+    resetOwnProgress() {
+        if (confirm('Вы уверены, что хотите сбросить свой прогресс обучения? Все изученные материалы, пройденные тесты и игры будут сброшены.')) {
+            if (auth.currentUser) {
+                // Удаляем прогресс текущего пользователя
+                const userProgressKey = `userProgress_${auth.currentUser.username}`;
+                localStorage.removeItem(userProgressKey);
+                
+                // Удаляем фото профиля
+                const userPhotoKey = `userPhoto_${auth.currentUser.username}`;
+                localStorage.removeItem(userPhotoKey);
+                
+                // Пересоздаем структуру прогресса
+                auth.initializeUserProgress();
+                
+                // Обновляем отображение
+                this.loadProfileData();
+                
+                this.showAdminMessage('Ваш прогресс успешно сброшен!', 'success');
+                utils.showNotification('Ваш прогресс сброшен');
+            }
+        }
+    },
+    
+    // Сброс прогресса всех пользователей
+    resetAllUsersProgress() {
+        if (confirm('ВНИМАНИЕ! Вы собираетесь сбросить прогресс ВСЕХ пользователей. Это действие нельзя отменить. Продолжить?')) {
+            if (!auth.currentUser || auth.currentUser.role !== 'admin') {
+                this.showAdminMessage('Недостаточно прав для выполнения этой операции', 'error');
+                return;
+            }
+            
+            // Сохраняем текущего пользователя
+            const currentUser = utils.loadFromStorage('currentUser');
+            const currentUsername = currentUser ? currentUser.username : null;
+            
+            // Удаляем все данные прогресса всех пользователей
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('userProgress_') || key.startsWith('userPhoto_')) {
+                    keysToRemove.push(key);
+                }
+            }
+            
+            keysToRemove.forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            // Пересоздаем структуру прогресса для текущего пользователя
+            if (currentUsername) {
+                auth.currentUser = currentUser;
+                auth.initializeUserProgress();
+            }
+            
+            // Обновляем отображение
+            this.loadProfileData();
+            
+            this.showAdminMessage('Прогресс всех пользователей успешно сброшен!', 'success');
+            utils.showNotification('Прогресс всех пользователей сброшен');
+        }
+    },
+    
+    // Просмотр прогресса всех пользователей
+    viewAllProgress() {
+        if (!auth.currentUser || auth.currentUser.role !== 'admin') {
+            this.showAdminMessage('Недостаточно прав для выполнения этой операции', 'error');
+            return;
+        }
+        
+        let progressInfo = '<h4>Прогресс всех пользователей:</h4><div class="users-progress-list">';
+        
+        Object.keys(auth.users).forEach(username => {
+            const userProgressKey = `userProgress_${username}`;
+            const userProgress = utils.loadFromStorage(userProgressKey);
+            
+            if (userProgress) {
+                const materials = userProgress.materials || {};
+                const games = userProgress.games || {};
+                const tests = userProgress.tests || {};
+                
+                const materialsCount = Object.keys(materials).filter(key => materials[key] === 'completed').length;
+                const gamesCount = Object.keys(games).length;
+                const testsCount = Object.keys(tests).filter(key => tests[key] && tests[key].status === 'completed').length;
+                
+                const totalProgress = Math.round((materialsCount / 6 + gamesCount / 2 + testsCount / 3) / 3 * 100);
+                
+                progressInfo += `
+                    <div class="user-progress-item">
+                        <strong>${auth.users[username].name}</strong> (${username})
+                        <div class="progress-details">
+                            📚 Материалы: ${materialsCount}/6<br>
+                            🎮 Игры: ${gamesCount}/2<br>
+                            📝 Тесты: ${testsCount}/3<br>
+                            📊 Общий прогресс: ${totalProgress}%
+                        </div>
+                    </div>
+                `;
+            } else {
+                progressInfo += `
+                    <div class="user-progress-item">
+                        <strong>${auth.users[username].name}</strong> (${username})
+                        <div class="progress-details">Нет данных о прогрессе</div>
+                    </div>
+                `;
+            }
+        });
+        
+        progressInfo += '</div>';
+        
+        this.showAdminMessage(progressInfo, 'info');
+    },
+    
+    // Показать сообщение в админской панели
+    showAdminMessage(message, type = 'info') {
+        const messageElement = document.getElementById('admin-message');
+        if (messageElement) {
+            messageElement.innerHTML = message;
+            messageElement.className = `admin-message admin-message-${type}`;
+            messageElement.style.display = 'block';
+            
+            // Автоскрытие для успешных сообщений
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageElement.style.display = 'none';
+                }, 5000);
+            }
+        }
     },
     
     // Получение данных профиля пользователя
@@ -49,6 +211,30 @@ const profile = {
     // Загрузка прогресса обучения
     loadProgress() {
         if (!auth.currentUser) return;
+        
+        // Для администратора adminFish показываем 0% прогресса
+        if (auth.currentUser.username === 'adminFish') {
+            if (document.getElementById('materials-progress')) {
+                document.getElementById('materials-progress').textContent = '0%';
+            }
+            if (document.getElementById('training-progress')) {
+                document.getElementById('training-progress').textContent = '0%';
+            }
+            if (document.getElementById('tests-progress')) {
+                document.getElementById('tests-progress').textContent = '0%';
+            }
+            if (document.getElementById('total-progress')) {
+                document.getElementById('total-progress').textContent = '0%';
+            }
+            
+            this.progress = {
+                materials: 0,
+                training: 0,
+                tests: 0,
+                total: 0
+            };
+            return;
+        }
         
         // Прогресс материалов
         const materialsList = ['company-intro', 'products-services', 'sales-techniques', 
@@ -157,7 +343,7 @@ const profile = {
         
         for (let i = 0; i < fishCount; i++) {
             const fish = document.createElement('div');
-            fish.className = `fish-aquarium fish-${i + 1}`; // ИСПРАВЛЕНО: fish-aquarium вместо fish
+            fish.className = `fish-aquarium fish-${i + 1}`;
             fish.textContent = fishTypes[i];
             fish.style.animationDelay = `${i * 2}s`;
             aquarium.appendChild(fish);
@@ -167,6 +353,8 @@ const profile = {
     // Добавление аксессуаров на основе прогресса
     addAccessoriesBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
+        if (!aquarium || !this.progress) return;
+        
         const materialsProgress = this.progress.materials;
         const trainingProgress = this.progress.training;
         const testsProgress = this.progress.tests;
