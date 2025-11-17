@@ -2,6 +2,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем авторизацию
     auth.checkAuth();
+
+    // Обработчик для клика на логотип "АДАПТАРИУМ"
+    const logoHome = document.getElementById('logo-home');
+    if (logoHome) {
+        logoHome.addEventListener('click', function() {
+            if (auth.currentUser) {
+                navigation.showPage('home-page');
+            }
+        });
+        // Добавляем курсор pointer для интерактивности
+        logoHome.style.cursor = 'pointer';
+    }
     
     // Инициализируем реальные обновления (если Firebase доступен)
     setTimeout(() => {
