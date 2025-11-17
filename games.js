@@ -12,7 +12,7 @@ const games = {
         ];
         
         gamesContainer.innerHTML = gamesData.map(game => {
-            const progress = utils.loadFromStorage(`game-${game.id}-progress`) || 'Уровень 1';
+            const progress = this.getGameProgress(game.id) || 'Уровень 1';
             
             return `
                 <div class="game-card">
@@ -24,6 +24,23 @@ const games = {
                 </div>
             `;
         }).join('');
+    },
+    
+    // Получение прогресса игры для текущего пользователя
+    getGameProgress(gameId) {
+        if (!auth.currentUser) return null;
+        
+        const userProgress = auth.getUserProgress();
+        return userProgress.games[gameId];
+    },
+    
+    // Сохранение прогресса игры для текущего пользователя
+    setGameProgress(gameId, progress) {
+        if (!auth.currentUser) return false;
+        
+        const userProgress = auth.getUserProgress();
+        userProgress.games[gameId] = progress;
+        return auth.saveUserProgress(userProgress);
     },
     
     // Открытие страницы игры
@@ -98,6 +115,11 @@ const games = {
     
     // Сохранение прогресса квеста
     saveQuestProgress() {
+        const score = document.getElementById('quest-score').textContent;
+        const level = document.getElementById('quest-level').textContent;
+        const progress = `Уровень ${level} (${score} очков)`;
+        
+        this.setGameProgress('quest', progress);
         utils.showNotification('Прогресс игры сохранен!');
     },
     
@@ -291,12 +313,18 @@ const games = {
             </div>
         `;
         
+        // Сохраняем прогресс
+        const progress = `Результат: ${percentage}% (${this.correctAnswers}/${this.quizQuestions.length})`;
+        this.setGameProgress('quiz', progress);
+        
         // Обновляем бейдж прогресса
-        document.getElementById('quiz-progress-badge').textContent = `Прогресс: ${percentage}%`;
+        document.getElementById('quiz-progress').textContent = `Прогресс: ${percentage}%`;
     },
     
     // Сохранение прогресса викторины
     saveQuizProgress() {
+        const progress = `Текущий прогресс: вопрос ${this.currentQuizQuestion-1}/${this.quizQuestions.length}`;
+        this.setGameProgress('quiz', progress);
         utils.showNotification('Прогресс викторины сохранен!');
     }
 };
