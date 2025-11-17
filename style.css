@@ -1,4 +1,834 @@
-/* Стили для аквариума со стикерами */
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #7bb3ff;
+    --accent-color: #ff6b6b;
+    --light-color: #f0f8ff;
+    --dark-color: #2c3e50;
+    --text-color: #333;
+    --border-radius: 12px;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4f1ff 100%);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* СТАТИЧНЫЕ РЫБКИ В ЗАГОЛОВКЕ - легкая анимация как было */
+.fish {
+    font-size: 1.2rem;
+    margin-right: 5px;
+    animation: gentle-swim 3s infinite ease-in-out;
+}
+
+@keyframes gentle-swim {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    25% { 
+        transform: translateY(-2px) rotate(2deg); 
+    }
+    50% { 
+        transform: translateY(-3px) rotate(0deg); 
+    }
+    75% { 
+        transform: translateY(-1px) rotate(-2deg); 
+    }
+}
+
+.company-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 10px;
+}
+
+nav {
+    background-color: var(--dark-color);
+    padding: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-links li {
+    margin: 3px 8px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: var(--transition);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.page {
+    display: none;
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.active {
+    display: block;
+}
+
+.login-form {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    background: white;
+    box-shadow: var(--shadow);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+input[type="text"],
+input[type="password"],
+textarea, select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+button {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.btn-small {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #8d99a7 100%);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #ff8e8e 100%);
+}
+
+.contacts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.contact-card {
+    width: 100%;
+    max-width: 160px;
+    text-align: center;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    background: white;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.contact-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary-color);
+}
+
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.material-card {
+    border-radius: var(--border-radius);
+    padding: 20px;
+    transition: var(--transition);
+    background: white;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+.material-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.games-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 15px;
+}
+
+.game-card {
+    width: 100%;
+    max-width: 300px;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    background: white;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.game-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.tests-container {
+    margin-top: 15px;
+}
+
+.test-card {
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 15px;
+    background: white;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--accent-color);
+}
+
+.comment-section {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.comment {
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: white;
+    border-radius: 8px;
+    border-left: 3px solid var(--secondary-color);
+}
+
+.delete-comment {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 15px;
+    cursor: pointer;
+    float: right;
+    font-size: 0.7rem;
+}
+
+.employees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.employee-card {
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    background: white;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.employee-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary-color);
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 4px solid var(--primary-color);
+}
+
+.analytics-container {
+    margin-top: 15px;
+}
+
+.analytics-card {
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 15px;
+    background: white;
+    box-shadow: var(--shadow);
+}
+
+.progress-bar {
+    height: 15px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+.chat-container {
+    border-radius: var(--border-radius);
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    border-radius: 15px;
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+}
+
+.message.self {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    margin-left: auto;
+}
+
+.message.other {
+    background-color: white;
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #e9ecef;
+    background: white;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+footer {
+    background: linear-gradient(135deg, var(--dark-color) 0%, #34495e 100%);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
+
+.notification {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: none;
+    z-index: 1000;
+    font-weight: 500;
+    font-size: 0.9rem;
+    max-width: 80%;
+}
+
+.notification.error {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #e74c3c 100%);
+}
+
+.qr-code {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.qr-code img {
+    max-width: 150px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.qr-url {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.material-content, .game-content, .test-content {
+    padding: 20px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top: 15px;
+    animation: fadeIn 0.5s ease;
+}
+
+.question {
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.option {
+    padding: 10px 12px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.option:hover {
+    background: #f0f8ff;
+    border-color: var(--primary-color);
+}
+
+.option.selected {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.option.correct {
+    background: #2ecc71;
+    color: white;
+    border-color: #2ecc71;
+}
+
+.option.incorrect {
+    background: #e74c3c;
+    color: white;
+    border-color: #e74c3c;
+}
+
+.game-area {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stat {
+    text-align: center;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 80px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.back-button {
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+.completed {
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+.in-progress {
+    color: #f39c12;
+    font-weight: 600;
+}
+
+.not-started {
+    color: #95a5a6;
+    font-weight: 600;
+}
+
+.game-image {
+    width: 100%;
+    max-width: 300px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.level-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.question-counter {
+    text-align: center;
+    margin: 10px 0;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.quiz-complete {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.quiz-result {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.result-excellent {
+    color: #2ecc71;
+}
+
+.result-good {
+    color: #f39c12;
+}
+
+.result-poor {
+    color: #e74c3c;
+}
+
+.test-accounts {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.telegram-bot {
+    margin-top: 20px;
+    text-align: center;
+    padding: 15px;
+    background: #f0f8ff;
+    border-radius: var(--border-radius);
+}
+
+.telegram-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 15px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.training-section {
+    margin-bottom: 20px;
+}
+
+.feedback-section, .chat-section {
+    margin-bottom: 20px;
+}
+
+.test-progress {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.progress-text {
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.material-complete, .test-submit {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.game-options {
+    margin: 15px 0;
+}
+
+.game-result {
+    min-height: 40px;
+    padding: 8px;
+    background: white;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Стили для личного кабинета */
+.profile-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    width: 100%;
+}
+
+.profile-photo-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-color);
+}
+
+.profile-details h2 {
+    margin-bottom: 5px;
+    color: var(--dark-color);
+}
+
+.profile-details p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.edit-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edit-buttons button {
+    flex: 1;
+}
+
+/* Стили для аквариума */
+.aquarium-section {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.progress-stat {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.progress-stat .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+/* Стили для реалистичного аквариума с картинками */
 .aquarium-container {
     position: relative;
     height: 400px;
@@ -28,280 +858,152 @@
     z-index: 1;
 }
 
-/* Стили для стикеров */
-.aquarium-sticker {
+/* Стили для картинок с удаленным фоном */
+.aquarium-image {
     position: absolute;
     z-index: 2;
-    font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 /* Рыбки */
-.fish-sticker {
+.fish-aquarium {
+    position: absolute;
     z-index: 10;
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+    transition: transform 0.3s ease;
 }
 
-/* Анимации плавания с правильным направлением */
-@keyframes swim-forward-1 {
-    0% { transform: translateX(-100px) translateY(0) rotateY(0deg); }
-    25% { transform: translateX(25vw) translateY(-15px) rotateY(0deg); }
-    50% { transform: translateX(50vw) translateY(10px) rotateY(0deg); }
-    75% { transform: translateX(75vw) translateY(-10px) rotateY(0deg); }
-    100% { transform: translateX(calc(100vw + 100px)) translateY(0) rotateY(0deg); }
+/* Анимации плавания */
+@keyframes swim-gentle {
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
+    25% { transform: translateX(25vw) translateY(-15px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(10px) scaleX(1); }
+    75% { transform: translateX(75vw) translateY(-10px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
 }
 
-@keyframes swim-forward-2 {
-    0% { transform: translateX(-100px) translateY(0) rotateY(0deg); }
-    20% { transform: translateX(20vw) translateY(-25px) rotateY(0deg); }
-    40% { transform: translateX(40vw) translateY(20px) rotateY(0deg); }
-    60% { transform: translateX(60vw) translateY(-20px) rotateY(0deg); }
-    80% { transform: translateX(80vw) translateY(15px) rotateY(0deg); }
-    100% { transform: translateX(calc(100vw + 100px)) translateY(0) rotateY(0deg); }
+@keyframes swim-zigzag {
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
+    20% { transform: translateX(20vw) translateY(-25px) scaleX(1); }
+    40% { transform: translateX(40vw) translateY(20px) scaleX(1); }
+    60% { transform: translateX(60vw) translateY(-20px) scaleX(1); }
+    80% { transform: translateX(80vw) translateY(15px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
 }
 
-@keyframes swim-forward-3 {
-    0% { transform: translateX(-100px) translateY(0) rotateY(0deg); }
-    30% { transform: translateX(30vw) translateY(-20px) rotateY(0deg); }
-    50% { transform: translateX(50vw) translateY(15px) rotateY(0deg); }
-    70% { transform: translateX(70vw) translateY(-10px) rotateY(0deg); }
-    100% { transform: translateX(calc(100vw + 100px)) translateY(0) rotateY(0deg); }
+@keyframes swim-wave {
+    0% { transform: translateX(-100px) translateY(0) scaleX(1); }
+    30% { transform: translateX(30vw) translateY(-20px) scaleX(1); }
+    50% { transform: translateX(50vw) translateY(15px) scaleX(1); }
+    70% { transform: translateX(70vw) translateY(-10px) scaleX(1); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(1); }
 }
 
-@keyframes swim-reverse-1 {
-    0% { transform: translateX(calc(100vw + 100px)) translateY(0) rotateY(0deg); }
-    25% { transform: translateX(75vw) translateY(-15px) rotateY(0deg); }
-    50% { transform: translateX(50vw) translateY(10px) rotateY(0deg); }
-    75% { transform: translateX(25vw) translateY(-10px) rotateY(0deg); }
-    100% { transform: translateX(-100px) translateY(0) rotateY(0deg); }
-}
-
-@keyframes swim-reverse-2 {
-    0% { transform: translateX(calc(100vw + 100px)) translateY(0) rotateY(0deg); }
-    30% { transform: translateX(60vw) translateY(20px) rotateY(0deg); }
-    60% { transform: translateX(30vw) translateY(-15px) rotateY(0deg); }
-    90% { transform: translateX(0vw) translateY(10px) rotateY(0deg); }
-    100% { transform: translateX(-100px) translateY(0) rotateY(0deg); }
+@keyframes swim-reverse {
+    0% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(-1); }
+    25% { transform: translateX(75vw) translateY(-15px) scaleX(-1); }
+    50% { transform: translateX(50vw) translateY(10px) scaleX(-1); }
+    75% { transform: translateX(25vw) translateY(-10px) scaleX(-1); }
+    100% { transform: translateX(-100px) translateY(0) scaleX(-1); }
 }
 
 /* Позиционирование и анимация для каждой рыбки */
 .fish-1 { 
     top: 20%; 
-    font-size: 3rem;
-    animation: swim-forward-1 25s infinite linear;
+    width: 80px;
+    animation: swim-gentle 25s infinite linear;
     animation-delay: 0s;
 }
 .fish-2 { 
     top: 45%; 
-    font-size: 2.8rem;
-    animation: swim-forward-2 30s infinite linear;
+    width: 70px;
+    animation: swim-zigzag 30s infinite linear;
     animation-delay: 5s;
 }
 .fish-3 { 
     top: 65%; 
-    font-size: 3.2rem;
-    animation: swim-forward-3 28s infinite linear;
+    width: 90px;
+    animation: swim-wave 28s infinite linear;
     animation-delay: 10s;
 }
 .fish-4 { 
     top: 30%; 
-    font-size: 3rem;
-    animation: swim-reverse-1 32s infinite linear;
+    width: 75px;
+    animation: swim-reverse 32s infinite linear;
     animation-delay: 15s;
 }
 .fish-5 { 
     top: 55%; 
-    font-size: 2.9rem;
-    animation: swim-reverse-2 27s infinite linear;
+    width: 85px;
+    animation: swim-gentle 27s infinite linear;
     animation-delay: 8s;
 }
 
-/* Русалки */
-.mermaid {
-    font-size: 4rem;
-    z-index: 11;
-    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.5));
-}
-
-.mermaid-1 {
-    top: 25%;
-    left: 40%;
-    animation: float-gentle 20s infinite ease-in-out;
-}
-
-.mermaid-2 {
-    top: 60%;
-    left: 60%;
-    animation: float-gentle 25s infinite ease-in-out;
-    animation-delay: 2s;
-}
-
-@keyframes float-gentle {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-10px) rotate(2deg); }
-    50% { transform: translateY(-5px) rotate(0deg); }
-    75% { transform: translateY(-15px) rotate(-2deg); }
-}
-
-/* Обитатели дна */
-.bottom-creature {
-    bottom: 85px;
-    font-size: 2.5rem;
-    z-index: 3;
-    animation: crawl 15s infinite ease-in-out;
-}
-
-.crab {
-    left: 20%;
-    animation-delay: 0s;
-}
-
-.octopus {
-    left: 70%;
-    animation-delay: 7s;
-}
-
-@keyframes crawl {
-    0%, 100% { transform: translateX(0) scaleX(1); }
-    25% { transform: translateX(50px) scaleX(1); }
-    50% { transform: translateX(100px) scaleX(-1); }
-    75% { transform: translateX(50px) scaleX(-1); }
-}
-
-/* Домики */
-.house-sticker {
+/* Кораллы */
+.coral-small {
     bottom: 80px;
-    font-size: 3rem;
-    z-index: 4;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
-}
-
-.house-tent {
     left: 10%;
-}
-
-.house-home {
-    left: 30%;
-}
-
-.house-palace {
-    left: 50%;
-}
-
-/* Аксессуары */
-.accessory-sticker {
-    z-index: 5;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.accessory-large {
-    font-size: 4rem;
-}
-
-.accessory-medium {
-    font-size: 3rem;
-}
-
-.accessory-small {
-    font-size: 2.5rem;
-}
-
-.ferris-wheel {
-    top: 15%;
-    left: 20%;
-    animation: rotate-slow 30s infinite linear;
-}
-
-.vase-1 {
-    top: 70%;
-    left: 15%;
-    animation: sway 8s infinite ease-in-out;
-}
-
-.vase-2 {
-    top: 20%;
-    left: 80%;
-    animation: sway 10s infinite ease-in-out;
-    animation-delay: 2s;
-}
-
-.anchor {
-    bottom: 100px;
-    left: 65%;
-    animation: sway 12s infinite ease-in-out;
-    animation-delay: 1s;
-}
-
-.moai {
-    top: 40%;
-    left: 75%;
-    animation: sway 15s infinite ease-in-out;
-    animation-delay: 3s;
-}
-
-@keyframes rotate-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes sway {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-}
-
-/* Кораллы и камни */
-.coral-sticker {
-    bottom: 80px;
-    font-size: 3rem;
+    width: 60px;
     z-index: 3;
-    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
 }
 
-.coral-1 {
-    left: 5%;
-    animation: sway 6s infinite ease-in-out;
-}
-
-.coral-2 {
-    left: 25%;
-    animation: sway 8s infinite ease-in-out;
-    animation-delay: 1s;
-}
-
-.coral-3 {
-    left: 45%;
-    animation: sway 10s infinite ease-in-out;
-    animation-delay: 2s;
-}
-
-.coral-4 {
-    left: 65%;
-    animation: sway 7s infinite ease-in-out;
-    animation-delay: 3s;
-}
-
-.stone-sticker {
+.coral-medium {
     bottom: 80px;
-    font-size: 2.8rem;
-    z-index: 2;
-    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+    left: 25%;
+    width: 100px;
+    z-index: 3;
 }
 
-.stone-1 {
+.coral-large {
+    bottom: 80px;
+    left: 70%;
+    width: 120px;
+    z-index: 3;
+}
+
+/* Камни */
+.stone-small {
+    bottom: 80px;
     left: 15%;
+    width: 80px;
+    z-index: 2;
 }
 
-.stone-2 {
-    left: 35%;
+.stone-medium {
+    bottom: 80px;
+    left: 60%;
+    width: 120px;
+    z-index: 2;
 }
 
-.stone-3 {
-    left: 55%;
+.stone-large {
+    bottom: 80px;
+    left: 80%;
+    width: 150px;
+    z-index: 2;
 }
 
-.stone-4 {
-    left: 75%;
+/* Сундуки */
+.treasure-small {
+    bottom: 85px;
+    left: 40%;
+    width: 50px;
+    z-index: 4;
+}
+
+.treasure-medium {
+    bottom: 80px;
+    left: 45%;
+    width: 70px;
+    z-index: 4;
+}
+
+.treasure-large {
+    bottom: 75px;
+    left: 50%;
+    width: 90px;
+    z-index: 4;
 }
 
 /* Пузырьки */
@@ -368,56 +1070,6 @@
     font-size: 1.5rem;
 }
 
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .aquarium-container {
-        height: 300px;
-        border-width: 10px;
-    }
-    
-    .aquarium-bottom {
-        height: 60px;
-    }
-    
-    .fish-sticker {
-        font-size: 2rem !important;
-    }
-    
-    .mermaid {
-        font-size: 3rem;
-    }
-    
-    .bottom-creature {
-        font-size: 2rem;
-    }
-    
-    .house-sticker, .coral-sticker, .stone-sticker {
-        font-size: 2rem;
-    }
-    
-    .accessory-large { font-size: 3rem; }
-    .accessory-medium { font-size: 2.5rem; }
-    .accessory-small { font-size: 2rem; }
-    
-    .legend-items {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .aquarium-container {
-        height: 250px;
-    }
-    
-    .aquarium-bottom {
-        height: 50px;
-    }
-    
-    .fish-sticker {
-        font-size: 1.5rem !important;
-    }
-}
-
 /* Стили для страницы аналитики */
 .analytics-header {
     text-align: center;
@@ -480,44 +1132,6 @@
     content: "";
 }
 
-/* Адаптивность для аналитики */
-@media (max-width: 768px) {
-    .users-progress-list {
-        max-height: 500px;
-        padding: 10px;
-    }
-    
-    .user-progress-item {
-        padding: 15px;
-    }
-    
-    .user-progress-item strong {
-        font-size: 1.1rem;
-    }
-    
-    .progress-details {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .analytics-header {
-        padding: 15px;
-    }
-    
-    .analytics-header h2 {
-        font-size: 1.3rem;
-    }
-    
-    .analytics-header p {
-        font-size: 0.9rem;
-    }
-    
-    .user-progress-item {
-        padding: 12px;
-    }
-}
-
 /* Стили для панели администратора */
 .admin-controls {
     background: #f8f9fa;
@@ -571,544 +1185,63 @@
     border: 1px solid #bee5eb;
 }
 
-/* Дополнительные стили для улучшения внешнего вида */
-.progress-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.progress-stat {
-    text-align: center;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-}
-
-.progress-stat .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 5px;
-}
-
-/* Улучшенные стили для уведомлений */
-.notification {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    padding: 12px 18px;
-    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-    color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    display: none;
-    z-index: 1000;
-    font-weight: 500;
-    font-size: 0.9rem;
-    max-width: 80%;
-}
-
-.notification.error {
-    background: linear-gradient(135deg, var(--accent-color) 0%, #e74c3c 100%);
-}
-
-/* Стили для кнопок */
-.btn-full {
-    width: 100%;
-}
-
-.btn-small {
-    padding: 8px 15px;
-    font-size: 0.9rem;
-    margin-left: 10px;
-}
-
-.btn-secondary {
-    background: linear-gradient(135deg, #6c757d 0%, #8d99a7 100%);
-}
-
-.btn-danger {
-    background: linear-gradient(135deg, var(--accent-color) 0%, #ff8e8e 100%);
-}
-
-/* Анимации для плавных переходов */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.page {
-    display: none;
-    background-color: white;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    animation: fadeIn 0.5s ease;
-}
-
-.active {
-    display: block;
-}
-
-/* Улучшенные стили для карточек */
-.material-card, .game-card, .employee-card, .test-card {
-    border-radius: var(--border-radius);
-    padding: 20px;
-    transition: var(--transition);
-    background: white;
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--primary-color);
-}
-
-.material-card:hover, .game-card:hover, .employee-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-/* Стили для чата */
-.chat-container {
-    border-radius: var(--border-radius);
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-}
-
-.chat-messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background: #f8f9fa;
-}
-
-.message {
-    margin-bottom: 10px;
-    padding: 10px 12px;
-    border-radius: 15px;
-    max-width: 85%;
-    word-wrap: break-word;
-    font-size: 0.9rem;
-}
-
-.message.self {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
-    margin-left: auto;
-}
-
-.message.other {
-    background-color: white;
-    color: var(--text-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.chat-input {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #e9ecef;
-    background: white;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    margin-right: 8px;
-    font-size: 0.9rem;
-}
-
-/* Стили для игр */
-.game-stats {
-    display: flex;
-    justify-content: space-around;
-    margin: 15px 0;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.stat {
-    text-align: center;
-    padding: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    flex: 1;
-    min-width: 80px;
-}
-
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-/* Стили для вопросов тестов */
-.question {
-    margin-bottom: 15px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-}
-
-.options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.option {
-    padding: 10px 12px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
-}
-
-.option:hover {
-    background: #f0f8ff;
-    border-color: var(--primary-color);
-}
-
-.option.selected {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
-
-.option.correct {
-    background: #2ecc71;
-    color: white;
-    border-color: #2ecc71;
-}
-
-.option.incorrect {
-    background: #e74c3c;
-    color: white;
-    border-color: #e74c3c;
-}
-
-/* Стили для прогресс-баров */
-.progress-bar {
-    height: 15px;
-    background-color: #e9ecef;
-    border-radius: 8px;
-    margin-top: 8px;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    border-radius: 8px;
-    transition: width 0.5s ease;
-}
-
-/* Стили для комментариев */
-.comment-section {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-}
-
-.comment {
-    padding: 10px;
-    margin-bottom: 8px;
-    background-color: white;
-    border-radius: 8px;
-    border-left: 3px solid var(--secondary-color);
-}
-
-.delete-comment {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 15px;
-    cursor: pointer;
-    float: right;
-    font-size: 0.7rem;
-}
-
-/* Стили для профиля */
-.profile-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.profile-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: white;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    max-width: 500px;
-    width: 100%;
-}
-
-.profile-photo-large {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--primary-color);
-}
-
-.profile-details h2 {
-    margin-bottom: 5px;
-    color: var(--dark-color);
-}
-
-.profile-details p {
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.edit-section {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    margin-bottom: 20px;
-}
-
-.edit-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.edit-buttons button {
-    flex: 1;
-}
-
-/* Стили для сеток */
-.materials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.employees-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.contacts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 15px;
-}
-
-.contact-card {
-    width: 100%;
-    max-width: 160px;
-    text-align: center;
-    padding: 15px;
-    border-radius: var(--border-radius);
-    background: white;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-}
-
-.contact-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.contact-photo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 3px solid var(--primary-color);
-}
-
-.employee-photo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 3px solid var(--primary-color);
-}
-
-/* Стили для навигации */
-.nav-links {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.nav-links li {
-    margin: 3px 8px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 20px;
-    transition: var(--transition);
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.nav-links a:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-/* Стили для заголовка */
-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    overflow: hidden;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.fish {
-    font-size: 1.2rem;
-    margin-right: 5px;
-    animation: gentle-swim 3s infinite ease-in-out;
-}
-
-@keyframes gentle-swim {
-    0%, 100% { 
-        transform: translateY(0px) rotate(0deg); 
-    }
-    25% { 
-        transform: translateY(-2px) rotate(2deg); 
-    }
-    50% { 
-        transform: translateY(-3px) rotate(0deg); 
-    }
-    75% { 
-        transform: translateY(-1px) rotate(-2deg); 
-    }
-}
-
-.company-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    margin: 0 10px;
-}
-
-/* Основные переменные */
-:root {
-    --primary-color: #4a90e2;
-    --secondary-color: #7bb3ff;
-    --accent-color: #ff6b6b;
-    --light-color: #f0f8ff;
-    --dark-color: #2c3e50;
-    --text-color: #333;
-    --border-radius: 12px;
-    --shadow: 0 4px 12px rgba(0,0,0,0.08);
-    --transition: all 0.3s ease;
-}
-
-/* Базовые стили */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-}
-
-body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4f1ff 100%);
-    color: var(--text-color);
-    line-height: 1.6;
-    min-height: 100vh;
-}
-
-h1, h2, h3, h4 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    color: var(--dark-color);
-}
-
-nav {
-    background-color: var(--dark-color);
-    padding: 0.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-main {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 15px;
-}
-
-footer {
-    background: linear-gradient(135deg, var(--dark-color) 0%, #34495e 100%);
-    color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: 30px;
-    font-size: 0.9rem;
-}
-
-/* Утилитарные классы */
-.completed {
-    color: #2ecc71;
-    font-weight: 600;
-}
-
-.in-progress {
-    color: #f39c12;
-    font-weight: 600;
-}
-
-.not-started {
-    color: #95a5a6;
-    font-weight: 600;
-}
-
-.level-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    background: var(--primary-color);
-    color: white;
-    border-radius: 15px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    margin-left: 8px;
-}
-
 /* Адаптивность для мобильных */
 @media (max-width: 768px) {
+    .profile-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .aquarium-container {
+        height: 300px;
+        border-width: 10px;
+    }
+    
+    .aquarium-bottom {
+        height: 60px;
+    }
+    
+    .fish-aquarium {
+        width: 50px !important;
+    }
+    
+    .coral-small { width: 40px; }
+    .coral-medium { width: 70px; }
+    .coral-large { width: 90px; }
+    
+    .stone-small { width: 60px; }
+    .stone-medium { width: 90px; }
+    .stone-large { width: 120px; }
+    
+    .treasure-small { width: 40px; }
+    .treasure-medium { width: 55px; }
+    .treasure-large { width: 70px; }
+    
+    .legend-items {
+        grid-template-columns: 1fr;
+    }
+    
+    .users-progress-list {
+        max-height: 500px;
+        padding: 10px;
+    }
+    
+    .user-progress-item {
+        padding: 15px;
+    }
+    
+    .user-progress-item strong {
+        font-size: 1.1rem;
+    }
+    
+    .progress-details {
+        font-size: 0.9rem;
+    }
+    
     header {
         padding: 0.8rem;
     }
@@ -1197,17 +1330,38 @@ footer {
         width: 100%;
     }
     
-    .profile-info {
+    /* Адаптивность для админ-панели */
+    .admin-buttons {
         flex-direction: column;
-        text-align: center;
     }
     
-    .progress-stats {
-        grid-template-columns: repeat(2, 1fr);
+    .admin-buttons button {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .users-progress-list {
+        max-height: 200px;
     }
 }
 
 @media (max-width: 480px) {
+    .analytics-header {
+        padding: 15px;
+    }
+    
+    .analytics-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .analytics-header p {
+        font-size: 0.9rem;
+    }
+    
+    .user-progress-item {
+        padding: 12px;
+    }
+    
     .company-name {
         font-size: 1.1rem;
     }
@@ -1244,5 +1398,22 @@ footer {
     .contact-photo {
         width: 70px;
         height: 70px;
+    }
+    
+    .aquarium-container {
+        height: 250px;
+    }
+    
+    .progress-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .progress-stat {
+        padding: 10px;
+    }
+    
+    .progress-stat .stat-value {
+        font-size: 1.2rem;
     }
 }
