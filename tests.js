@@ -27,7 +27,7 @@ const tests = {
         ];
         
         testsContainer.innerHTML = testsData.map(test => {
-            const status = utils.loadFromStorage(`test-${test.id}-status`) || 'not-started';
+            const status = this.getTestStatus(test.id) || 'not-started';
             const statusText = status === 'completed' ? 'Пройден' : 'Не пройден';
             const statusClass = status === 'completed' ? 'completed' : 'not-started';
             
@@ -56,6 +56,37 @@ const tests = {
         testsData.forEach(test => {
             this.displayComments(test.id);
         });
+    },
+    
+    // Получение статуса теста для текущего пользователя
+    getTestStatus(testId) {
+        if (!auth.currentUser) return 'not-started';
+        
+        const userProgress = auth.getUserProgress();
+        return userProgress.tests[testId]?.status || 'not-started';
+    },
+    
+    // Получение результата теста для текущего пользователя
+    getTestResult(testId) {
+        if (!auth.currentUser) return null;
+        
+        const userProgress = auth.getUserProgress();
+        return userProgress.tests[testId]?.score || null;
+    },
+    
+    // Сохранение результата теста для текущего пользователя
+    setTestResult(testId, score, status = 'completed') {
+        if (!auth.currentUser) return false;
+        
+        const userProgress = auth.getUserProgress();
+        if (!userProgress.tests[testId]) {
+            userProgress.tests[testId] = {};
+        }
+        userProgress.tests[testId].status = status;
+        userProgress.tests[testId].score = score;
+        userProgress.tests[testId].completedAt = new Date().toISOString();
+        
+        return auth.saveUserProgress(userProgress);
     },
     
     // Начать тест
@@ -318,13 +349,11 @@ const tests = {
         
         const score = Math.round((correctAnswers / totalQuestions) * 100);
         
+        // Сохраняем результат для текущего пользователя
+        this.setTestResult(testId, score);
+        
         // Показываем результаты
         this.showTestResults(testId, score, correctAnswers, totalQuestions);
-        
-        // Сохраняем статус теста
-        utils.saveToStorage(`test-${testId}-status`, 'completed');
-        utils.saveToStorage(`test-${testId}-score`, score);
-        utils.saveToStorage(`test-${testId}-last-completion`, new Date().toISOString());
         
         // Обновляем статус на странице тестов
         const statusElement = document.getElementById(`${testId}-status`);
