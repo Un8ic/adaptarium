@@ -212,7 +212,7 @@ const profile = {
     loadProgress() {
         if (!auth.currentUser) return;
         
-        // Для администратора adminFish показываем 100% прогресса
+        // Для администратора adminFish показываем 100% прогресс
         if (auth.currentUser.username === 'adminFish') {
             if (document.getElementById('materials-progress')) {
                 document.getElementById('materials-progress').textContent = '100%';
@@ -228,10 +228,10 @@ const profile = {
             }
             
             this.progress = {
-                materials: 0,
-                training: 0,
-                tests: 0,
-                total: 0
+                materials: 100,
+                training: 100,
+                tests: 100,
+                total: 100
             };
             return;
         }
@@ -323,6 +323,32 @@ const profile = {
         this.addBubbles();
     },
     
+    // Создание SVG рыбки
+    createFishSVG(color1, color2, finColor) {
+        return `
+            <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                <!-- Тело рыбки -->
+                <ellipse cx="30" cy="15" rx="25" ry="12" fill="${color1}" stroke="${color2}" stroke-width="1"/>
+                
+                <!-- Хвост -->
+                <path d="M5,15 Q0,5 10,10 Q5,15 5,15 Z" fill="${color2}"/>
+                <path d="M5,15 Q0,25 10,20 Q5,15 5,15 Z" fill="${color2}"/>
+                
+                <!-- Плавники -->
+                <ellipse cx="40" cy="8" rx="8" ry="4" fill="${finColor}" opacity="0.8"/>
+                <ellipse cx="40" cy="22" rx="8" ry="4" fill="${finColor}" opacity="0.8"/>
+                
+                <!-- Глаз -->
+                <circle cx="45" cy="14" r="2" fill="white"/>
+                <circle cx="45" cy="14" r="1" fill="black"/>
+                
+                <!-- Полоски на теле -->
+                <path d="M20,8 L35,8" stroke="${color2}" stroke-width="1" opacity="0.6"/>
+                <path d="M20,22 L35,22" stroke="${color2}" stroke-width="1" opacity="0.6"/>
+            </svg>
+        `;
+    },
+    
     // Добавление рыбок на основе прогресса
     addFishBasedOnProgress() {
         const aquarium = document.getElementById('aquarium');
@@ -339,13 +365,22 @@ const profile = {
         if (totalProgress >= 80) fishCount = 4;  // 4 рыбки при 80%
         if (totalProgress >= 95) fishCount = 5;  // 5 рыбок при 95%+
         
-        const fishTypes = ['🐠', '🐟', '🐡', '🦈', '🐠'];
+        const fishColors = [
+            { body: '#FF6B6B', accent: '#FF5252', fin: '#FF8A80' }, // Красная
+            { body: '#4ECDC4', accent: '#26A69A', fin: '#80CBC4' }, // Бирюзовая
+            { body: '#FFD93D', accent: '#FFC107', fin: '#FFE082' }, // Желтая
+            { body: '#6B5B95', accent: '#5D4A8A', fin: '#8E7CC3' }, // Фиолетовая
+            { body: '#88D498', accent: '#6BCF7F', fin: '#A8E6CF' }  // Зеленая
+        ];
         
         for (let i = 0; i < fishCount; i++) {
             const fish = document.createElement('div');
             fish.className = `fish-aquarium fish-${i + 1}`;
-            fish.textContent = fishTypes[i];
-            fish.style.animationDelay = `${i * 2}s`;
+            fish.innerHTML = this.createFishSVG(
+                fishColors[i].body,
+                fishColors[i].accent,
+                fishColors[i].fin
+            );
             aquarium.appendChild(fish);
         }
     },
@@ -359,41 +394,61 @@ const profile = {
         const trainingProgress = this.progress.training;
         const testsProgress = this.progress.tests;
         
-        // Растения появляются при прогрессе материалов
-        if (materialsProgress >= 30) {
-            const plant1 = document.createElement('div');
-            plant1.className = 'aquarium-accessory plant-1';
-            plant1.textContent = '🌿';
-            aquarium.appendChild(plant1);
+        // Домик появляется и растет с прогрессом материалов
+        if (materialsProgress >= 20) {
+            const house = document.createElement('div');
+            house.className = 'aquarium-accessory fish-house';
+            if (materialsProgress >= 60) {
+                house.classList.add('fish-house-large');
+            }
+            aquarium.appendChild(house);
         }
         
-        if (materialsProgress >= 60) {
-            const plant2 = document.createElement('div');
-            plant2.className = 'aquarium-accessory plant-2';
-            plant2.textContent = '🌱';
-            aquarium.appendChild(plant2);
+        // Водоросли появляются с прогрессом обучения
+        if (trainingProgress >= 25) {
+            const seaweed1 = document.createElement('div');
+            seaweed1.className = 'aquarium-accessory seaweed seaweed-small';
+            aquarium.appendChild(seaweed1);
         }
         
-        // Камни появляются при прогрессе обучения
-        if (trainingProgress >= 30) {
+        if (trainingProgress >= 50) {
+            const seaweed2 = document.createElement('div');
+            seaweed2.className = 'aquarium-accessory seaweed seaweed-medium';
+            aquarium.appendChild(seaweed2);
+        }
+        
+        if (trainingProgress >= 75) {
+            const seaweed3 = document.createElement('div');
+            seaweed3.className = 'aquarium-accessory seaweed seaweed-large';
+            aquarium.appendChild(seaweed3);
+        }
+        
+        // Камни появляются с прогрессом тестов
+        if (testsProgress >= 20) {
             const stone1 = document.createElement('div');
-            stone1.className = 'aquarium-accessory stone-1';
-            stone1.textContent = '🪨';
+            stone1.className = 'aquarium-accessory stone stone-small';
             aquarium.appendChild(stone1);
         }
         
-        if (trainingProgress >= 60) {
+        if (testsProgress >= 50) {
             const stone2 = document.createElement('div');
-            stone2.className = 'aquarium-accessory stone-2';
-            stone2.textContent = '⛰️';
+            stone2.className = 'aquarium-accessory stone stone-medium';
             aquarium.appendChild(stone2);
         }
         
-        // Сокровище появляется при прогрессе тестов
-        if (testsProgress >= 50) {
+        if (testsProgress >= 80) {
+            const stone3 = document.createElement('div');
+            stone3.className = 'aquarium-accessory stone stone-large';
+            aquarium.appendChild(stone3);
+        }
+        
+        // Сундук с сокровищами появляется при высоком прогрессе
+        if (testsProgress >= 90) {
             const treasure = document.createElement('div');
-            treasure.className = 'aquarium-accessory treasure';
-            treasure.textContent = '💎';
+            treasure.className = 'aquarium-accessory treasure-chest';
+            if (testsProgress >= 95) {
+                treasure.classList.add('treasure-chest-open');
+            }
             aquarium.appendChild(treasure);
         }
     },
@@ -406,12 +461,14 @@ const profile = {
         bubblesContainer.innerHTML = '';
         
         // Создаем несколько пузырьков
-        for (let i = 0; i < 15; i++) {
+        const bubbleCount = this.progress && this.progress.total > 0 ? 20 : 10;
+        
+        for (let i = 0; i < bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
             
             // Случайные параметры для пузырьков
-            const size = Math.random() * 20 + 5;
+            const size = Math.random() * 15 + 5;
             const left = Math.random() * 100;
             const delay = Math.random() * 8;
             const duration = Math.random() * 4 + 6;
