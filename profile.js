@@ -212,19 +212,19 @@ const profile = {
     loadProgress() {
         if (!auth.currentUser) return;
         
-        // Для администратора adminFish показываем 0% прогресса
+        // Для администратора adminFish показываем 100% прогресса
         if (auth.currentUser.username === 'adminFish') {
             if (document.getElementById('materials-progress')) {
-                document.getElementById('materials-progress').textContent = '0%';
+                document.getElementById('materials-progress').textContent = '100%';
             }
             if (document.getElementById('training-progress')) {
-                document.getElementById('training-progress').textContent = '0%';
+                document.getElementById('training-progress').textContent = '100%';
             }
             if (document.getElementById('tests-progress')) {
-                document.getElementById('tests-progress').textContent = '0%';
+                document.getElementById('tests-progress').textContent = '100%';
             }
             if (document.getElementById('total-progress')) {
-                document.getElementById('total-progress').textContent = '0%';
+                document.getElementById('total-progress').textContent = '100%';
             }
             
             this.progress = {
