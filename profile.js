@@ -418,7 +418,7 @@ const profile = {
         
         const testsProgress = this.progress.tests;
         
-        if (testsProgress >= 25) {
+        if (testsProgress >= 20) {
             const tent = document.createElement('div');
             tent.className = 'aquarium-sticker house-sticker house-tent';
             tent.textContent = '⛺';
@@ -469,7 +469,7 @@ const profile = {
         }
         
         // Маленькие аксессуары
-        if (trainingProgress >= 25) {
+        if (trainingProgress >= 20) {
             const moai = document.createElement('div');
             moai.className = 'aquarium-sticker accessory-sticker accessory-small moai';
             moai.textContent = '🗿';
@@ -485,28 +485,28 @@ const profile = {
         const materialsProgress = this.progress.materials;
         
         // Приоритет кораллам
-        if (materialsProgress >= 20) {
+        if (materialsProgress >= 15) {
             const coral1 = document.createElement('div');
             coral1.className = 'aquarium-sticker coral-sticker coral-1';
             coral1.textContent = '🪸';
             aquarium.appendChild(coral1);
         }
         
-        if (materialsProgress >= 35) {
+        if (materialsProgress >= 30) {
             const coral2 = document.createElement('div');
             coral2.className = 'aquarium-sticker coral-sticker coral-2';
             coral2.textContent = '🪸';
             aquarium.appendChild(coral2);
         }
         
-        if (materialsProgress >= 50) {
+        if (materialsProgress >= 45) {
             const coral3 = document.createElement('div');
             coral3.className = 'aquarium-sticker coral-sticker coral-3';
             coral3.textContent = '🪸';
             aquarium.appendChild(coral3);
         }
         
-        if (materialsProgress >= 65) {
+        if (materialsProgress >= 60) {
             const coral4 = document.createElement('div');
             coral4.className = 'aquarium-sticker coral-sticker coral-4';
             coral4.textContent = '🪸';
@@ -514,28 +514,28 @@ const profile = {
         }
         
         // Камни добавляются после кораллов
-        if (materialsProgress >= 30) {
+        if (materialsProgress >= 25) {
             const stone1 = document.createElement('div');
             stone1.className = 'aquarium-sticker stone-sticker stone-1';
             stone1.textContent = '🪨';
             aquarium.appendChild(stone1);
         }
         
-        if (materialsProgress >= 45) {
+        if (materialsProgress >= 40) {
             const stone2 = document.createElement('div');
             stone2.className = 'aquarium-sticker stone-sticker stone-2';
             stone2.textContent = '🪨';
             aquarium.appendChild(stone2);
         }
         
-        if (materialsProgress >= 60) {
+        if (materialsProgress >= 55) {
             const stone3 = document.createElement('div');
             stone3.className = 'aquarium-sticker stone-sticker stone-3';
             stone3.textContent = '🪨';
             aquarium.appendChild(stone3);
         }
         
-        if (materialsProgress >= 75) {
+        if (materialsProgress >= 70) {
             const stone4 = document.createElement('div');
             stone4.className = 'aquarium-sticker stone-sticker stone-4';
             stone4.textContent = '🪨';
