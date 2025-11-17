@@ -76,6 +76,7 @@ const navigation = {
                 feedback.displayChatMessages();
                 break;
             case 'tests-page':
+                tests.loadTests();
                 tests.displayComments('test1');
                 tests.displayComments('test2');
                 tests.displayComments('test3');
