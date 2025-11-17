@@ -171,10 +171,6 @@ const navigation = {
         
         // Вместо старой аналитики показываем прогресс всех пользователей
         analyticsList.innerHTML = `
-            <div class="analytics-header">
-                <h2>Прогресс сотрудников</h2>
-                <p>Обзор прогресса по материалам, играм и тестам для всех сотрудников</p>
-            </div>
             ${profile.getAllUsersProgress()}
         `;
         
