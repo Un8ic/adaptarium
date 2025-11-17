@@ -147,7 +147,7 @@ const profile = {
         
         for (let i = 0; i < fishCount; i++) {
             const fish = document.createElement('div');
-            fish.className = `fish fish-${i + 1}`;
+            fish.className = `fish-aquarium fish-${i + 1}`; // ИЗМЕНЕНО: fish-aquarium вместо fish
             fish.textContent = fishTypes[i];
             fish.style.animationDelay = `${i * 2}s`;
             aquarium.appendChild(fish);
