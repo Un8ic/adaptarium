@@ -397,62 +397,74 @@ const profile = {
         
         const totalProgress = this.progress ? this.progress.total : 0;
         
+        // Разные размеры для существ
+        const sizes = {
+            small: '32px',
+            medium: '40px',
+            large: '48px',
+            xlarge: '56px'
+        };
+        
         // Рыбы появляются постепенно с ростом прогресса
         if (totalProgress >= 10) {
-            this.addCreature(aquarium, 'fish', 'fish-1', '🐠');
+            this.addCreature(aquarium, 'fish-1', '🐠', sizes.medium);
         }
         if (totalProgress >= 20) {
-            this.addCreature(aquarium, 'fish', 'fish-2', '🐟');
+            this.addCreature(aquarium, 'fish-2', '🐟', sizes.small);
         }
         if (totalProgress >= 30) {
-            this.addCreature(aquarium, 'fish', 'fish-3', '🐡');
+            this.addCreature(aquarium, 'fish-3', '🐡', sizes.large);
         }
         if (totalProgress >= 40) {
-            this.addCreature(aquarium, 'fish', 'fish-4', '🦈');
+            this.addCreature(aquarium, 'fish-4', '🦈', sizes.xlarge);
         }
         if (totalProgress >= 50) {
-            this.addCreature(aquarium, 'fish', 'fish-5', '🐠');
+            this.addCreature(aquarium, 'fish-5', '🐠', sizes.medium);
         }
         if (totalProgress >= 60) {
-            this.addCreature(aquarium, 'fish', 'fish-6', '🐟');
+            this.addCreature(aquarium, 'fish-6', '🐟', sizes.small);
         }
         
-        // Крабы появляются с прогрессом от 25%
-        if (totalProgress >= 25) {
-            this.addCreature(aquarium, 'crab', 'crab-1', '🦀');
+        // Крабы появляются с прогрессом от 40%
+        if (totalProgress >= 40) {
+            this.addCreature(aquarium, 'crab-1', '🦀', sizes.medium);
         }
-        if (totalProgress >= 45) {
-            this.addCreature(aquarium, 'crab', 'crab-2', '🦀');
+        if (totalProgress >= 60) {
+            this.addCreature(aquarium, 'crab-2', '🦀', sizes.small);
         }
-        if (totalProgress >= 65) {
-            this.addCreature(aquarium, 'crab', 'crab-3', '🦀');
+        if (totalProgress >= 80) {
+            this.addCreature(aquarium, 'crab-3', '🦀', sizes.large);
         }
         
-        // Осьминоги появляются с прогрессом от 35%
-        if (totalProgress >= 35) {
-            this.addCreature(aquarium, 'octopus', 'octopus-1', '🐙');
+        // Осьминоги появляются с прогрессом от 50%
+        if (totalProgress >= 50) {
+            this.addCreature(aquarium, 'octopus-1', '🐙', sizes.large);
         }
-        if (totalProgress >= 55) {
-            this.addCreature(aquarium, 'octopus', 'octopus-2', '🐙');
+        if (totalProgress >= 70) {
+            this.addCreature(aquarium, 'octopus-2', '🐙', sizes.medium);
         }
-        if (totalProgress >= 75) {
-            this.addCreature(aquarium, 'octopus', 'octopus-3', '🐙');
+        if (totalProgress >= 90) {
+            this.addCreature(aquarium, 'octopus-3', '🐙', sizes.xlarge);
         }
         
         // Русалки появляются только при высоком прогрессе
         if (totalProgress >= 70) {
-            this.addCreature(aquarium, 'mermaid', 'mermaid-1', '🧜‍♀️');
+            this.addCreature(aquarium, 'mermaid-1', '🧜‍♀️', sizes.xlarge);
         }
-        if (totalProgress >= 90) {
-            this.addCreature(aquarium, 'mermaid', 'mermaid-2', '🧜‍♀️');
+        if (totalProgress >= 85) {
+            this.addCreature(aquarium, 'mermaid-2', '🧜‍♀️', sizes.large);
+        }
+        if (totalProgress >= 95) {
+            this.addCreature(aquarium, 'mermaid-3', '🧜‍♀️', sizes.medium);
         }
     },
 
     // Вспомогательная функция для добавления существ
-    addCreature(aquarium, type, className, emoji) {
+    addCreature(aquarium, className, emoji, size) {
         const creature = document.createElement('div');
-        creature.className = `aquarium-creature ${className} ${type}`;
+        creature.className = `aquarium-creature ${className}`;
         creature.innerHTML = emoji;
+        creature.style.fontSize = size;
         creature.style.display = 'block';
         aquarium.appendChild(creature);
     },
@@ -465,14 +477,15 @@ const profile = {
         bubblesContainer.innerHTML = '';
         
         // Количество пузырьков зависит от прогресса
-        const bubbleCount = this.progress && this.progress.total > 0 ? 20 : 12;
+        const totalProgress = this.progress ? this.progress.total : 0;
+        const bubbleCount = 15 + Math.floor(totalProgress / 10) * 5; // Увеличиваем с прогрессом
         
         for (let i = 0; i < bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
             
             // Случайные параметры для пузырьков
-            const size = Math.random() * 30 + 10; // Увеличили размер пузырьков
+            const size = Math.random() * 20 + 5;
             const left = Math.random() * 100;
             const delay = Math.random() * 8;
             const duration = Math.random() * 4 + 6;
