@@ -43,6 +43,14 @@ const navigation = {
     
     // Показать страницу
     showPage(pageId) {
+        // Проверяем существование страницы
+        const page = document.getElementById(pageId);
+        if (!page) {
+            console.error(`Страница ${pageId} не найдена`);
+            utils.showNotification('Страница временно недоступна', true);
+            return;
+        }
+        
         // Сохраняем текущую страницу в истории
         const currentPage = document.querySelector('.page.active');
         if (currentPage && currentPage.id !== pageId) {
@@ -56,7 +64,7 @@ const navigation = {
         });
         
         // Показываем выбранную страницу
-        document.getElementById(pageId).classList.add('active');
+        page.classList.add('active');
         
         // Загружаем данные для конкретных страниц
         this.loadPageData(pageId);
@@ -77,9 +85,6 @@ const navigation = {
                 break;
             case 'tests-page':
                 tests.loadTests();
-                tests.displayComments('test1');
-                tests.displayComments('test2');
-                tests.displayComments('test3');
                 break;
             case 'profile-page':
                 profile.loadProfileData();
