@@ -935,7 +935,7 @@ footer {
     background: linear-gradient(180deg, #1a5276 0%, #2874a6 30%, #3498db 70%, #85c1e9 100%);
     border-radius: 15px;
     overflow: hidden;
-    border: 15px solid #8B4513;
+    border: 10px solid #1a5276;
     margin-bottom: 20px;
     box-shadow: 
         inset 0 0 80px rgba(0, 0, 0, 0.4),
@@ -968,7 +968,7 @@ footer {
     background: linear-gradient(to top, rgba(215, 184, 153, 0.8), transparent);
 }
 
-/* Стили для новых обитателей аквариума */
+/* Стили для обитателей аквариума */
 .aquarium-creature {
     position: absolute;
     z-index: 10;
@@ -976,8 +976,8 @@ footer {
     transition: transform 0.3s ease;
 }
 
-/* Анимации для новых обитателей */
-@keyframes swim-gentle {
+/* Анимации для обитателей - плавание хвостами вперед */
+@keyframes swim-forward {
     0% { transform: translateX(-100px) translateY(0) scaleX(1); }
     25% { transform: translateX(25vw) translateY(-15px) scaleX(1); }
     50% { transform: translateX(50vw) translateY(10px) scaleX(1); }
@@ -1021,7 +1021,7 @@ footer {
 /* Позиционирование и анимация для каждого существа */
 .fish-1 { 
     top: 20%; 
-    animation: swim-gentle 25s infinite linear;
+    animation: swim-forward 25s infinite linear;
     animation-delay: 0s;
 }
 .fish-2 { 
@@ -1031,7 +1031,7 @@ footer {
 }
 .fish-3 { 
     top: 60%; 
-    animation: swim-gentle 28s infinite linear;
+    animation: swim-forward 28s infinite linear;
     animation-delay: 10s;
 }
 .jellyfish-1 { 
