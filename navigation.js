@@ -169,10 +169,8 @@ const navigation = {
         const analyticsList = document.getElementById('analytics-list');
         if (!analyticsList) return;
         
-        // Вместо старой аналитики показываем прогресс всех пользователей
-        analyticsList.innerHTML = `
-            ${profile.getAllUsersProgress()}
-        `;
+        // Показываем только прогресс всех пользователей без заголовка
+        analyticsList.innerHTML = profile.getAllUsersProgress();
         
         // Загружаем все комментарии
         tests.loadAllComments();
