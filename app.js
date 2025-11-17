@@ -345,77 +345,6 @@ window.forceRefreshProgress = function() {
     }
 };
 
-// Функция для сброса прогресса текущего пользователя (для тестирования)
-window.resetProgress = function() {
-    if (confirm('Вы уверены, что хотите сбросить весь прогресс текущего пользователя? Это действие нельзя отменить.')) {
-        if (auth.currentUser) {
-            // Удаляем все данные прогресса текущего пользователя
-            utils.clearAllUserData();
-            
-            // Пересоздаем структуру прогресса
-            auth.initializeUserProgress();
-            
-            utils.showNotification('Прогресс текущего пользователя сброшен!');
-            
-            // Перезагружаем страницу
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
-        } else {
-            utils.showNotification('Пользователь не авторизован', true);
-        }
-    }
-};
-
-// Функция для сброса прогресса всех пользователей (админская функция)
-window.resetAllProgress = function() {
-    if (!auth.currentUser || auth.currentUser.role !== 'admin') {
-        utils.showNotification('Недостаточно прав для выполнения этой операции', true);
-        return;
-    }
-    
-    if (confirm('ВЫ УВЕРЕНЫ? Это сбросит прогресс ВСЕХ пользователей. Это действие нельзя отменить.')) {
-        // Удаляем все данные прогресса всех пользователей
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key.includes('userProgress_') || key.includes('_')) {
-                keysToRemove.push(key);
-            }
-        }
-        
-        keysToRemove.forEach(key => {
-            localStorage.removeItem(key);
-        });
-        
-        // Сохраняем только текущего пользователя и базовые настройки
-        const currentUser = utils.loadFromStorage('currentUser');
-        const chatMessages = utils.loadFromStorage('chatMessages');
-        const feedbacks = utils.loadFromStorage('feedbacks');
-        const testComments = utils.loadFromStorage('testComments');
-        
-        localStorage.clear();
-        
-        if (currentUser) utils.saveToStorage('currentUser', currentUser);
-        if (chatMessages) utils.saveToStorage('chatMessages', chatMessages);
-        if (feedbacks) utils.saveToStorage('feedbacks', feedbacks);
-        if (testComments) utils.saveToStorage('testComments', testComments);
-        
-        // Пересоздаем структуру прогресса для текущего пользователя
-        if (currentUser) {
-            auth.currentUser = currentUser;
-            auth.initializeUserProgress();
-        }
-        
-        utils.showNotification('Прогресс всех пользователей сброшен!');
-        
-        // Перезагружаем страницу
-        setTimeout(() => {
-            window.location.reload();
-        }, 1500);
-    }
-};
-
 // Функция для быстрой проверки состояния прогресса
 window.checkProgressState = function() {
     if (typeof profile !== 'undefined' && typeof profile.progress !== 'undefined') {
@@ -429,37 +358,6 @@ window.checkProgressState = function() {
     } else {
         alert('Прогресс не загружен. Перейдите в личный кабинет.');
     }
-};
-
-// Функция для просмотра данных всех пользователей (только для админа)
-window.viewAllUsersProgress = function() {
-    if (!auth.currentUser || auth.currentUser.role !== 'admin') {
-        utils.showNotification('Недостаточно прав для выполнения этой операции', true);
-        return;
-    }
-    
-    let progressInfo = 'Прогресс всех пользователей:\n\n';
-    
-    Object.keys(auth.users).forEach(username => {
-        const userProgressKey = `userProgress_${username}`;
-        const userProgress = utils.loadFromStorage(userProgressKey);
-        
-        if (userProgress) {
-            const materialsCount = Object.keys(userProgress.materials || {}).length;
-            const gamesCount = Object.keys(userProgress.games || {}).length;
-            const testsCount = Object.keys(userProgress.tests || {}).length;
-            
-            progressInfo += `👤 ${auth.users[username].name} (${username}):\n`;
-            progressInfo += `   📚 Материалов изучено: ${materialsCount}/6\n`;
-            progressInfo += `   🎮 Игр пройдено: ${gamesCount}/2\n`;
-            progressInfo += `   📝 Тестов сдано: ${testsCount}/3\n`;
-            progressInfo += `   📅 Последняя активность: ${userProgress.lastUpdated ? new Date(userProgress.lastUpdated).toLocaleString('ru-RU') : 'неизвестно'}\n\n`;
-        } else {
-            progressInfo += `👤 ${auth.users[username].name} (${username}): нет данных о прогрессе\n\n`;
-        }
-    });
-    
-    alert(progressInfo);
 };
 
 // Улучшенная обработка ошибок для улучшения отказоустойчивости
