@@ -435,7 +435,7 @@ const profile = {
         if (totalProgress >= 40) {
             const jellyfish1 = document.createElement('div');
             jellyfish1.className = 'aquarium-creature jellyfish-1';
-            jellyfish1.innerHTML = '🎐';
+            jellyfish1.innerHTML = '🪼';
             jellyfish1.style.fontSize = '28px';
             aquarium.appendChild(jellyfish1);
         }
@@ -443,8 +443,8 @@ const profile = {
         if (totalProgress >= 60) {
             const jellyfish2 = document.createElement('div');
             jellyfish2.className = 'aquarium-creature jellyfish-2';
-            jellyfish2.innerHTML = '🌊';
-            jellyfish2.style.fontSize = '28px';
+            jellyfish2.innerHTML = '🪼';
+            jellyfish2.style.fontSize = '32px';
             aquarium.appendChild(jellyfish2);
         }
         
