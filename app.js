@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const editProfileBtn = document.getElementById('edit-profile-btn');
     if (editProfileBtn) {
         editProfileBtn.addEventListener('click', function() {
-            profile.enableEditMode();
+            if (typeof profile !== 'undefined' && profile.enableEditMode) {
+                profile.enableEditMode();
+            }
         });
     }
     
@@ -92,23 +94,31 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pageId === 'profile-page') {
             // Обновляем прогресс и аквариум при каждом входе в личный кабинет
             setTimeout(() => {
-                if (typeof profile !== 'undefined') {
-                    profile.loadProgress();
-                    profile.updateAquarium();
+                if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+                    try {
+                        profile.loadProgress();
+                        profile.updateAquarium();
+                    } catch (error) {
+                        console.log('Аквариум еще не готов к обновлению');
+                    }
                 }
             }, 100);
         }
     };
     
     // Переопределяем функцию completeMaterial для обновления прогресса
-    if (typeof materials !== 'undefined') {
+    if (typeof materials !== 'undefined' && materials.completeMaterial) {
         const originalCompleteMaterial = materials.completeMaterial;
         materials.completeMaterial = function(materialId) {
             const result = originalCompleteMaterial.call(this, materialId);
             setTimeout(() => {
-                if (typeof profile !== 'undefined') {
-                    profile.loadProgress();
-                    profile.updateAquarium();
+                if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+                    try {
+                        profile.loadProgress();
+                        profile.updateAquarium();
+                    } catch (error) {
+                        console.log('Аквариум еще не готов к обновлению');
+                    }
                 }
             }, 500);
             return result;
@@ -116,14 +126,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Переопределяем функцию завершения тестов для обновления прогресса
-    if (typeof tests !== 'undefined') {
+    if (typeof tests !== 'undefined' && tests.submitTest) {
         const originalSubmitTest = tests.submitTest;
         tests.submitTest = function(testId) {
             originalSubmitTest.call(this, testId);
             setTimeout(() => {
-                if (typeof profile !== 'undefined') {
-                    profile.loadProgress();
-                    profile.updateAquarium();
+                if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+                    try {
+                        profile.loadProgress();
+                        profile.updateAquarium();
+                    } catch (error) {
+                        console.log('Аквариум еще не готов к обновлению');
+                    }
                 }
             }, 500);
         };
@@ -135,11 +149,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalSaveQuestProgress = games.saveQuestProgress;
         if (originalSaveQuestProgress) {
             games.saveQuestProgress = function() {
-                originalSaveQuestProgress.call(this);
+                if (originalSaveQuestProgress) {
+                    originalSaveQuestProgress.call(this);
+                }
                 setTimeout(() => {
-                    if (typeof profile !== 'undefined') {
-                        profile.loadProgress();
-                        profile.updateAquarium();
+                    if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+                        try {
+                            profile.loadProgress();
+                            profile.updateAquarium();
+                        } catch (error) {
+                            console.log('Аквариум еще не готов к обновлению');
+                        }
                     }
                 }, 500);
             };
@@ -149,11 +169,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalSaveQuizProgress = games.saveQuizProgress;
         if (originalSaveQuizProgress) {
             games.saveQuizProgress = function() {
-                originalSaveQuizProgress.call(this);
+                if (originalSaveQuizProgress) {
+                    originalSaveQuizProgress.call(this);
+                }
                 setTimeout(() => {
-                    if (typeof profile !== 'undefined') {
-                        profile.loadProgress();
-                        profile.updateAquarium();
+                    if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+                        try {
+                            profile.loadProgress();
+                            profile.updateAquarium();
+                        } catch (error) {
+                            console.log('Аквариум еще не готов к обновлению');
+                        }
                     }
                 }, 500);
             };
@@ -163,11 +189,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalShowQuizResults = games.showQuizResults;
         if (originalShowQuizResults) {
             games.showQuizResults = function() {
-                originalShowQuizResults.call(this);
+                if (originalShowQuizResults) {
+                    originalShowQuizResults.call(this);
+                }
                 setTimeout(() => {
-                    if (typeof profile !== 'undefined') {
-                        profile.loadProgress();
-                        profile.updateAquarium();
+                    if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+                        try {
+                            profile.loadProgress();
+                            profile.updateAquarium();
+                        } catch (error) {
+                            console.log('Аквариум еще не готов к обновлению');
+                        }
                     }
                 }, 500);
             };
@@ -209,8 +241,14 @@ function initializeEnhancedFeatures() {
                     if (typeof profile !== 'undefined' && 
                         document.getElementById('profile-page') && 
                         document.getElementById('profile-page').classList.contains('active')) {
-                        profile.loadProgress();
-                        profile.updateAquarium();
+                        try {
+                            if (profile.loadProgress && profile.updateAquarium) {
+                                profile.loadProgress();
+                                profile.updateAquarium();
+                            }
+                        } catch (error) {
+                            console.log('Аквариум еще не готов к обновлению');
+                        }
                     }
                 }, 300);
             }
@@ -223,7 +261,13 @@ function initializeEnhancedFeatures() {
             if (typeof profile !== 'undefined' && 
                 document.getElementById('profile-page') && 
                 document.getElementById('profile-page').classList.contains('active')) {
-                profile.updateAquarium();
+                try {
+                    if (profile.updateAquarium) {
+                        profile.updateAquarium();
+                    }
+                } catch (error) {
+                    console.log('Аквариум еще не готов к обновлению');
+                }
             }
         }, 500);
     });
@@ -236,7 +280,13 @@ function initializeEnhancedFeatures() {
             if (typeof profile !== 'undefined' && 
                 document.getElementById('profile-page') && 
                 document.getElementById('profile-page').classList.contains('active')) {
-                profile.updateAquarium();
+                try {
+                    if (profile.updateAquarium) {
+                        profile.updateAquarium();
+                    }
+                } catch (error) {
+                    console.log('Аквариум еще не готов к обновлению');
+                }
             }
         }, 250);
     });
@@ -244,21 +294,29 @@ function initializeEnhancedFeatures() {
 
 // Глобальные вспомогательные функции
 window.refreshAquarium = function() {
-    if (typeof profile !== 'undefined') {
-        profile.loadProgress();
-        profile.updateAquarium();
-        utils.showNotification('Аквариум обновлен!');
+    if (typeof profile !== 'undefined' && profile.loadProgress && profile.updateAquarium) {
+        try {
+            profile.loadProgress();
+            profile.updateAquarium();
+            utils.showNotification('Аквариум обновлен!');
+        } catch (error) {
+            console.log('Аквариум еще не готов к обновлению');
+        }
     }
 };
 
 // Функция для принудительного обновления всех прогрессов
 window.forceRefreshProgress = function() {
-    if (typeof profile !== 'undefined') {
-        profile.loadProgress();
-        if (typeof profile.updateAquarium !== 'undefined') {
-            profile.updateAquarium();
+    if (typeof profile !== 'undefined' && profile.loadProgress) {
+        try {
+            profile.loadProgress();
+            if (typeof profile.updateAquarium !== 'undefined') {
+                profile.updateAquarium();
+            }
+            utils.showNotification('Все прогрессы обновлены!');
+        } catch (error) {
+            console.log('Прогрессы еще не готовы к обновлению');
         }
-        utils.showNotification('Все прогрессы обновлены!');
     }
     
     // Также обновляем другие компоненты, если они активны
@@ -404,14 +462,12 @@ window.viewAllUsersProgress = function() {
     alert(progressInfo);
 };
 
-// Обработка ошибок для улучшения отказоустойчивости
+// Улучшенная обработка ошибок для улучшения отказоустойчивости
 window.addEventListener('error', function(e) {
     console.error('Произошла ошибка:', e.error);
     
-    // Показываем пользователю дружелюбное сообщение об ошибке
-    if (document.getElementById('notification')) {
-        utils.showNotification('Произошла непредвиденная ошибка. Пожалуйста, обновите страницу.', true);
-    }
+    // Не показываем пользователю сообщение об ошибке, чтобы не мешать работе
+    // Просто логируем в консоль
 });
 
 // Улучшенная обработка Promise rejections
