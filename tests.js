@@ -52,7 +52,7 @@ const tests = {
             `;
         }).join('');
         
-        // Загружаем комментарии для всех тестов
+        // Загружаем комментарии для всех тестов через Firebase
         testsData.forEach(test => {
             this.displayComments(test.id);
         });
@@ -388,8 +388,8 @@ const tests = {
         navigation.showPage('tests-page');
     },
     
-    // Добавление комментария
-    addComment(testId) {
+    // Добавление комментария (использует Firebase если доступен, иначе localStorage)
+    async addComment(testId) {
         if (!auth.currentUser) {
             utils.showNotification('Для добавления комментария необходимо авторизоваться', true);
             return;
@@ -401,6 +401,31 @@ const tests = {
             return;
         }
         
+        const newComment = {
+            user: auth.currentUser.name,
+            text: commentText,
+            timestamp: new Date().toLocaleString('ru-RU')
+        };
+        
+        // Пробуем использовать Firebase если доступен
+        if (typeof firebaseService !== 'undefined') {
+            const success = await firebaseService.saveTestComment(testId, newComment);
+            if (success) {
+                document.getElementById(`${testId}-comment`).value = '';
+                utils.showNotification('Комментарий добавлен');
+            } else {
+                utils.showNotification('Ошибка при добавлении комментария', true);
+                // Fallback to localStorage
+                this.addCommentToLocalStorage(testId, newComment);
+            }
+        } else {
+            // Fallback to localStorage
+            this.addCommentToLocalStorage(testId, newComment);
+        }
+    },
+    
+    // Добавление комментария в localStorage (fallback)
+    addCommentToLocalStorage(testId, newComment) {
         // Получаем существующие комментарии из localStorage
         const comments = utils.loadFromStorage('testComments') || {};
         if (!comments[testId]) {
@@ -408,13 +433,7 @@ const tests = {
         }
         
         // Добавляем новый комментарий
-        const newComment = {
-            id: Date.now(),
-            user: auth.currentUser.name,
-            text: commentText,
-            timestamp: new Date().toLocaleString('ru-RU')
-        };
-        
+        newComment.id = Date.now();
         comments[testId].push(newComment);
         utils.saveToStorage('testComments', comments);
         
@@ -424,7 +443,7 @@ const tests = {
         // Очищаем поле ввода
         document.getElementById(`${testId}-comment`).value = '';
         
-        utils.showNotification('Комментарий добавлен');
+        utils.showNotification('Комментарий добавлен (локально)');
     },
     
     // Отображение комментариев
@@ -439,6 +458,8 @@ const tests = {
         
         commentsContainer.innerHTML = '';
         
+        // Если Firebase доступен, комментарии будут обновляться автоматически через подписку
+        // Здесь показываем только локальные комментарии как fallback
         const comments = utils.loadFromStorage('testComments') || {};
         const testComments = comments[testId] || [];
         
