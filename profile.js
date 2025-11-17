@@ -469,7 +469,7 @@ const profile = {
         aquarium.appendChild(creature);
     },
 
-    // Добавление пузырьков
+    // Добавление пузырьки
     addBubbles() {
         const bubblesContainer = document.querySelector('.bubbles');
         if (!bubblesContainer) return;
