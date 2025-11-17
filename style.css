@@ -1125,4 +1125,100 @@ footer {
         width: 70px;
         height: 70px;
     }
+
+    /* Добавьте эти стили в конец файла style.css */
+
+/* Стили для панели администратора */
+.admin-controls {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.admin-controls h3 {
+    color: var(--dark-color);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.admin-buttons button {
+    min-width: 200px;
+}
+
+.admin-message {
+    display: none;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.admin-message-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.admin-message-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.admin-message-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.users-progress-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.user-progress-item {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 3px solid var(--secondary-color);
+}
+
+.user-progress-item strong {
+    color: var(--dark-color);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.progress-details {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+    /* Адаптивность для админ-панели */
+    @media (max-width: 768px) {
+        .admin-buttons {
+            flex-direction: column;
+        }
+        
+        .admin-buttons button {
+            min-width: auto;
+            width: 100%;
+        }
+        
+        .users-progress-list {
+            max-height: 200px;
+        }
+    }
 }
