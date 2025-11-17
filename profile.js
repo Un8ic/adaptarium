@@ -386,15 +386,6 @@ const profile = {
         // Добавляем обитателей в зависимости от общего прогресса
         this.addCreaturesBasedOnProgress();
         
-        // Добавляем домики в зависимости от прогресса тестов
-        this.addHousesBasedOnTests();
-        
-        // Добавляем аксессуары в зависимости от прогресса обучения
-        this.addAccessoriesBasedOnTraining();
-        
-        // Добавляем кораллы и камни в зависимости от прогресса материалов
-        this.addCoralsAndStonesBasedOnMaterials();
-        
         // Добавляем пузырьки
         this.addBubbles();
     },
@@ -406,260 +397,67 @@ const profile = {
         
         const totalProgress = this.progress ? this.progress.total : 0;
         
-        // Рыбки появляются с прогрессом от 15%
-        if (totalProgress >= 15) {
-            const fish1 = document.createElement('div');
-            fish1.className = 'aquarium-creature fish-1';
-            fish1.innerHTML = '🐠';
-            fish1.style.fontSize = '24px';
-            aquarium.appendChild(fish1);
+        // Рыбы появляются постепенно с ростом прогресса
+        if (totalProgress >= 10) {
+            this.addCreature(aquarium, 'fish', 'fish-1', '🐠');
         }
-        
+        if (totalProgress >= 20) {
+            this.addCreature(aquarium, 'fish', 'fish-2', '🐟');
+        }
         if (totalProgress >= 30) {
-            const fish2 = document.createElement('div');
-            fish2.className = 'aquarium-creature fish-2';
-            fish2.innerHTML = '🐟';
-            fish2.style.fontSize = '24px';
-            aquarium.appendChild(fish2);
+            this.addCreature(aquarium, 'fish', 'fish-3', '🐡');
         }
-        
-        if (totalProgress >= 50) {
-            const fish3 = document.createElement('div');
-            fish3.className = 'aquarium-creature fish-3';
-            fish3.innerHTML = '🐡';
-            fish3.style.fontSize = '24px';
-            aquarium.appendChild(fish3);
-        }
-        
-        // Медузы появляются с прогрессом от 40%
         if (totalProgress >= 40) {
-            const jellyfish1 = document.createElement('div');
-            jellyfish1.className = 'aquarium-creature jellyfish-1';
-            jellyfish1.innerHTML = '🪼';
-            jellyfish1.style.fontSize = '28px';
-            aquarium.appendChild(jellyfish1);
+            this.addCreature(aquarium, 'fish', 'fish-4', '🦈');
         }
-        
+        if (totalProgress >= 50) {
+            this.addCreature(aquarium, 'fish', 'fish-5', '🐠');
+        }
         if (totalProgress >= 60) {
-            const jellyfish2 = document.createElement('div');
-            jellyfish2.className = 'aquarium-creature jellyfish-2';
-            jellyfish2.innerHTML = '🪼';
-            jellyfish2.style.fontSize = '32px';
-            aquarium.appendChild(jellyfish2);
+            this.addCreature(aquarium, 'fish', 'fish-6', '🐟');
         }
         
-        // Крабы и осьминоги появляются с прогрессом от 70%
+        // Крабы появляются с прогрессом от 25%
+        if (totalProgress >= 25) {
+            this.addCreature(aquarium, 'crab', 'crab-1', '🦀');
+        }
+        if (totalProgress >= 45) {
+            this.addCreature(aquarium, 'crab', 'crab-2', '🦀');
+        }
+        if (totalProgress >= 65) {
+            this.addCreature(aquarium, 'crab', 'crab-3', '🦀');
+        }
+        
+        // Осьминоги появляются с прогрессом от 35%
+        if (totalProgress >= 35) {
+            this.addCreature(aquarium, 'octopus', 'octopus-1', '🐙');
+        }
+        if (totalProgress >= 55) {
+            this.addCreature(aquarium, 'octopus', 'octopus-2', '🐙');
+        }
+        if (totalProgress >= 75) {
+            this.addCreature(aquarium, 'octopus', 'octopus-3', '🐙');
+        }
+        
+        // Русалки появляются только при высоком прогрессе
         if (totalProgress >= 70) {
-            const crab = document.createElement('div');
-            crab.className = 'aquarium-creature crab';
-            crab.innerHTML = '🦀';
-            crab.style.fontSize = '20px';
-            crab.style.display = 'block';
-            aquarium.appendChild(crab);
+            this.addCreature(aquarium, 'mermaid', 'mermaid-1', '🧜‍♀️');
         }
-        
-        if (totalProgress >= 80) {
-            const octopus = document.createElement('div');
-            octopus.className = 'aquarium-creature octopus';
-            octopus.innerHTML = '🐙';
-            octopus.style.fontSize = '22px';
-            octopus.style.display = 'block';
-            aquarium.appendChild(octopus);
-        }
-        
-        // Русалка появляется только при максимальном прогрессе (90%+)
         if (totalProgress >= 90) {
-            const mermaid = document.createElement('div');
-            mermaid.className = 'aquarium-creature mermaid';
-            mermaid.innerHTML = '🧜‍♀️';
-            mermaid.style.fontSize = '32px';
-            mermaid.style.display = 'block';
-            aquarium.appendChild(mermaid);
+            this.addCreature(aquarium, 'mermaid', 'mermaid-2', '🧜‍♀️');
         }
     },
 
-    // Добавление домиков на основе прогресса тестов
-    addHousesBasedOnTests() {
-        const aquarium = document.getElementById('aquarium');
-        if (!aquarium || !this.progress) return;
-        
-        const testsProgress = this.progress.tests;
-        
-        // Убираем все существующие домики
-        const existingHouses = aquarium.querySelectorAll('.fish-house');
-        existingHouses.forEach(house => house.remove());
-        
-        // Добавляем соответствующий домик в зависимости от прогресса тестов
-        const house = document.createElement('div');
-        house.className = 'fish-house';
-        
-        if (testsProgress >= 80) {
-            house.className += ' fish-house-large';
-            house.style.display = 'block';
-        } else if (testsProgress >= 50) {
-            house.className += ' fish-house-medium';
-            house.style.display = 'block';
-        } else if (testsProgress >= 20) {
-            house.className += ' fish-house-small';
-            house.style.display = 'block';
-        }
-        
-        aquarium.appendChild(house);
+    // Вспомогательная функция для добавления существ
+    addCreature(aquarium, type, className, emoji) {
+        const creature = document.createElement('div');
+        creature.className = `aquarium-creature ${className} ${type}`;
+        creature.innerHTML = emoji;
+        creature.style.display = 'block';
+        aquarium.appendChild(creature);
     },
 
-    // Добавление аксессуаров на основе прогресса обучения
-    addAccessoriesBasedOnTraining() {
-        const aquarium = document.getElementById('aquarium');
-        if (!aquarium || !this.progress) return;
-        
-        const trainingProgress = this.progress.training;
-        
-        // Большое колесо обозрения появляется при высоком прогрессе
-        if (trainingProgress >= 80) {
-            const ferrisWheel = document.createElement('div');
-            ferrisWheel.className = 'aquarium-accessory ferris-wheel';
-            ferrisWheel.style.display = 'block';
-            aquarium.appendChild(ferrisWheel);
-        }
-        
-        // Средние аксессуары (вазы и якорь) появляются при среднем прогрессе
-        if (trainingProgress >= 50) {
-            const vase1 = document.createElement('div');
-            vase1.className = 'aquarium-accessory vase-medium vase-1';
-            vase1.style.display = 'block';
-            aquarium.appendChild(vase1);
-            
-            const vase2 = document.createElement('div');
-            vase2.className = 'aquarium-accessory vase-medium vase-2';
-            vase2.style.display = 'block';
-            aquarium.appendChild(vase2);
-            
-            const anchor = document.createElement('div');
-            anchor.className = 'aquarium-accessory anchor-medium';
-            anchor.style.display = 'block';
-            aquarium.appendChild(anchor);
-        }
-        
-        // Маленькие аксессуары (ракушки и жемчуг) появляются при низком прогрессе
-        if (trainingProgress >= 25) {
-            const shell1 = document.createElement('div');
-            shell1.className = 'aquarium-accessory shell-small shell-1';
-            shell1.style.display = 'block';
-            aquarium.appendChild(shell1);
-            
-            const shell2 = document.createElement('div');
-            shell2.className = 'aquarium-accessory shell-small shell-2';
-            shell2.style.display = 'block';
-            aquarium.appendChild(shell2);
-            
-            const pearl1 = document.createElement('div');
-            pearl1.className = 'aquarium-accessory pearl-small pearl-1';
-            pearl1.style.display = 'block';
-            aquarium.appendChild(pearl1);
-            
-            const pearl2 = document.createElement('div');
-            pearl2.className = 'aquarium-accessory pearl-small pearl-2';
-            pearl2.style.display = 'block';
-            aquarium.appendChild(pearl2);
-        }
-    },
-
-    // Добавление кораллов и камней на основе прогресса материалов
-    addCoralsAndStonesBasedOnMaterials() {
-        const aquarium = document.getElementById('aquarium');
-        if (!aquarium || !this.progress) return;
-        
-        const materialsProgress = this.progress.materials;
-        
-        // Убираем все существующие кораллы и камни
-        const existingCorals = aquarium.querySelectorAll('.coral, .stone');
-        existingCorals.forEach(item => item.remove());
-        
-        // Добавляем кораллы и камни в зависимости от прогресса материалов
-        if (materialsProgress >= 80) {
-            // Высокий уровень: большие кораллы и три камня
-            const coral1 = document.createElement('div');
-            coral1.className = 'aquarium-accessory coral coral-1 coral-large';
-            coral1.style.display = 'block';
-            aquarium.appendChild(coral1);
-            
-            const coral2 = document.createElement('div');
-            coral2.className = 'aquarium-accessory coral coral-2 coral-large';
-            coral2.style.display = 'block';
-            aquarium.appendChild(coral2);
-            
-            const coral3 = document.createElement('div');
-            coral3.className = 'aquarium-accessory coral coral-3 coral-large';
-            coral3.style.display = 'block';
-            aquarium.appendChild(coral3);
-            
-            const stone1 = document.createElement('div');
-            stone1.className = 'aquarium-accessory stone stone-small';
-            stone1.style.display = 'block';
-            aquarium.appendChild(stone1);
-            
-            const stone2 = document.createElement('div');
-            stone2.className = 'aquarium-accessory stone stone-medium';
-            stone2.style.display = 'block';
-            aquarium.appendChild(stone2);
-            
-            const stone3 = document.createElement('div');
-            stone3.className = 'aquarium-accessory stone stone-large';
-            stone3.style.display = 'block';
-            aquarium.appendChild(stone3);
-            
-        } else if (materialsProgress >= 50) {
-            // Средний уровень: средние кораллы и два камня
-            const coral1 = document.createElement('div');
-            coral1.className = 'aquarium-accessory coral coral-1 coral-medium';
-            coral1.style.display = 'block';
-            aquarium.appendChild(coral1);
-            
-            const coral2 = document.createElement('div');
-            coral2.className = 'aquarium-accessory coral coral-2 coral-medium';
-            coral2.style.display = 'block';
-            aquarium.appendChild(coral2);
-            
-            const coral3 = document.createElement('div');
-            coral3.className = 'aquarium-accessory coral coral-3 coral-medium';
-            coral3.style.display = 'block';
-            aquarium.appendChild(coral3);
-            
-            const stone1 = document.createElement('div');
-            stone1.className = 'aquarium-accessory stone stone-small';
-            stone1.style.display = 'block';
-            aquarium.appendChild(stone1);
-            
-            const stone2 = document.createElement('div');
-            stone2.className = 'aquarium-accessory stone stone-medium';
-            stone2.style.display = 'block';
-            aquarium.appendChild(stone2);
-            
-        } else if (materialsProgress >= 20) {
-            // Низкий уровень: маленькие кораллы и один камень
-            const coral1 = document.createElement('div');
-            coral1.className = 'aquarium-accessory coral coral-1 coral-small';
-            coral1.style.display = 'block';
-            aquarium.appendChild(coral1);
-            
-            const coral2 = document.createElement('div');
-            coral2.className = 'aquarium-accessory coral coral-2 coral-small';
-            coral2.style.display = 'block';
-            aquarium.appendChild(coral2);
-            
-            const coral3 = document.createElement('div');
-            coral3.className = 'aquarium-accessory coral coral-3 coral-small';
-            coral3.style.display = 'block';
-            aquarium.appendChild(coral3);
-            
-            const stone1 = document.createElement('div');
-            stone1.className = 'aquarium-accessory stone stone-small';
-            stone1.style.display = 'block';
-            aquarium.appendChild(stone1);
-        }
-    },
-
-    // Добавление пузырьков - улучшенная версия
+    // Добавление пузырьков
     addBubbles() {
         const bubblesContainer = document.querySelector('.bubbles');
         if (!bubblesContainer) return;
@@ -667,14 +465,14 @@ const profile = {
         bubblesContainer.innerHTML = '';
         
         // Количество пузырьков зависит от прогресса
-        const bubbleCount = this.progress && this.progress.total > 0 ? 25 : 15;
+        const bubbleCount = this.progress && this.progress.total > 0 ? 20 : 12;
         
         for (let i = 0; i < bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
             
             // Случайные параметры для пузырьков
-            const size = Math.random() * 20 + 5;
+            const size = Math.random() * 30 + 10; // Увеличили размер пузырьков
             const left = Math.random() * 100;
             const delay = Math.random() * 8;
             const duration = Math.random() * 4 + 6;
