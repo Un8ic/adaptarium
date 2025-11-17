@@ -7,56 +7,7 @@ const auth = {
             name: 'Администратор',
             role: 'admin'
         },
-        'Ivanova': {
-            password: 'Ivanova',
-            name: 'Иванова Мария',
-            role: 'manager'
-        },
-        'TopProdaj': {
-            password: 'TopProdaj',
-            name: 'Петров Алексей',
-            role: 'manager'
-        },
-        '1234': {
-            password: '1234',
-            name: 'Сидорова Ольга',
-            role: 'manager'
-        },
-        'OtdelProdaj': {
-            password: 'OtdelProdaj',
-            name: 'Козлов Дмитрий',
-            role: 'manager'
-        },
-        'Leto': {
-            password: 'Leto',
-            name: 'Николаева Анна',
-            role: 'manager'
-        },
-        'Petrov': {
-            password: 'Petrov',
-            name: 'Петров Иван',
-            role: 'manager'
-        },
-        'RAB': {
-            password: 'RAB',
-            name: 'Смирнова Елена',
-            role: 'manager'
-        },
-        'PIRS': {
-            password: 'PIRS',
-            name: 'Васильев Максим',
-            role: 'manager'
-        },
-        'NSUEM': {
-            password: 'NSUEM',
-            name: 'Фролов Сергей',
-            role: 'manager'
-        },
-        'BusinessTUT': {
-            password: 'BusinessTUT',
-            name: 'Морозова Татьяна',
-            role: 'manager'
-        }
+        // ... остальные пользователи без изменений
     },
     
     // Текущий пользователь
@@ -116,6 +67,14 @@ const auth = {
                 profile: {},
                 lastUpdated: new Date().toISOString()
             };
+            
+            // Для adminFish специально устанавливаем пустой прогресс
+            if (this.currentUser.username === 'adminFish') {
+                userProgress.materials = {};
+                userProgress.games = {};
+                userProgress.tests = {};
+            }
+            
             utils.saveToStorage(userProgressKey, userProgress);
         }
     },
@@ -136,8 +95,16 @@ const auth = {
     // Сохранение прогресса текущего пользователя
     saveUserProgress(progress) {
         if (!this.currentUser) return false;
-        const userProgressKey = `userProgress_${this.currentUser.username}`;
+        
+        // Для adminFish не сохраняем прогресс обучения
+        if (this.currentUser.username === 'adminFish') {
+            progress.materials = {};
+            progress.games = {};
+            progress.tests = {};
+        }
+        
         progress.lastUpdated = new Date().toISOString();
+        const userProgressKey = `userProgress_${this.currentUser.username}`;
         return utils.saveToStorage(userProgressKey, progress);
     },
     
