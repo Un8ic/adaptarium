@@ -144,14 +144,18 @@ const navigation = {
         Object.keys(auth.users).forEach(username => {
             if (auth.users[username].role === 'manager') {
                 const user = auth.users[username];
+                const status = Math.random() > 0.5 ? 'Активен' : 'В отпуске';
+                const photoUrl = status === 'Активен' 
+                    ? 'https://masterpiecer-images.s3.yandex.net/5f9fccc52415da8:upscaled'
+                    : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLSyJ29yDVAcbl525kvfBdTBj8g9aWf2nZ_g&s';
+                
                 const card = document.createElement('div');
                 card.className = 'employee-card';
                 card.innerHTML = `
-                    <img src="https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${utils.randomInt(1, 99)}.jpg" alt="${user.name}" class="employee-photo">
+                    <img src="${photoUrl}" alt="${user.name}" class="employee-photo">
                     <h3>${user.name}</h3>
                     <p>Логин: ${username}</p>
-                    <p>Статус: ${Math.random() > 0.5 ? 'Активен' : 'В отпуске'}</p>
-                    <p>Прогресс обучения: ${utils.randomInt(0, 100)}%</p>
+                    <p>Статус: ${status}</p>
                     <button onclick="navigation.editSubordinate('${username}')">Редактировать</button>
                 `;
                 subordinatesList.appendChild(card);
@@ -161,7 +165,7 @@ const navigation = {
     
     // Редактирование подчиненного
     editSubordinate(username) {
-        utils.showNotification(`Редактирование данных сотрудника ${username}`);
+        utils.showNotification(`Редактирование данных сотрудника ${username} на данный момент невозможно`);
     },
     
     // Загрузка аналитики
